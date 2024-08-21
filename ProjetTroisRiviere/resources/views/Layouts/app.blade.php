@@ -15,24 +15,45 @@
 <body>
 <!-- Mettre la NavBar et toutes les entêtes du site ici -->
 <header>
-    
-      <nav class="main-nav">                
+  <div class="sticky-container"> 
+    <div class="navbar contrast">
+      {{-- <a href="#home" class="active"> --}}
+        <img src="{{ asset('images/LogoTrNoir.png') }}" id="imgLogo"/>
+      {{-- </a> --}}
+      <div class="top-nav">                
         <a href="#Acceuil">Home</a>
 
         <a href="#originals">Originals</a>
         <a href="#">Recently Added</a>     
-      </nav>
-      <nav class="sub-nav">
+  </div>
+
+
+      <div class="bottom-nav">
         <a href="#"><i class="fas fa-search sub-nav-logo"></i></a>
         <a href="#"><i class="fas fa-bell sub-nav-logo"></i></a>
    
-      </nav>      
+</div>  
+    </div>
+</div>    
     </header>
 @yield('contenu')
 
 <!-- Mettre le footer -->
+
     <footer class="site-footer">
-        <p>© Tous droits réservés - Julien Fortin - Arthur Lamote - Loick Michaud - 2024</p>
-    </footer>
+      <div class="footer contrast">
+        <div class="footer-content">
+          <div class="footer-title">Ville de Trois-Rivières</div>
+          <br>
+          <div class="footer-link"><a href="https://www.google.ca/maps/place/H%C3%B4tel+de+ville/@46.3430042,-72.545511,17z/data=!4m12!1m6!3m5!1s0x41aa0c6a9ae1712b:0xc5f7bf52c7282858!2sH%C3%B4tel+de+ville!8m2!3d46.3430005!4d-72.5433223!3m4!1s0x41aa0c6a9ae1712b:0xc5f7bf52c7282858!8m2!3d46.3430005!4d-72.5433223" target="blank" class="link-foot">
+            1325, place de l'Hôtel-de-Ville, C.P. 368
+            <br>
+            Trois-Rivières, QC G9A 5H3
+          </a>
+        </div>
+
+      </div>
+      </div>
+      </footer>
 </body>
 </html>
