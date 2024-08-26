@@ -24,7 +24,8 @@
         <a href="#Acceuil">Home</a>
 
         <a href="#originals">Originals</a>
-        <a href="#">Recently Added</a>     
+        <a href="#">Recently Added</a> 
+            
   </div>
 
 
