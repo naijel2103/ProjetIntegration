@@ -24,7 +24,7 @@
       <div class="bottom-nav">                
         <a href="#Acceuil" class="header-link-top">Home</a>
         <div class="separator"></div>    
-        <a href="#originals" class="header-link-top">Originals</a>
+        <a href="\demandeFiche" class="header-link-top">Faire une demande</a>
         <div class="separator"></div>    
         <a href="#" class="header-link-top">Recently Added</a>        
   </div>
