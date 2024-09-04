@@ -22,9 +22,9 @@
         <img src="{{ asset('images/LogoTrNoir.png') }}" id="imgLogo"/>
       {{-- </a> --}}
       <div class="bottom-nav">                
-        <a href="#Acceuil" class="header-link-top">Home</a>
+        <a href="\" class="header-link-top">Home</a>
         <div class="separator"></div>    
-        <a href="\demandeFiche" class="header-link-top">Faire une demande</a>
+        <a href="\demandeFiche" class="header-link-top">Devenir un fournisseur</a>
         <div class="separator"></div>    
         <a href="#" class="header-link-top">Recently Added</a>        
   </div>

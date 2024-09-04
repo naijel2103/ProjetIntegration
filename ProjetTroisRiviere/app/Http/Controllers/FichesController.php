@@ -25,9 +25,19 @@ class FichesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function envoieDemandeFiche(Request $request)
     {
-        //
+     /*   $compte = Compte::Find(Auth::id());
+        try {
+            Mail::to($compte->email)->send(new confirmationEnvoieFIche($compte));
+        }
+        catch (\Throwable $e) {
+            //Gérer l'erreur
+             Log::debug($e);
+             return View('Acceuils.index');
+            }
+       */
+            return View('Acceuils.index');
     }
 
     /**

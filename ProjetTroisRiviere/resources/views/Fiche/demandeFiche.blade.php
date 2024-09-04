@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
+@section('titre','Demande d inscription ')
    
 @section('contenu')
 
-<form method="post" action="" enctype="multipart/form-data">
+<form method="get" action="{{ route('fiche.envoieDemandeFiche') }}" enctype="multipart/form-data">
 @csrf
     <div class="container-fluid">
 

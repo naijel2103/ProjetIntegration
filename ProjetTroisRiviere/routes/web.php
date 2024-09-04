@@ -9,3 +9,6 @@ Route::get('/',
 
 Route::get('/demandeFiche',
 [FichesController::class, 'demandeFiche']) -> name('fiche.demandeFiche');
+
+Route::get('/envoieDemandeFiche',
+[FichesController::class, 'envoieDemandeFiche']) -> name('fiche.envoieDemandeFiche');
