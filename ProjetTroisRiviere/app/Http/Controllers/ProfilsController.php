@@ -27,6 +27,18 @@ class ProfilsController extends Controller
         }
     }
 
+    
+
+    public function connexionNEQ()
+    {
+        if (auth()->check()) {
+            return redirect()->route('profil');
+        }
+        else {
+            return view('Profil.connexionNEQ');
+        }
+    }
+
     public function creation()
     {
         return view('Profil.creation');
@@ -37,6 +49,17 @@ class ProfilsController extends Controller
     public function creer(Request $request)
     {
             return redirect()->route('index');
+    }
+
+    public function motdepasseView(){
+        return view('Profil.motdepasse');
+    }
+
+         
+    public function reset(Request $request)
+    {
+        
+        return redirect()->route('motdepasse')->withErrors(['error' => 'Adresse courriel invalide']);
     }
 
     /**

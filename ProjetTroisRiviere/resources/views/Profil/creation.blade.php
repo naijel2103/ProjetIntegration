@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{ asset ('css/ProfilCss/creation.css') }}">
+
 @section('titre', 'Création du compte')
 @extends('layouts.app')
 @section('contenu')
@@ -30,8 +30,10 @@
                         </br>
                         <div class="text-center">
                             <button type="submit" id="btnsubmit" class="btn btn-primary btn-lg">Créer</button>
+                            <a href="{{ route('profil.connexionNEQ') }}" class="btn btn-danger btn-lg" id="btnRetour">Retour</a>
                         </div>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>

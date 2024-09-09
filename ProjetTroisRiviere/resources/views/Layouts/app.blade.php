@@ -33,9 +33,7 @@
 
 
       <div class="bottom-nav">
-      <a href="{{ route('profil.connexion') }}"><button type="submit" id="boutonConnexion">Connexion/s'inscrire</button></a>
-        <a href="#"><i class="fas fa-search sub-nav-logo"></i></a>
-        <a href="#"><i class="fas fa-bell sub-nav-logo"></i></a>
+      <a href="{{ route('profil.connexionNEQ') }}"><button type="submit" id="boutonConnexion">Connexion/s'inscrire</button></a>
       </div>  
     </div>
 </div>    
