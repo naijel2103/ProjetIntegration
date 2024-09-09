@@ -1,5 +1,6 @@
 <?php
 
+use Livewire\Volt\Volt;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AcceuilsController;
 use App\Http\Controllers\FichesController;
@@ -22,3 +23,5 @@ Route::get('/creation',
 
 Route::post('/creer',
 [ProfilController::class, 'creer']) -> name('profil.creer');
+
+Volt::route('/', 'users.index');
