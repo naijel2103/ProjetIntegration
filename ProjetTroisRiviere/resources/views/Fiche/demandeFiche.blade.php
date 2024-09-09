@@ -23,7 +23,8 @@
 
                <div id="input_div">
                   <span></span>
-                  <button type="submit" id="inputAdminEnregistrer">Envoyez la demande</button>
+                  <button type="submit" id="EnvoieDemance">Envoyez la demande</button>
+                  <button type="submit" id="ModifierFiche">Modifier votre fiche</button>
                </div>
 
                </div>

@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="{{ asset ('css/ProfilCss/creation.css') }}">
-@section('titre', 'Connexion')
+@section('titre', 'Création du compte')
 @extends('layouts.app')
 @section('contenu')
 <div class="page-wrap">
