@@ -22,11 +22,9 @@
         <img src="{{ asset('images/LogoTrNoir.png') }}" id="imgLogo"/>
       {{-- </a> --}}
       <div class="bottom-nav">                
-        <a href="#Acceuil" class="header-link-top">Home</a>
+        <a href="\" class="header-link-top">Acceuil</a>
         <div class="separator"></div>    
-        <a href="\demandeFiche" class="header-link-top">Faire une demande</a>
-        <div class="separator"></div>    
-        <a href="#" class="header-link-top">Recently Added</a>        
+        <a href="\demandeFiche" class="header-link-top">Devenir un fournisseur</a>    
   </div>
 
 
@@ -35,6 +33,7 @@
 
 
       <div class="bottom-nav">
+      <a href="{{ route('profil.connexion') }}"><button type="submit" id="boutonConnexion">Connexion/s'inscrire</button></a>
         <a href="#"><i class="fas fa-search sub-nav-logo"></i></a>
         <a href="#"><i class="fas fa-bell sub-nav-logo"></i></a>
       </div>  

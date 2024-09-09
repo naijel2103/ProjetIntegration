@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
+@section('titre','Demande d inscription ')
    
 @section('contenu')
 
-<form method="post" action="" enctype="multipart/form-data">
+<form method="get" action="{{ route('fiche.envoieDemandeFiche') }}" enctype="multipart/form-data">
 @csrf
     <div class="container-fluid">
 
@@ -22,7 +23,8 @@
 
                <div id="input_div">
                   <span></span>
-                  <button type="submit" id="inputAdminEnregistrer">Envoyez la demande</button>
+                  <button type="submit" id="EnvoieDemance">Envoyez la demande</button>
+                  <button type="submit" id="ModifierFiche">Modifier votre fiche</button>
                </div>
 
                </div>
