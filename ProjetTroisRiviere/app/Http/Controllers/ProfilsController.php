@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class FichesController extends Controller
+class ProfilsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,32 +17,26 @@ class FichesController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function demandeFiche()
+    public function connexion()
     {
-        return View('Fiche.demandeFiche');
+        if (auth()->check()) {
+            return redirect()->route('profil');
+        }
+        else {
+            return view('Profil.connexion');
+        }
     }
 
+    public function creation()
+    {
+        return view('Profil.creation');
+    }
     /**
      * Store a newly created resource in storage.
      */
-    public function envoieDemandeFiche(Request $request)
+    public function creer(Request $request)
     {
-
-
-     /*   $compte = Compte::Find(Auth::id());
-        try {
-            Mail::to($compte->email)->send(new confirmationEnvoieFIche($compte));
-        }
-        catch (\Throwable $e) {
-            //Gérer l'erreur
-             Log::debug($e);
-             return View('Acceuils.index');
-            }
-       */
-
-
-       
-            return View('Acceuils.index');
+            return redirect()->route('index');
     }
 
     /**
@@ -56,10 +50,7 @@ class FichesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
+   
 
     /**
      * Update the specified resource in storage.
