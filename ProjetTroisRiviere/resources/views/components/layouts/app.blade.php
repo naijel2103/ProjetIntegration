@@ -66,15 +66,14 @@
             </div>
             <div class="footer-link">
               <a class="link-foot" href="tel">
-                Canada ou Étas-Unis : 1 833 374-2002
+                Canada ou Étas-Unis : 1 83asdasdasd3 374-2002
               </a>
             </div>
             <div class="footer-link">
               <a class="link-foot" href="mailto:311@v3r.net">
-                Courriel : 311@v3r.net
+                Courriel : 311123123@v3r.net
               </a>
             </div>
-            
           </div>
         </div>
       </div>
