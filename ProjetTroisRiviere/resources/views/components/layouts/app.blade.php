@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" style="text/css" href="\css\GabaritCss\GabaritCss.css">
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
 <meta charset="UTF-8">
 </head>
 
@@ -65,12 +66,12 @@
             </div>
             <div class="footer-link">
               <a class="link-foot" href="tel">
-                Canada ou Étas-Unis : 1 833 374-2002
+                Canada ou Étas-Unis : 1 83asdasdasd3 374-2002
               </a>
             </div>
             <div class="footer-link">
               <a class="link-foot" href="mailto:311@v3r.net">
-                Courriel : 311@v3r.net
+                Courriel : 311123123@v3r.net
               </a>
             </div>
           </div>

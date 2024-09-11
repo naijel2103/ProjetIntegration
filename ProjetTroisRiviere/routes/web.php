@@ -1,5 +1,6 @@
 <?php
 
+use Livewire\Volt\Volt;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AcceuilsController;
 use App\Http\Controllers\FichesController;
@@ -35,3 +36,4 @@ Route::get('/motdepasse',
 Route::post('/reset',
 [ProfilsController::class, 'reset']) -> name('profil.reset');
 
+Volt::route('/', 'users.index');
