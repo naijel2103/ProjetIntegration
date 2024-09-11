@@ -11,6 +11,9 @@ Route::get('/',
 Route::get('/demandeFiche',
 [FichesController::class, 'demandeFiche']) -> name('fiche.demandeFiche');
 
+Route::get('/fiche',
+[FichesController::class, 'index']) -> name('fiche.index');
+
 Route::get('/envoieDemandeFiche',
 [FichesController::class, 'envoieDemandeFiche']) -> name('fiche.envoieDemandeFiche');
 
@@ -29,6 +32,6 @@ Route::post('/creer',
 Route::get('/motdepasse',
 [ProfilsController::class, 'motdepasseView']) -> name('motdepasse');
 
-
 Route::post('/reset',
 [ProfilsController::class, 'reset']) -> name('profil.reset');
+

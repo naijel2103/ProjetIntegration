@@ -11,7 +11,7 @@ class FichesController extends Controller
      */
     public function index()
     {
-        //
+        return View("fiche.index");
     }
 
     /**
