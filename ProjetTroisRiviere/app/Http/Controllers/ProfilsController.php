@@ -19,13 +19,24 @@ class ProfilsController extends Controller
      */
     public function connexion()
     {
-        if (auth()->check()) {
-            return redirect()->route('profil');
+        $reussi = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
+        if($reussi){
+            return redirect()->route('profil') ->with('message', "Connexion réussie");
         }
-        else {
-            return view('Profil.connexion');
+        else{
+            return view('Profil.connexion')->withErrors(['Informations invalides']); 
         }
+
+        
+        
     }
+
+    public function deconnexion()
+    {
+        Auth::logout();
+        return redirect('/')->with('message', "Déconnexion réussie");
+    }
+
 
     
 
@@ -48,7 +59,14 @@ class ProfilsController extends Controller
      */
     public function creer(Request $request)
     {
-            return redirect()->route('index');
+        $compte = new Compte();
+        $compte->email = $request->email;
+        $compte->nomEntreprise = $request->nomEntreprise;
+        $compte->password = bcrypt($request->password);
+        $compte->role = $request->role;
+        $compte->save();
+        
+            return redirect()->route('Acceuils.index');
     }
 
     public function motdepasseView(){

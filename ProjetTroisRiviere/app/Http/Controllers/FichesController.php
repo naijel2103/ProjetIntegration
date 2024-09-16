@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Fournisseur;
 
 class FichesController extends Controller
 {
@@ -11,7 +12,9 @@ class FichesController extends Controller
      */
     public function index()
     {
-        return View("fiche.index");
+
+        $fournisseur = Fournisseur::all();
+        return View("fiche.index",compact("fournisseur"));
     }
 
     /**
@@ -50,7 +53,8 @@ class FichesController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $selectionner = Fournisseur::where('selectionner','true')->get();
+        return View('Fiche.fournisseurSelectionne',compact("selectionner"));
     }
 
     /**

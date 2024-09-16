@@ -1,4 +1,3 @@
-
 @section('titre', 'Connexion')
 @extends('layouts.app')
 @section('contenu')
@@ -14,13 +13,11 @@
  
   <thead>
     <tr>
-      <th scope="col-1">État</th>
+      <th scope="col-1">Email</th>
       <th scope="col-1">Fournisseur</th>
-      <th scope="col-1">Ville</th>
-      <th scope="col-1">Produits et services</th>
-      <th scope="col-1">Catégorie de travaux</th>
-      <th scope="col-1">Fiche fournisseur</th>
-      <th scope="col-1">Sélectionner</th>
+      <th scope="col-1">Numero de téléphone</th>
+      <th scope="col-1">Contact</th>
+      <th scope="col-1">Contactés</th>
     </tr>
   </thead>
 
@@ -37,20 +34,13 @@
       <td>{{ $fournisseur->nomFournisseur }}</td>
       <td>{{ $fournisseur->nomFournisseur }}</td>
       <td>{{ $fournisseur->nomFournisseur }}</td>
-      <td>{{ $fournisseur->nomFournisseur }}</td>
-      <td>{{ $fournisseur->nomFournisseur }}</td>
-      <td>{{ $fournisseur->nomFournisseur }}</td>
-      <td>{{ $fournisseur->nomFournisseur }}</td>
-      <td>{{ $fournisseur->nomFournisseur }}</td>
       <td><a href="" class="btn btn-primary text-center ">Voir la fiche fournisseur</a></td>
       <td>
           <form >
             <input type="checkbox" id="selectionner" name="selectionner"+$ctr value="selectionner"+$ctr>
-          
       </td>
     </tr>
-      <a href="" class="btn btn-primary text-center ">Liste des fournisseurs sélectionnés</a>
-    </form>
+        </form>
   </tbody>
 
   @endforeach
