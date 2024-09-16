@@ -4,6 +4,7 @@
 @section('contenu')
 
 <form method="post" action="" enctype="multipart/form-data">
+
 @csrf
     <div class="container-fluid">
 
@@ -17,8 +18,6 @@
                   <span></span>
                   <h5>Voici votre fiche</h5>
                </div>
-
-              
 
                <div id="input_div">
                   <span></span>
@@ -34,6 +33,5 @@
    </div>
 
 </form>
-
 
 @endsection
