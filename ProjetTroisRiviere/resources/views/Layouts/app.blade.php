@@ -24,7 +24,9 @@
       <div class="bottom-nav">                
         <a href="\" class="header-link-top">Acceuil</a>
         <div class="separator"></div>    
-        <a href="\demandeFiche" class="header-link-top">Devenir un fournisseur</a>    
+        <a href="\demandeFiche" class="header-link-top">Devenir un fournisseur</a>
+        <div class="separator"></div>   
+        <a href="\fiche" class="header-link-top">Voir les fiches (Responsable)</a>      
   </div>
 
 
@@ -33,9 +35,7 @@
 
 
       <div class="bottom-nav">
-      <a href="{{ route('profil.connexion') }}"><button type="submit" id="boutonConnexion">Connexion/s'inscrire</button></a>
-        <a href="#"><i class="fas fa-search sub-nav-logo"></i></a>
-        <a href="#"><i class="fas fa-bell sub-nav-logo"></i></a>
+      <a href="{{ route('profil.connexionNEQ') }}"><button type="submit" id="boutonConnexion">Connexion/s'inscrire</button></a>
       </div>  
     </div>
 </div>    

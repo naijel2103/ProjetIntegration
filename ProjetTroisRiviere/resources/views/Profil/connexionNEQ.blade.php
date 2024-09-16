@@ -1,4 +1,3 @@
-
 @section('titre', 'Connexion')
 @extends('layouts.app')
 @section('contenu')
@@ -14,9 +13,9 @@
                     <form action="\" method="POST">
                         @csrf
                         <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" name="email" id="email" value="" class="form-control" required>
-                            <a href="{{ route('profil.connexionNEQ') }}">NEQ?</a>
+                            <label for="neq">NEQ:</label>
+                            <input type="number" name="neq" id="neq" value="" class="form-control" required>
+                            <a href="{{ route('profil.connexion') }}">Pas de NEQ?</a>
                         </div>
                         <div class="form-group">
                             <label for="password">Mot de passe:</label>
