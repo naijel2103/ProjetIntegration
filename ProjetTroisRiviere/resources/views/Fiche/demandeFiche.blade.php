@@ -25,6 +25,7 @@
                   <span></span>
                   <button type="submit" id="EnvoieDemance">Envoyez la demande</button>
                   <button type="submit" id="ModifierFiche">Modifier votre fiche</button>
+                  <button type="submit" id="SupprimerFiche">Supprimer ma fiche</button>
                </div>
 
                </div>

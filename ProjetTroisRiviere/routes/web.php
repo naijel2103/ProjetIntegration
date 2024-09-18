@@ -20,6 +20,12 @@ Route::get('/envoieDemandeFiche',
 Route::get('/connexion',
 [ProfilsController::class, 'connexion']) -> name('profil.connexion');
 
+Route::post('/loginNEQ',
+[ProfilsController::class, 'loginNEQ']) -> name('profil.loginNEQ');
+
+Route::post('/login',
+[ProfilsController::class, 'login']) -> name('profil.login');
+
 Route::get('/connexionNEQ',
 [ProfilsController::class, 'connexionNEQ']) -> name('profil.connexionNEQ');
 
