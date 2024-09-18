@@ -13,16 +13,16 @@
                         <label for="neq">Numéro d'entreprise du Québec(NEQ)</label>
                         <input type="text" name="neq" id="neq" class="form-control" placeholder=" 8831854938">
 
-                        <label for="nom">Nom de l'entreprise:</label>
+                        <label for="nom">Nom de l'entreprise (Obligatoire):</label>
                         <input type="text" name="nom" id="nom"class="form-control" required>
 
-                        <label for="email">Adresse courriel</label>
+                        <label for="email">Adresse courriel(Obligatoire):</label>
                         <input type="email" name="email" id="email" class="form-control" required>
                         
-                        <label for="password">Mot de passe:</label>
+                        <label for="password">Mot de passe(Obligatoire):</label>
                         <input type="password" name="password" id="password" class="form-control" required>
                         
-                        <label for="password">Confirmer le mot de passe:</label>
+                        <label for="password">Confirmer le mot de passe(Obligatoire):</label>
                         <input type="password" name="password_confirmation"id="password_confirmation" class="form-control" required>
                         
                       
