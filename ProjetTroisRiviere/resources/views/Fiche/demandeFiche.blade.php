@@ -19,8 +19,6 @@
                   <h5>Voici votre fiche</h5>
                </div>
 
-              
-
                <div id="input_div">
                   <span></span>
                   <button type="submit" id="EnvoieDemance">Envoyez la demande</button>
@@ -37,6 +35,5 @@
    </div>
 
 </form>
-
 
 @endsection
