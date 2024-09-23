@@ -23,6 +23,7 @@ class ComptesTableSeeder extends Seeder
                 'neq' => 'aucun',
                 'password' => Hash::make('test'),
                 'role' => 'admin',
+                'code' => 'aucun',
                 'admin' => true
               ]
             

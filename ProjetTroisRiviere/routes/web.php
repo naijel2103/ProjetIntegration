@@ -44,3 +44,9 @@ Route::get('/motdepasse',
 Route::post('/reset',
 [ProfilsController::class, 'reset']) -> name('profil.reset');
 
+Route::get('/reinitialiser/{code}',
+[ProfilsController::class, 'reinitialiserPage']) -> name('profil.reinitialiser');
+
+Route::post('/reinitialiser/{code}',
+[ProfilsController::class, 'reinitialiser']) -> name('profil.reinitialiser');
+

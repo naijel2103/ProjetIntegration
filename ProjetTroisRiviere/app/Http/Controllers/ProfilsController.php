@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Comptes;
+use App\Mail\resetDeMotDePasse;
 
 class ProfilsController extends Controller
 {
@@ -116,11 +117,11 @@ class ProfilsController extends Controller
         
 
         $compte = Comptes::where('email', $request->email)->first();
-        if ($compte && $compte->verifier == 1) {
+        if ($compte) {
             $compte->code = Str::random(60);
             $compte->save();
-            Mail::to($compte->email )->send(new PasswordReset($compte));
-            return redirect()->route('login');
+            Mail::to($compte->email )->send(new resetDeMotDePasse($compte));
+            return redirect()->route('profil.connexionNEQ');
         } else {
             return redirect()->route('motdepasse')->withErrors(['error' => 'Adresse courriel invalide']);
         }
@@ -139,7 +140,7 @@ class ProfilsController extends Controller
             $compte->password = bcrypt($request->password);
             $compte->code = null;
             $compte->save();
-            return redirect()->route('login');
+            return redirect()->route('profil.connexionNEQ');
         }
     }
 

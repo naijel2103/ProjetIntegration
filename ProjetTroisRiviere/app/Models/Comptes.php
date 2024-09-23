@@ -16,6 +16,7 @@ class Comptes extends Authenticatable
         'email',
         'neq',
         'role',
+        'code',
         'admin',
   
     ];
