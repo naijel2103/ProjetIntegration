@@ -20,6 +20,9 @@ Route::get('/envoieDemandeFiche',
 Route::get('/connexion',
 [ProfilsController::class, 'connexion']) -> name('profil.connexion');
 
+Route::get('/deconnexion',
+[ProfilsController::class, 'deconnexion']) -> name('profil.deconnexion');
+
 Route::post('/loginNEQ',
 [ProfilsController::class, 'loginNEQ']) -> name('profil.loginNEQ');
 
@@ -33,7 +36,7 @@ Route::get('/creation',
 [ProfilsController::class, 'creation']) -> name('profil.creation');
 
 Route::post('/creer',
-[ProfilController::class, 'creer']) -> name('profil.creer');
+[ProfilsController::class, 'creer']) -> name('profil.creer');
 
 Route::get('/motdepasse',
 [ProfilsController::class, 'motdepasseView']) -> name('motdepasse');

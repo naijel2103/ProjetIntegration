@@ -35,7 +35,13 @@
 
 
       <div class="bottom-nav">
+  
+      @auth
+      <a href="{{ route('profil.deconnexion') }}"><button type="submit" id="boutonDeonnexion">Deconnexion</button></a>
+      @else
       <a href="{{ route('profil.connexionNEQ') }}"><button type="submit" id="boutonConnexion">Connexion/s'inscrire</button></a>
+      @endauth
+     
       </div>  
     </div>
 </div>    

@@ -10,7 +10,7 @@
                 <br>
                 <br>
                 <div class="formbold-main-wrapper">
-                    <form action="\" method="POST">
+                    <form action="\loginNEQ" method="POST">
                         @csrf
                         <div class="form-group">
                             <label for="neq">NEQ:</label>
