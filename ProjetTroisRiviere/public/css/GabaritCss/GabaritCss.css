@@ -15,6 +15,7 @@ html, body {
 
 
 
+
 .navbar{
   width: 100%;
   background-color: #ffffff;
@@ -90,6 +91,25 @@ html, body {
   line-height: 1.2em;
 }
 
+
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+.input-container img {
+  margin-left: 10px;
+  height: 15px !important; /* Set height for smaller icons */
+  width: 15px !important; /* Set width for smaller icons */
+}
+
+
+.error {
+  display: block; /* Ensure the error message is displayed as a block element */
+  color: red;
+  font-size: 0.8rem; /* Smaller font size for error messages */
+  margin-top: 5px; /* Add some space above error messages */
+}
 
 
 
