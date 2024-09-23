@@ -92,7 +92,7 @@ class ProfilsController extends Controller
         $compte->email = $request->email;
         $compte->nomEntreprise = $request->nomEntreprise;
         $compte->password = bcrypt($request->password);
-        $compte->role = $request->role;
+        $compte->role = "aucun";
         $compte->save();
         
             return redirect()->route('Acceuils.index');
