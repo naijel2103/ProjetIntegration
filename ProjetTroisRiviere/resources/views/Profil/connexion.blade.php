@@ -11,7 +11,7 @@
                 <br>
                 <br>
                 <div class="formbold-main-wrapper">
-                    <form action="\" method="POST">
+                    <form action="\login" method="POST">
                         @csrf
                         <div class="form-group">
                             <label for="email">Email:</label>

@@ -1,8 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\Comptes;
 
 class ProfilsController extends Controller
 {
@@ -56,9 +62,10 @@ class ProfilsController extends Controller
 
     public function login(Request $request)
     {
+
         $reussi = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
         if($reussi){
-            return redirect()->route('acceuil.index') ->with('message', "Connexion réussie");
+            return redirect()->route('fiche.demandeFiche') ->with('message', "Connexion réussie");
         }
         else{
             return redirect()->route('profil.connexion')->withErrors(['Informations invalides']); 
@@ -72,7 +79,7 @@ class ProfilsController extends Controller
     {
         $reussi = Auth::attempt(['neq' => $request->neq, 'password' => $request->password]);
         if($reussi){
-            return redirect()->route('acceuil.index') ->with('message', "Connexion réussie");
+            return redirect()->route('fiche.demandeFiche') ->with('message', "Connexion réussie");
         }
         else{
             return redirect()->route('profil.connexionNEQ')->withErrors(['Informations invalides']); 
@@ -88,14 +95,15 @@ class ProfilsController extends Controller
      */
     public function creer(Request $request)
     {
-        $compte = new Compte();
+        $compte = new Comptes();
+        $compte->neq = $request->neq;
         $compte->email = $request->email;
-        $compte->nomEntreprise = $request->nomEntreprise;
+        $compte->nom = $request->nom;
         $compte->password = bcrypt($request->password);
         $compte->role = "aucun";
         $compte->save();
         
-            return redirect()->route('Acceuils.index');
+            return redirect()->route('fiche.demandeFiche');
     }
 
     public function motdepasseView(){
@@ -107,7 +115,7 @@ class ProfilsController extends Controller
     {
         
 
-        $compte = Compte::where('email', $request->email)->first();
+        $compte = Comptes::where('email', $request->email)->first();
         if ($compte && $compte->verifier == 1) {
             $compte->code = Str::random(60);
             $compte->save();
@@ -126,7 +134,7 @@ class ProfilsController extends Controller
     }
 
     public function reinitialiser(Request $request){
-        $compte = Compte::where('code', $request->code)->first();
+        $compte = Comptes::where('code', $request->code)->first();
         if($compte->code == $request->code){
             $compte->password = bcrypt($request->password);
             $compte->code = null;

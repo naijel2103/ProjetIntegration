@@ -3,7 +3,7 @@
 @section('titre','Demande d inscription ')
    
 @section('contenu')
-
+@auth
 <form method="get" action="{{ route('fiche.envoieDemandeFiche') }}" enctype="multipart/form-data">
 @csrf
     <div class="container-fluid">
@@ -35,5 +35,8 @@
    </div>
 
 </form>
+
+@endauth
+
 
 @endsection
