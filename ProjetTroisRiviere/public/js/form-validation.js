@@ -1,4 +1,14 @@
-document.getElementById('btnNext').addEventListener('click', function() {
+function togglePasswordVisibility(inputId) {
+    const inputField = document.getElementById(inputId);
+    const inputType = inputField.getAttribute('type') === 'password' ? 'text' : 'password';
+    inputField.setAttribute('type', inputType);
+
+    // Change the eye icon based on visibility
+    const eyeIcon = document.getElementById(`toggle-${inputId}`);
+    eyeIcon.src = inputType === 'password' ? 'Images/eye.png' : 'Images/eye-open.png'; // Replace with appropriate icon paths
+}
+
+document.getElementById('btnNext').addEventListener('click', function () {
     // Réinitialise les messages d'erreur
     const errorMessages = document.querySelectorAll('.error');
     errorMessages.forEach(error => error.style.display = 'none');
@@ -7,8 +17,8 @@ document.getElementById('btnNext').addEventListener('click', function() {
     const inputs = document.querySelectorAll('.form-control');
     inputs.forEach(input => {
         input.style.borderColor = ''; // Réinitialiser la couleur de bordure
-        // Remove existing checkmark images
-        const existingCheckmark = input.parentNode.querySelector('img');
+        // Remove existing checkmarks
+        const existingCheckmark = input.parentNode.querySelector('.check-icon');
         if (existingCheckmark) {
             existingCheckmark.remove();
         }
@@ -24,24 +34,24 @@ document.getElementById('btnNext').addEventListener('click', function() {
     let isValid = true;
 
     function addCheckmark(input, isValid) {
-        const img = document.createElement('img');
-        img.src = isValid ? 'Images/checkVert.png' : 'Images/checkRouge.png';
-        img.alt = '';
-        img.style.marginLeft = '10px'; // Adjust margin as needed
-        input.parentNode.appendChild(img);
+        const existingCheckmark = input.parentNode.querySelector('.check-icon');
+
+        // Check if the checkmark already exists
+        if (!existingCheckmark) {
+            const img = document.createElement('img');
+            img.src = isValid ? 'Images/checkVert.png' : 'Images/checkRouge.png';
+            img.alt = '';
+            img.classList.add('icon', 'check-icon'); // Add the check-icon class
+            img.style.marginLeft = '10px'; // Adjust margin if necessary
+            input.parentNode.appendChild(img);
+        } else {
+            // If it exists, update the source
+            existingCheckmark.src = isValid ? 'Images/checkVert.png' : 'Images/checkRouge.png';
+        }
     }
 
     // Vérification des conditions
-    if (!neq) {
-        document.getElementById('neq-error').textContent = 'NEQ est requis.';
-        document.getElementById('neq-error').style.display = 'block';
-        document.getElementById('neq').style.borderColor = 'red'; // Bordure rouge
-        isValid = false;
-        addCheckmark(document.getElementById('neq'), false);
-    } else {
-        document.getElementById('neq').style.borderColor = 'green'; // Bordure verte
-        addCheckmark(document.getElementById('neq'), true);
-    }
+
 
     if (!nom) {
         document.getElementById('nom-error').textContent = 'Nom de l\'entreprise est requis.';
@@ -61,12 +71,27 @@ document.getElementById('btnNext').addEventListener('click', function() {
         isValid = false;
         addCheckmark(document.getElementById('email'), false);
     } else {
-        document.getElementById('email').style.borderColor = 'green'; // Bordure verte
-        addCheckmark(document.getElementById('email'), true);
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            document.getElementById('email-error').textContent = 'Adresse courriel invalide.';
+            document.getElementById('email-error').style.display = 'block';
+            document.getElementById('email').style.borderColor = 'red'; // Bordure rouge
+            isValid = false;
+            addCheckmark(document.getElementById('email'), false);
+        } else {
+            document.getElementById('email').style.borderColor = 'green'; // Bordure verte
+            addCheckmark(document.getElementById('email'), true);
+        }
     }
 
     if (!password) {
         document.getElementById('password-error').textContent = 'Mot de passe est requis.';
+        document.getElementById('password-error').style.display = 'block';
+        document.getElementById('password').style.borderColor = 'red'; // Bordure rouge
+        isValid = false;
+        addCheckmark(document.getElementById('password'), false);
+    } else if (password.length < 8) {
+        document.getElementById('password-error').textContent = 'Le mot de passe doit contenir au moins 8 caractères.';
         document.getElementById('password-error').style.display = 'block';
         document.getElementById('password').style.borderColor = 'red'; // Bordure rouge
         isValid = false;
@@ -76,7 +101,7 @@ document.getElementById('btnNext').addEventListener('click', function() {
         addCheckmark(document.getElementById('password'), true);
     }
 
-    if (password !== passwordConfirmation) {
+    if (passwordConfirmation !== password || !passwordConfirmation) {
         document.getElementById('password_confirmation-error').textContent = 'Les mots de passe ne correspondent pas.';
         document.getElementById('password_confirmation-error').style.display = 'block';
         document.getElementById('password_confirmation').style.borderColor = 'red'; // Bordure rouge
@@ -87,7 +112,7 @@ document.getElementById('btnNext').addEventListener('click', function() {
         addCheckmark(document.getElementById('password_confirmation'), true);
     }
 
-    // Si tout est correct, passe à la deuxième étape
+    // Si toutes les validations passent, passer à l'étape suivante
     if (isValid) {
         document.getElementById('step1').style.display = 'none';
         document.getElementById('step2').style.display = 'block';

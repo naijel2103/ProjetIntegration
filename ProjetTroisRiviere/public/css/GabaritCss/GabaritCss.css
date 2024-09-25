@@ -1,22 +1,18 @@
-#imgLogo
-{
-    height: 150px;
-    padding: 8px;
+#imgLogo {
+  height: 150px;
+  padding: 8px;
 }
 
 html, body {
   height: 100%;
 }
 
-::selection{
-  color:white;
-  background-color:#63bc55 ;
+::selection {
+  color: white;
+  background-color: #63bc55;
 }
 
-
-
-
-.navbar{
+.navbar {
   width: 100%;
   background-color: #ffffff;
   font-family: "Poppins", sans-serif;
@@ -27,22 +23,22 @@ html, body {
   min-height: 117px;
   text-decoration: none;
 }
-.sticky-container .navbar .bottom-nav  {
+
+.sticky-container .navbar .bottom-nav {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   font-size: 20px;
   margin-right: 2.5%;
-  
 }
-.separator{
+
+.separator {
   width: 1px;
   height: 18px;
   border-left: 1px solid #919191;
 }
 
-
-.header-link-top{
+.header-link-top {
   padding: 10px;
   margin: 0 10px;
   cursor: pointer;
@@ -51,65 +47,80 @@ html, body {
   transition: 0.3s ease;
 }
 
-.header-link-top:hover{
-  color:white;
-  background-color:#63bc55
+.header-link-top:hover {
+  color: white;
+  background-color: #63bc55;
 }
 
 .footer {
-   padding: 50px 0 70px;
-    background-color: #eeeef0;
-    font-family: "Poppins", sans-serif;
-    font-weight: 100;
-    font-size: 16px;
-    line-height: 18px;
-    color: #566771;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
+  padding: 50px 0 70px;
+  background-color: #eeeef0;
+  font-family: "Poppins", sans-serif;
+  font-weight: 100;
+  font-size: 16px;
+  line-height: 18px;
+  color: #566771;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 
-.link-foot{
-  color:#566771;
-  text-decoration: none
+.link-foot {
+  color: #566771;
+  text-decoration: none;
 }
 
-.link-foot:hover{
-  text-decoration:underline;
-  color:#566771;
+.link-foot:hover {
+  text-decoration: underline;
+  color: #566771;
 }
 
-#header-link-top{
-  color:#000000;
+#header-link-top {
+  color: #000000;
 }
 
-.footer-phone{
+.footer-phone {
   font-size: 21px;
   font-weight: 600;
   margin: 8px 0 11px;
   line-height: 1.2em;
 }
 
-
 .input-container {
-  display: flex;
-  align-items: center;
+  position: relative; /* To position the icons inside the input */
+  display: flex; /* Use flexbox for layout */
+  align-items: center; /* Center icons vertically */
 }
 
-.input-container img {
-  margin-left: 10px;
-  height: 15px !important; /* Set height for smaller icons */
-  width: 15px !important; /* Set width for smaller icons */
+.form-control {
+  width: calc(100% - 50px); /* Set fixed width minus space for icons */
+  padding-right: 50px; /* Ensure space for the eye icon */
+  box-sizing: border-box; /* Include padding in width calculation */
 }
 
+.eye-icon {
+  position: absolute; /* Position the eye icon inside the input */
+  right: 55px; /* Position it within the input field */
+  cursor: pointer; /* Change cursor to pointer */
+}
+
+.check-icon {
+  width: 25px; /* Fixed width for check icons */
+  height: 25px; /* Fixed height for check icons */
+  margin-left: 10px; /* Space between input and checkmark */
+  align-self: center; /* Center the check icon vertically */
+  flex-shrink: 0; /* Prevent check icon from shrinking */
+}
+
+.icon {
+  width: 35px !important;
+  height: 35px !important;
+}
 
 .error {
-  display: block; /* Ensure the error message is displayed as a block element */
+  display: block; 
   color: red;
-  font-size: 0.8rem; /* Smaller font size for error messages */
-  margin-top: 5px; /* Add some space above error messages */
+  font-size: 0.8rem; 
+  margin-top: 5px; 
 }
-
-
-
