@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Fournisseur;
+use App\Models\F;
 
 class FichesController extends Controller
 {
@@ -13,7 +13,7 @@ class FichesController extends Controller
     public function index()
     {
 
-        $fournisseur = Fournisseur::all();
+        $fourni = Fournisseur::all();
         return View("fiche.index",compact("fournisseur"));
     }
 

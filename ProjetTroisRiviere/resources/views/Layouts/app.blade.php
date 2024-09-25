@@ -27,6 +27,10 @@
         <a href="\demandeFiche" class="header-link-top">Voir ma fiche</a>
         <div class="separator"></div>   
         <a href="\fiche" class="header-link-top">Voir les fiches (Responsable)</a>      
+        <div class="separator"></div>   
+        <a href="\creation" class="header-link-top">Créer des comptes (Responsable)</a>    
+        <div class="separator"></div>   
+        <a href="\gererComptes" class="header-link-top">Gérer les comptes (Responsable)</a>   
   </div>
 
 

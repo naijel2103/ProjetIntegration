@@ -15,12 +15,11 @@ class ComptesTableSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('comptes')->insert([
+        DB::table('Comptes')->insert([
               [
                 'id' => 1,
-                'nom' => 'MichaudInc',
+                'nom' => 'Michaud',
                 'email' => 'test@gmail.com',
-                'neq' => 'aucun',
                 'password' => Hash::make('test'),
                 'role' => 'admin',
                 'code' => 'aucun',

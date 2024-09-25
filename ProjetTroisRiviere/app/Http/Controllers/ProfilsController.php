@@ -91,13 +91,20 @@ class ProfilsController extends Controller
     {
         return view('Profil.creation');
     }
+
+
+    public function gererComptes()
+    {
+        $comptes = Comptes::all();
+        return view('Profil.gererComptes',compact("comptes"));
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function creer(Request $request)
     {
         $compte = new Comptes();
-        $compte->neq = $request->neq;
         $compte->email = $request->email;
         $compte->nom = $request->nom;
         $compte->password = bcrypt($request->password);
@@ -145,37 +152,52 @@ class ProfilsController extends Controller
     }
 
 
-
-
-
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function destroy(string $id)
     {
-        //
-    }
+        try{
+        $compte= Comptes::findOrFail($id);
+       
+            
+                  
+                 $compte->delete();
+                   return redirect()->route('profil.gererComptes')->with('message', "Suppression de " . $compte->nom . " réussi!");
+        }
+                   catch(\Throwable $e){
+                    //Gérer l'erreur
+       
+                    return redirect()->route('profil.gererComptes')->withErrors(['la suppression n\'a pas fonctionné']); 
+                  }
+                     return redirect()->route('profil.gererComptes');
+                }
+
 
     /**
      * Show the form for editing the specified resource.
      */
-   
+    public function edit(Comptes $compte)
+    {
+        return View('profil.edit', compact('compte'));
+    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Comptes $compte)
     {
-        //
+        try{
+            $compte->email = $request->email;
+            $compte->nom = $request->nom;
+            $compte->role = $request->role;
+            $compte->save();
+            
+            return redirect()->route('profil.gererComptes')->with('message', "Modification de " .$compte->nom . " réussi!");
+        }catch(\Throwable $e)
+        {
+        
+            return redirect()->route('profil.gererComptes')->with('message', "Modification de " . $compte->nom . "non");
+        }
+        return redirect()->route('profil.gererComptes');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+  
 }

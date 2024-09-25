@@ -36,6 +36,25 @@ Route::get('/connexionNEQ',
 Route::get('/creation',
 [ProfilsController::class, 'creation']) -> name('profil.creation');
 
+Route::get('/gererComptes',
+[ProfilsController::class, 'gererComptes']) -> name('profil.gererComptes');
+
+Route::patch('/comptes/modifier/{compte}',
+[ProfilsController::class, 'update'])->name('profil.update');
+
+Route::get('/comptes/edit/{compte}',
+[ProfilsController::class, 'edit'])->name('profil.edit');
+
+Route::delete('/comptes/supprimer/{compte}',
+[ProfilsController::class, 'destroy'])->name('profil.destroy');
+
+
+
+
+
+
+
+
 Route::post('/creer',
 [ProfilsController::class, 'creer']) -> name('profil.creer');
 

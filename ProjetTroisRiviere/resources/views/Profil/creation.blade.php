@@ -10,8 +10,7 @@
                     @csrf
                     <div class=" col-10 offset-1">
                         <br>
-                        <label for="neq">Numéro d'entreprise du Québec(NEQ)</label>
-                        <input type="text" name="neq" id="neq" class="form-control" placeholder=" 8831854938">
+                      
 
                         <label for="nom">Nom de l'entreprise (Obligatoire):</label>
                         <input type="text" name="nom" id="nom"class="form-control" required>
