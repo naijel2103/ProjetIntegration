@@ -74,17 +74,102 @@
                         </div>
 
                         <div class="text-center">
+                            <a href="{{ route('profil.connexionNEQ') }}" class="btn btn-danger btn-lg" >Retour</a>
                             <button type="button" id="btnNext" class="btn btn-primary btn-lg">Suivant</button>
                         </div>
                     </div>
 
                     <div id="step2" class="form-step" style="display: none;">
+                        <div class="col-10 offset-1">
+                            <br>
+                            <div class="form-group row mb-3 justify-content-end">
+                                <label for="adresse" class="col-sm-4 col-form-label text-end">Adresse (Obligatoire):</label>
+                                <div class="col-sm-6">
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" name="adresse" id="adresse" class="form-control" required>
+                                        <img src="Images/checkRouge.png" alt="" class="icon" id="adresse-icon" style="display: none; margin-left: 10px;">
+                                    </div>
+                                    <span class="error" id="adresse-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-3 justify-content-end">
+                                <label for="numero_civique" class="col-sm-4 col-form-label text-end">Numéro Civique (Obligatoire):</label>
+                                <div class="col-sm-6">
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" name="numero_civique" id="numero_civique" class="form-control" required>
+                                        <img src="Images/checkRouge.png" alt="" class="icon" id="numero_civique-icon" style="display: none; margin-left: 10px;">
+                                    </div>
+                                    <span class="error" id="numero_civique-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-3 justify-content-end">
+                                <label for="rue" class="col-sm-4 col-form-label text-end">Rue (Obligatoire):</label>
+                                <div class="col-sm-6">
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" name="rue" id="rue" class="form-control" required>
+                                        <img src="Images/checkRouge.png" alt="" class="icon" id="rue-icon" style="display: none; margin-left: 10px;">
+                                    </div>
+                                    <span class="error" id="rue-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-3 justify-content-end">
+                                <label for="bureau" class="col-sm-4 col-form-label text-end">Bureau (Facultatif):</label>
+                                <div class="col-sm-6">
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" name="bureau" id="bureau" class="form-control">
+                                        <img src="Images/checkRouge.png" alt="" class="icon" id="bureau-icon" style="display: none; margin-left: 10px;">
+                                    </div>
+                                    <span class="error" id="bureau-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-3 justify-content-end">
+                                <label for="ville" class="col-sm-4 col-form-label text-end">Ville (Obligatoire):</label>
+                                <div class="col-sm-6">
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" name="ville" id="ville" class="form-control" required>
+                                        <img src="Images/checkRouge.png" alt="" class="icon" id="ville-icon" style="display: none; margin-left: 10px;">
+                                    </div>
+                                    <span class="error" id="ville-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-3 justify-content-end">
+                                <label for="province" class="col-sm-4 col-form-label text-end">Province (Obligatoire):</label>
+                                <div class="col-sm-6">
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" name="province" id="province" class="form-control" required>
+                                        <img src="Images/checkRouge.png" alt="" class="icon" id="province-icon" style="display: none; margin-left: 10px;">
+                                    </div>
+                                    <span class="error" id="province-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-3 justify-content-end">
+                                <label for="code_postal" class="col-sm-4 col-form-label text-end">Code Postal (Obligatoire):</label>
+                                <div class="col-sm-6">
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" name="code_postal" id="code_postal" class="form-control" required>
+                                        <img src="Images/checkRouge.png" alt="" class="icon" id="code_postal-icon" style="display: none; margin-left: 10px;">
+                                    </div>
+                                    <span class="error" id="code_postal-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                </div>
+                            </div>
+
+                        </div>
 
                         <div class="text-center">
-                            <a href="{{ route('profil.connexionNEQ') }}" class="btn btn-danger btn-lg" id="btnRetour">Retour</a>
-                            <button type="submit" id="btnsubmit" class="btn btn-primary btn-lg">Créer</button>
+                            <button type="button" id="btnRetour" class="btn btn-danger btn-lg">Retour</button>
+                            <button type="button" id="btnNextStep" class="btn btn-primary btn-lg">Suivant</button> <!-- Change here -->
                         </div>
                     </div>
+
+
+
+
                 </form>
             </div>
         </div>
