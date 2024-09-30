@@ -9,8 +9,16 @@ class CategorieLiscences extends Model
 {
     use HasFactory;
 
+    
+    protected $primaryKey = 'numCategorie';
+
+    protected $fillable = [
+        'nom',
+        'classe',
+    ];
+
     public function liscences()
     {
-        return $this->belongsToMany(Liscences::class, 'specification_liscences');
+        return $this->belongsToMany(Liscences::class, 'specification_liscences','categorie_liscence','numLiscence');
     }
 }

@@ -9,13 +9,23 @@ class Liscences extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    public $timestamps = false;
+
+    protected $primaryKey = 'numLiscence';
+
+    protected $fillable = [
+        'statut',
+        'type'
+    ];
+
     public function fournisseur()
     {
-        return $this->belongsTo(Fournisseur::class);
+        return $this->belongsTo(Fournisseurs::class, 'fournisseur');
     }
 
     public function categorieLiscences()
     {
-        return $this->belongsToMany(CategorieLiscences::class, 'specification_liscences');
+        return $this->belongsToMany(CategorieLiscences::class, 'specification_liscences','numLiscence','categorie_liscence');
     }
 }

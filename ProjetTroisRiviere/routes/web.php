@@ -5,6 +5,7 @@ use App\Http\Controllers\AcceuilsController;
 use App\Http\Controllers\FichesController;
 use App\Http\Controllers\ProfilsController;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\FournisseurController;
 
 Route::get('/',
 [AcceuilsController::class, 'index']) -> name('accueil');
@@ -47,3 +48,6 @@ Route::post('/reset',
 
 Route::get('/api/data/{neq}', 
 [ApiController::class, 'getData']);
+
+Route::get('/listeFournisseur', 
+[FournisseurController::class, 'getListe'])->name('getListeFournisseur');
