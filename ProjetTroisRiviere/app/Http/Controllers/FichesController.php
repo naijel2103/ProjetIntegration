@@ -1,9 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\F;
+use App\Models\Fournisseurs;
 
 class FichesController extends Controller
 {
@@ -13,8 +18,8 @@ class FichesController extends Controller
     public function index()
     {
 
-        $fourni = Fournisseur::all();
-        return View("fiche.index",compact("fournisseur"));
+        $fournisseurs = Fournisseurs::all();
+        return View("fiche.index",compact("fournisseurs"));
     }
 
     /**
@@ -51,10 +56,9 @@ class FichesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Fournisseurs $fournisseur)
     {
-        $selectionner = Fournisseur::where('selectionner','true')->get();
-        return View('Fiche.fournisseurSelectionne',compact("selectionner"));
+        return View('fiche.show',compact("fournisseur"));
     }
 
     /**

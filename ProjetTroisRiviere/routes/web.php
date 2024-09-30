@@ -18,6 +18,11 @@ Route::get('/fiche',
 Route::get('/envoieDemandeFiche',
 [FichesController::class, 'envoieDemandeFiche']) -> name('fiche.envoieDemandeFiche');
 
+Route::get('/fournisseurs/{fournisseur}',
+[FichesController::class, 'show']) -> name('fiche.show');
+
+
+
 Route::get('/connexion',
 [ProfilsController::class, 'connexion']) -> name('profil.connexion');
 

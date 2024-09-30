@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" style="text/css" href="\css\GabaritCss\GabaritCss.css">
+   
 <meta charset="UTF-8">
 </head>
 
@@ -21,9 +22,11 @@
       {{-- <a href="#home" class="active"> --}}
         <img src="{{ asset('images/LogoTrNoir.png') }}" id="imgLogo"/>
       {{-- </a> --}}
-      <div class="bottom-nav">                
+      <div class="bottom-nav">      
+      @if(!auth()->check())         
         <a href="\" class="header-link-top">Acceuil</a>
         <div class="separator"></div>    
+      @endif
         <a href="\demandeFiche" class="header-link-top">Voir ma fiche</a>
         <div class="separator"></div>   
         <a href="\fiche" class="header-link-top">Voir les fiches (Responsable)</a>      
