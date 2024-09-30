@@ -93,38 +93,26 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row mb-3 justify-content-end">
-                                <label for="numero_civique" class="col-sm-4 col-form-label text-end">Numéro Civique (Obligatoire):</label>
-                                <div class="col-sm-6">
-                                    <div class="d-flex align-items-center">
-                                        <input type="text" name="numero_civique" id="numero_civique" class="form-control" required>
-                                        <img src="Images/checkRouge.png" alt="" class="icon" id="numero_civique-icon" style="display: none; margin-left: 10px;">
-                                    </div>
+                            <div class="form-group row mb-3 justify-content-end address-inputs">
+                                <div class="col-sm-4">
+                                    <input type="text" name="numero_civique" id="numero_civique" class="form-control" placeholder="Numéro Civique (Obligatoire)" required>
+                                    <img src="Images/checkRouge.png" alt="" class="icon" id="numero_civique-icon" style="display: none; margin-left: 10px;">
                                     <span class="error" id="numero_civique-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
-                            </div>
-
-                            <div class="form-group row mb-3 justify-content-end">
-                                <label for="rue" class="col-sm-4 col-form-label text-end">Rue (Obligatoire):</label>
-                                <div class="col-sm-6">
-                                    <div class="d-flex align-items-center">
-                                        <input type="text" name="rue" id="rue" class="form-control" required>
-                                        <img src="Images/checkRouge.png" alt="" class="icon" id="rue-icon" style="display: none; margin-left: 10px;">
-                                    </div>
+                                <div class="col-sm-4">
+                                    <input type="text" name="rue" id="rue" class="form-control" placeholder="Rue (Obligatoire)" required>
+                                    <img src="Images/checkRouge.png" alt="" class="icon" id="rue-icon" style="display: none; margin-left: 10px;">
                                     <span class="error" id="rue-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
-                            </div>
-
-                            <div class="form-group row mb-3 justify-content-end">
-                                <label for="bureau" class="col-sm-4 col-form-label text-end">Bureau (Facultatif):</label>
-                                <div class="col-sm-6">
-                                    <div class="d-flex align-items-center">
-                                        <input type="text" name="bureau" id="bureau" class="form-control">
-                                        <img src="Images/checkRouge.png" alt="" class="icon" id="bureau-icon" style="display: none; margin-left: 10px;">
-                                    </div>
+                                <div class="col-sm-4">
+                                    <input type="text" name="bureau" id="bureau" class="form-control" placeholder="Bureau (Facultatif)">
+                                    <img src="Images/checkRouge.png" alt="" class="icon" id="bureau-icon" style="display: none; margin-left: 0px;">
                                     <span class="error" id="bureau-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                             </div>
+
+
+
 
                             <div class="form-group row mb-3 justify-content-end">
                                 <label for="ville" class="col-sm-4 col-form-label text-end">Ville (Obligatoire):</label>
