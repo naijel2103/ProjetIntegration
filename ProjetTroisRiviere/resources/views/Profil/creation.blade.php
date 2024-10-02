@@ -29,7 +29,7 @@
                         </br>
                         <div class="text-center">
                             <button type="submit" id="btnsubmit" class="btn btn-primary btn-lg">Créer</button>
-                            <a href="{{ route('profil.connexionNEQ') }}" class="btn btn-danger btn-lg" id="btnRetour">Retour</a>
+                            <a href="{{ route('profil.gererCompte') }}" class="btn btn-danger btn-lg" id="btnRetour">Retour</a>
                         </div>
                     </div>
                     </form>

@@ -111,7 +111,7 @@ class ProfilsController extends Controller
         $compte->role = "aucun";
         $compte->save();
         
-            return redirect()->route('fiche.demandeFiche');
+            return redirect()->route('profil.gererComptes');
     }
 
     public function motdepasseView(){
