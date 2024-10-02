@@ -40,14 +40,14 @@ document.getElementById('btnNext').addEventListener('click', function () {
         // Check if the checkmark already exists
         if (!existingCheckmark) {
             const img = document.createElement('img');
-            img.src = isValid ? 'Images/checkVert.png' : 'Images/checkRouge.png';
+            img.src = isValid ? 'Images/checkVert.png' : 'Images/XIcon.png';
             img.alt = '';
             img.classList.add('icon', 'check-icon'); // Add the check-icon class
             img.style.marginLeft = '10px'; // Adjust margin if necessary
             input.parentNode.appendChild(img);
         } else {
             // If it exists, update the source
-            existingCheckmark.src = isValid ? 'Images/checkVert.png' : 'Images/checkRouge.png';
+            existingCheckmark.src = isValid ? 'Images/checkVert.png' : 'Images/XIcon.png';
         }
     }
 
@@ -138,7 +138,7 @@ document.getElementById('btnNextStep').addEventListener('click', function () {
     });
 
     // Validate inputs in step2
-    const adresse = document.getElementById('adresse').value;
+    const siteInternet = document.getElementById('siteInternet').value;
     const numeroCivique = document.getElementById('numero_civique').value;
     const rue = document.getElementById('rue').value;
     const bureau = document.getElementById('bureau').value;
@@ -154,26 +154,26 @@ document.getElementById('btnNextStep').addEventListener('click', function () {
         // Check if the checkmark already exists
         if (!existingCheckmark) {
             const img = document.createElement('img');
-            img.src = isValid ? 'Images/checkVert.png' : 'Images/checkRouge.png';
+            img.src = isValid ? 'Images/checkVert.png' : 'Images/XIcon.png';
             img.alt = '';
             img.classList.add('icon', 'check-icon'); // Add the check-icon class
             img.style.marginLeft = '10px'; // Adjust margin if necessary
             input.parentNode.appendChild(img);
         } else {
             // If it exists, update the source
-            existingCheckmark.src = isValid ? 'Images/checkVert.png' : 'Images/checkRouge.png';
+            existingCheckmark.src = isValid ? 'Images/checkVert.png' : 'Images/XIcon.png';
         }
     }
 
     // Validation for adresse
-    if (!adresse) {
-        document.getElementById('adresse-error').textContent = 'Adresse est requise.';
-        document.getElementById('adresse-error').style.display = 'block';
-        document.getElementById('adresse').style.borderColor = 'red'; // Red border
+    if (!siteInternet) {
+        document.getElementById('siteInternet-error').textContent = 'siteInternet est requise.';
+        document.getElementById('siteInternet-error').style.display = 'block';
+        document.getElementById('siteInternet').style.borderColor = 'red'; // Red border
         isValidStep2 = false;
-        addCheckmarkStep2(document.getElementById('adresse'), false);
+        addCheckmarkStep2(document.getElementById('siteInternet'), false);
     } else {
-        document.getElementById('adresse').style.borderColor = 'green'; // Green border
+        document.getElementById('siteInternet').style.borderColor = 'green'; // Green border
         addCheckmarkStep2(document.getElementById('adresse'), true);
     }
 

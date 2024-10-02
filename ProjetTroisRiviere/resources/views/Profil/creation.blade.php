@@ -18,7 +18,7 @@
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
                                         <input type="text" name="neq" id="neq" class="form-control" placeholder=" 8831854938" required>
-                                        <img src="Images/checkRouge.png" alt="" class="icon" id="neq-icon" style="display: none; margin-left: 10px;">
+                                        <img src="Images/XIcon.png" alt="" class="icon" id="neq-icon" style="display: none; margin-left: 10px;">
                                     </div>
                                     <span class="error" id="neq-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
@@ -29,7 +29,7 @@
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
                                         <input type="text" name="nom" id="nom" class="form-control" required>
-                                        <img src="Images/checkRouge.png" alt="" class="icon" id="nom-icon" style="display: none; margin-left: 10px;">
+                                        <img src="Images/XIcon.png" alt="" class="icon" id="nom-icon" style="display: none; margin-left: 10px;">
                                     </div>
                                     <span class="error" id="nom-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
@@ -40,7 +40,7 @@
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
                                         <input type="email" name="email" id="email" class="form-control" required>
-                                        <img src="Images/checkRouge.png" alt="" class="icon" id="email-icon" style="display: none; margin-left: 10px;">
+                                        <img src="Images/XIcon.png" alt="" class="icon" id="email-icon" style="display: none; margin-left: 10px;">
                                     </div>
                                     <span class="error" id="email-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
@@ -52,7 +52,7 @@
                                     <div class="input-container">
                                         <input type="password" name="password" id="password" class="form-control" required>
                                         <img src="Images/eye.png" alt="Toggle Password" class="icon eye-icon" id="toggle-password" onclick="togglePasswordVisibility('password')" style="cursor: pointer;">
-                                        <img src="Images/checkRouge.png" alt="" class="icon" id="password-icon" style="display: none;">
+                                        <img src="Images/XIcon.png" alt="" class="icon" id="password-icon" style="display: none;">
                                     </div>
                                     <span class="error" id="password-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
@@ -64,13 +64,11 @@
                                     <div class="input-container">
                                         <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
                                         <img src="Images/eye.png" alt="Toggle Password Confirmation" class="icon eye-icon" id="toggle-password-confirmation" onclick="togglePasswordVisibility('password_confirmation')" style="cursor: pointer;">
-                                        <img src="Images/checkRouge.png" alt="" class="icon" id="password_confirmation-icon" style="display: none;">
+                                        <img src="Images/XIcon.png" alt="" class="icon" id="password_confirmation-icon" style="display: none;">
                                     </div>
                                     <span class="error" id="password_confirmation-error"></span>
                                 </div>
                             </div>
-
-
                         </div>
 
                         <div class="text-center">
@@ -83,43 +81,43 @@
                         <div class="col-10 offset-1">
                             <br>
                             <div class="form-group row mb-3 justify-content-end">
-                                <label for="adresse" class="col-sm-4 col-form-label text-end">Adresse (Obligatoire):</label>
+                                <label for="siteInternet" class="col-sm-4 col-form-label text-end">siteInternet (Obligatoire):</label>
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
-                                        <input type="text" name="adresse" id="adresse" class="form-control" required>
-                                        <img src="Images/checkRouge.png" alt="" class="icon" id="adresse-icon" style="display: none; margin-left: 10px;">
+                                        <input type="text" name="siteInternet" id="siteInternet" class="form-control" required>
+                                        <img src="Images/XIcon.png" alt="" class="icon" id="siteInternet-icon" style="display: none; margin-left: 10px;">
                                     </div>
-                                    <span class="error" id="adresse-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                    <span class="error" id="siteInternet-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                             </div>
 
-                            <div class="form-group row mb-3 justify-content-end address-inputs">
-                                <div class="col-sm-4">
+                            <!-- Address Inputs in Same Row -->
+                            <div class="form-group row mb-3 justify-content-end">
+                                <div class="col-sm-2">
                                     <input type="text" name="numero_civique" id="numero_civique" class="form-control" placeholder="Numéro Civique (Obligatoire)" required>
-                                    <img src="Images/checkRouge.png" alt="" class="icon" id="numero_civique-icon" style="display: none; margin-left: 10px;">
+                                    <img src="Images/XIcon.png" alt="" class="icon" id="numero_civique-icon" style="display: none; margin-left: 10px; ">
                                     <span class="error" id="numero_civique-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
-                                <div class="col-sm-4">
-                                    <input type="text" name="rue" id="rue" class="form-control" placeholder="Rue (Obligatoire)" required>
-                                    <img src="Images/checkRouge.png" alt="" class="icon" id="rue-icon" style="display: none; margin-left: 10px;">
+                                <div class="col-sm-2">
+                                    <input type="text" name="rue" id="rue" class="form-control form-control1" placeholder="Rue (Obligatoire)" required>
+                                    <img src="Images/XIcon.png" alt="" class="icon" id="rue-icon" style="display: none; margin-left: 10px;">
                                     <span class="error" id="rue-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
                                     <input type="text" name="bureau" id="bureau" class="form-control" placeholder="Bureau (Facultatif)">
-                                    <img src="Images/checkRouge.png" alt="" class="icon" id="bureau-icon" style="display: none; margin-left: 0px;">
+                                    <img src="Images/XIcon.png" alt="" class="icon" id="bureau-icon" style="display: none; margin-left: 0px;">
                                     <span class="error" id="bureau-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                             </div>
 
 
-
-
+                            <!-- Other Inputs -->
                             <div class="form-group row mb-3 justify-content-end">
                                 <label for="ville" class="col-sm-4 col-form-label text-end">Ville (Obligatoire):</label>
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
                                         <input type="text" name="ville" id="ville" class="form-control" required>
-                                        <img src="Images/checkRouge.png" alt="" class="icon" id="ville-icon" style="display: none; margin-left: 10px;">
+                                        <img src="Images/XIcon.png" alt="" class="icon" id="ville-icon" style="display: none; margin-left: 10px;">
                                     </div>
                                     <span class="error" id="ville-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
@@ -130,7 +128,7 @@
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
                                         <input type="text" name="province" id="province" class="form-control" required>
-                                        <img src="Images/checkRouge.png" alt="" class="icon" id="province-icon" style="display: none; margin-left: 10px;">
+                                        <img src="Images/XIcon.png" alt="" class="icon" id="province-icon" style="display: none; margin-left: 10px;">
                                     </div>
                                     <span class="error" id="province-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
@@ -141,22 +139,18 @@
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
                                         <input type="text" name="code_postal" id="code_postal" class="form-control" required>
-                                        <img src="Images/checkRouge.png" alt="" class="icon" id="code_postal-icon" style="display: none; margin-left: 10px;">
+                                        <img src="Images/XIcon.png" alt="" class="icon" id="code_postal-icon" style="display: none; margin-left: 10px;">
                                     </div>
                                     <span class="error" id="code_postal-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                             </div>
-
                         </div>
 
                         <div class="text-center">
                             <button type="button" id="btnRetour" class="btn btn-danger btn-lg">Retour</button>
-                            <button type="button" id="btnNextStep" class="btn btn-primary btn-lg">Suivant</button> <!-- Change here -->
+                            <button type="button" id="btnNextStep" class="btn btn-primary btn-lg">Suivant</button>
                         </div>
                     </div>
-
-
-
 
                 </form>
             </div>

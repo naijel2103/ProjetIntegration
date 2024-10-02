@@ -95,7 +95,13 @@ html, body {
 
 .form-control {
   width: calc(100% - 50px); /* Set fixed width minus space for icons */
-  padding-right: 50px; /* Ensure space for the eye icon */
+  padding-right: 10px; /* Ensure space for the eye icon */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.form-control1 {
+  width: 200px; /* Set fixed width minus space for icons */
+  margin-left: -0px; /* Move the input 10px to the left */
   box-sizing: border-box; /* Include padding in width calculation */
 }
 
@@ -117,6 +123,7 @@ html, body {
   width: 35px !important;
   height: 35px !important;
 }
+
 
 .error {
   display: block; 
