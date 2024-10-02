@@ -3,7 +3,7 @@
 @extends('layouts.app')
 @section('contenu')
 <section class="main-container">
-<h1>Liste des fournisseur</h1>
+<h1>Liste des fournisseurs</h1>
 
 
   <table class="table text-center">

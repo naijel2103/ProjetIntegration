@@ -104,6 +104,7 @@ class ProfilsController extends Controller
      */
     public function creer(Request $request)
     {
+     
         $compte = new Comptes();
         $compte->email = $request->email;
         $compte->nom = $request->nom;
@@ -156,11 +157,27 @@ class ProfilsController extends Controller
     {
         try{
         $compte= Comptes::findOrFail($id);
-       
-            
+
+            if($compte->role =='admin')
+            {
+
+          
+        $adminCount = Comptes::where('role', 'admin')->count();
+
+        if ($adminCount <= 2) {
+            return redirect()->back()->with('error', 'Il doit y avoir au moins 2 administrateurs');
+        }else{
+            $compte->delete();
+            return redirect()->route('profil.gererComptes')->with('message', "Suppression de " . $compte->nom . " réussi!");
+        }
+        } else
+        {
+            $compte->delete();
+        }
+
+
                   
-                 $compte->delete();
-                   return redirect()->route('profil.gererComptes')->with('message', "Suppression de " . $compte->nom . " réussi!");
+                 
         }
                    catch(\Throwable $e){
                     //Gérer l'erreur

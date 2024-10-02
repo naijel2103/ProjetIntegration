@@ -15,8 +15,6 @@
   <table class="table text-center">
   <thead>
     <tr>
-    <th scope="col-1">Id</th>
-      <th scope="col-1">Nom</th>
       <th scope="col-1">Email</th>
       <th scope="col-1">role</th>
       <th scope="col-1">Modification</th>
@@ -33,8 +31,7 @@
       @foreach($comptes as $compte)
       <?php $ctr++;  ?>
     <tr>
-      <th scope="row">{{$compte->id}}</th>
-      <td>{{$compte->nom}}</td>
+
       <td>{{$compte->email}}</td>
       <td>{{$compte->role}}</td>
       <td><a href="{{route('profil.edit', [$compte->id])}}" class="btn btn-primary text-center ">Modifier le compte</a></td>
