@@ -27,17 +27,17 @@
      
         <a href="\" class="header-link-top">Acceuil</a>
        
-      @auth
+      @role('aucun')
       <div class="separator"></div>    
         <a href="\demandeFiche" class="header-link-top">Voir ma fiche</a>
       @endauth
         @role('responsable')
         <div class="separator"></div>   
-        <a href="\fiche" class="header-link-top">Voir les fiches (Responsable)</a>      
+        <a href="\fiche" class="header-link-top">Voir les fiches </a>      
         <div class="separator"></div>   
-        <a href="\creation" class="header-link-top">Créer des comptes (Responsable)</a>    
+        <a href="\creation" class="header-link-top">Créer des comptes </a>    
         <div class="separator"></div>   
-        <a href="\gererComptes" class="header-link-top">Gérer les comptes (Responsable)</a>   
+        <a href="\gererComptes" class="header-link-top">Gérer les comptes </a>   
         @endrole
   </div>
 

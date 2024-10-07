@@ -66,8 +66,12 @@ class ProfilsController extends Controller
     {
 
         $reussi = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
-        if($reussi){
+        if($reussi && Auth::user()->role == 'aucun'){
+            
             return redirect()->route('fiche.demandeFiche') ->with('message', "Connexion réussie");
+        } elseif($reussi && Auth::user()->role == 'admin' ||Auth::user()->role == 'responsable')
+        {
+            return redirect()->route('accueil'); 
         }
         else{
             return redirect()->route('profil.connexion')->withErrors(['Informations invalides']); 
