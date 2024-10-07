@@ -100,8 +100,8 @@ html, body {
 }
 
 .form-control1 {
-  width: 200px; /* Set fixed width minus space for icons */
-  margin-left: -0px; /* Move the input 10px to the left */
+  width: 170px; /* Set fixed width minus space for icons */
+  margin-left: -30px; /* Move the input 10px to the left */
   box-sizing: border-box; /* Include padding in width calculation */
 }
 

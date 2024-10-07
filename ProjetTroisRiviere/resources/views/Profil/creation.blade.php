@@ -81,7 +81,7 @@
                         <div class="col-10 offset-1">
                             <br>
                             <div class="form-group row mb-3 justify-content-end">
-                                <label for="siteInternet" class="col-sm-4 col-form-label text-end">siteInternet (Obligatoire):</label>
+                                <label for="siteInternet" class="col-sm-4 col-form-label text-end">Site Internet (Obligatoire):</label>
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
                                         <input type="text" name="siteInternet" id="siteInternet" class="form-control" required>
@@ -93,6 +93,7 @@
 
                             <!-- Address Inputs in Same Row -->
                             <div class="form-group row mb-3 justify-content-end">
+                                <label for="num" class="col-sm-4 col-form-label text-end">Adresse:</label>
                                 <div class="col-sm-2">
                                     <input type="text" name="numero_civique" id="numero_civique" class="form-control" placeholder="Numéro Civique (Obligatoire)" required>
                                     <img src="Images/XIcon.png" alt="" class="icon" id="numero_civique-icon" style="display: none; margin-left: 10px; ">
@@ -144,6 +145,27 @@
                                     <span class="error" id="code_postal-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                             </div>
+
+                            <div class="form-group row mb-3 justify-content-end">
+                                <label for="num_tel_type" class="col-sm-4 col-form-label text-end">Téléphone (Obligatoire):</label>
+                                <div class="col-sm-2">
+                                    <input type="text" name="num_tel_type" id="num_tel_type" class="form-control" placeholder="(Bureau, Maison etc.)" required>
+                                    <img src="Images/XIcon.png" alt="" class="icon" id="num_tel_type-icon" style="display: none; margin-left: 10px;">
+                                    <span class="error" id="num_tel_type-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="text" name="num_tel" id="num_tel" class="form-control form-control1" placeholder="Numéro de téléphone" required>
+                                    <img src="Images/XIcon.png" alt="" class="icon" id="num_tel-icon" style="display: none; margin-left: 10px;">
+                                    <span class="error" id="num_tel-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="text" name="poste" id="poste" class="form-control" placeholder="Poste">
+                                    <img src="Images/XIcon.png" alt="" class="icon" id="poste-icon" style="display: none; margin-left: 0px;">
+                                    <span class="error" id="poste-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                </div>
+                            </div>
+
+
                         </div>
 
                         <div class="text-center">

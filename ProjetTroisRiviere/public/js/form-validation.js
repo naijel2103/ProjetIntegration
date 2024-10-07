@@ -145,6 +145,9 @@ document.getElementById('btnNextStep').addEventListener('click', function () {
     const ville = document.getElementById('ville').value;
     const province = document.getElementById('province').value;
     const codePostal = document.getElementById('code_postal').value;
+    const numTelType = document.getElementById('num_tel_type').value;
+    const numTel = document.getElementById('num_tel').value;
+    const poste = document.getElementById('poste').value;
 
     let isValidStep2 = true;
 
@@ -249,12 +252,50 @@ document.getElementById('btnNextStep').addEventListener('click', function () {
         addCheckmarkStep2(document.getElementById('code_postal'), true);
     }
 
-    // If all validations pass, go to the next step or submit
-    if (isValidStep2) {
-        document.getElementById('step2').style.display = 'none';
-        document.getElementById('step3').style.display = 'block'; // Ensure step3 exists and is correctly defined
+    // Validation for numTelType
+    if (!numTelType) {
+        document.getElementById('num_tel_type-error').textContent = 'Type de numéro de téléphone est requis.';
+        document.getElementById('num_tel_type-error').style.display = 'block';
+        document.getElementById('num_tel_type').style.borderColor = 'red'; // Red border
+        isValidStep2 = false;
+        addCheckmarkStep2(document.getElementById('num_tel_type'), false);
+    } else {
+        document.getElementById('num_tel_type').style.borderColor = 'green'; // Green border
+        addCheckmarkStep2(document.getElementById('num_tel_type'), true);
     }
-});
+
+    // Validation for numTel
+    if (!numTel) {
+        document.getElementById('num_tel-error').textContent = 'Numéro de téléphone est requis.';
+        document.getElementById('num_tel-error').style.display = 'block';
+        document.getElementById('num_tel').style.borderColor = 'red'; // Red border
+        isValidStep2 = false;
+        addCheckmarkStep2(document.getElementById('num_tel'), false);
+    } else {
+        document.getElementById('num_tel').style.borderColor = 'green'; // Green border
+        addCheckmarkStep2(document.getElementById('num_tel'), true);
+    }
+
+    // Validation for poste
+    if (!poste) {
+        document.getElementById('poste-error').textContent = 'Poste est requis.';
+        document.getElementById('poste-error').style.display = 'block';
+        document.getElementById('poste').style.borderColor = 'red'; // Red border
+        isValidStep2 = false;
+        addCheckmarkStep2(document.getElementById('poste'), false);
+    } else {
+        document.getElementById('poste').style.borderColor = 'green'; // Green border
+        addCheckmarkStep2(document.getElementById('poste'), true);
+    }
+
+
+
+        // If all validations pass, go to the next step or submit
+        if (isValidStep2) {
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step3').style.display = 'block'; // Ensure step3 exists and is correctly defined
+        }
+    });
 
 
 
