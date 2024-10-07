@@ -29,6 +29,7 @@
       <?php $ctr++;  ?>
     <tr>
       <td>
+        
         @if($fournisseur->statut == "En attente")
         <img src="Images/enAttente.png" alt="enAttente" id='imgStatut'>
         @elseif($fournisseur->statut == "Accepter")

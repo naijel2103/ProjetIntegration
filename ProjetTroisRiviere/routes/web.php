@@ -41,6 +41,16 @@ Route::get('/connexionNEQ',
 Route::get('/creation',
 [ProfilsController::class, 'creation']) -> name('profil.creation');
 
+
+Route::get('/confirmer/{code}',
+[ProfilsController::class, 'confirmer']) -> name('profil.confirmer');
+
+Route::get('/reinitialiser/{code}',
+[ProfilsController::class, 'reinitialiserPage']) -> name('profil.reinitialiser');
+
+Route::post('/reinitialiser/{code}',
+[ProfilsController::class, 'reinitialiser']) -> name('profil.reinitialiser');
+
 Route::get('/gererComptes',
 [ProfilsController::class, 'gererComptes']) -> name('profil.gererComptes');
 

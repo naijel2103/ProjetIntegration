@@ -23,7 +23,8 @@ class ComptesTableSeeder extends Seeder
                 'password' => Hash::make('test'),
                 'role' => 'admin',
                 'code' => 'aucun',
-                'admin' => true
+                'admin' => true,
+                'verifier' => true,
               ]
             
             ]);

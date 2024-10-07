@@ -20,20 +20,25 @@
   <div class="sticky-container"> 
     <div class="navbar contrast">
       {{-- <a href="#home" class="active"> --}}
+        
         <img src="{{ asset('images/LogoTrNoir.png') }}" id="imgLogo"/>
       {{-- </a> --}}
       <div class="bottom-nav">      
-      @if(!auth()->check())         
+     
         <a href="\" class="header-link-top">Acceuil</a>
-        <div class="separator"></div>    
-      @endif
+       
+      @auth
+      <div class="separator"></div>    
         <a href="\demandeFiche" class="header-link-top">Voir ma fiche</a>
+      @endauth
+        @role('responsable')
         <div class="separator"></div>   
         <a href="\fiche" class="header-link-top">Voir les fiches (Responsable)</a>      
         <div class="separator"></div>   
         <a href="\creation" class="header-link-top">Créer des comptes (Responsable)</a>    
         <div class="separator"></div>   
         <a href="\gererComptes" class="header-link-top">Gérer les comptes (Responsable)</a>   
+        @endrole
   </div>
 
 

@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Comptes;
 use App\Mail\resetDeMotDePasse;
+use App\Mail\AccountCreated;
 
 class ProfilsController extends Controller
 {
@@ -110,13 +111,29 @@ class ProfilsController extends Controller
         $compte->nom = $request->nom;
         $compte->password = bcrypt($request->password);
         $compte->role = "aucun";
+        $compte->code = Str::random(60);
+        $compte->verifier = false;
         $compte->save();
-        
+        Mail::to($compte-> email)->send(new AccountCreated($compte));
+       
             return redirect()->route('profil.gererComptes');
     }
 
     public function motdepasseView(){
         return view('Profil.motdepasse');
+    }
+
+    
+    public function confirmer(string $code){
+        $compte = Comptes::where('code', '=', $code)->first();
+        if($compte->code == $code && $compte->verifier == false){
+            $compte->verifier = true;
+            $compte->code = null;
+            $compte->save();
+            return redirect()->route('profil.connexionNEQ');
+        }else{
+            return redirect()->route('profil.confirmation')->withErrors(['error' => "Code invalide"]);
+        }
     }
 
          
@@ -138,7 +155,7 @@ class ProfilsController extends Controller
 
     public function reinitialiserPage(string $code)
     {
-        return view('Profil.reinitialiser', compact('code'));
+        return view('profil.reinitialiser', compact('code'));
 
     }
 
@@ -151,6 +168,7 @@ class ProfilsController extends Controller
             return redirect()->route('profil.connexionNEQ');
         }
     }
+
 
 
     public function destroy(string $id)

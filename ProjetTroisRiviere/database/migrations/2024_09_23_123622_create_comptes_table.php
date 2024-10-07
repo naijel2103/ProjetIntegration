@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('role')->default("aucun");
             $table->string('code', 60)->nullable();
             $table->boolean('admin')->default(false);;
+            $table->boolean('verifier')->default(false);;
     
             $table->timestamps();
         });

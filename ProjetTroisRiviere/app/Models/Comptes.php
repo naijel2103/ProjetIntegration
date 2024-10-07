@@ -17,6 +17,7 @@ class Comptes extends Authenticatable
         'role',
         'code',
         'admin',
+        'verifier'
   
     ];
 
