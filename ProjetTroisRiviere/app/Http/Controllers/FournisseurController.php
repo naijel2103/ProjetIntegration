@@ -4,66 +4,75 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Fournisseurs;
+use App\Models\Offres;
+use App\Models\CategorieLiscences;
+
 
 class FournisseurController extends Controller
 {
-    public function getListe(Request $request)
+    public function getListe(Request $requete)
     {
-        $produits = $request->input('produits', []);
-        $categories = $request->input('categories', []);
-        $regions = $request->input('regions', []);
-        $villes = $request->input('villes', []);
+        $listeOffres = Offres::all();
+        $listeCategories = CategorieLiscences::all();
 
-        $requete = Fournisseurs::query();
+        $offreSelect = $requete->input('offres', []);
+        $catSelect =  $requete->input('categories', []);
 
-        if (!empty($produits)) {
-            $requete->where(function ($query) use ($produits) {
-                $query->whereHas('offres', function ($subQuery) use ($produits) {
-                    $subQuery->whereIn('codeUNSPSC', $produits);
-                });
+        $requeteBD = Fournisseurs::query();
+
+        if ($requete->has('offres')) {
+            $requeteBD->whereHas('offres', function($sousRequete) use ($offreSelect) {
+                $sousRequete->whereIn('codeUNSPSC', $offreSelect);
             });
-        }
 
-        $requete->withCount([
-            'offres as nbr_offres_correspondant' => function ($subQuery) use ($produits) {
-                $subQuery->whereIn('codeUNSPSC', $produits);
-            },
-            'offres as nbr_offres_correspondant'
-        ]);
-
-        /*
-            ***CORRIGER LIEN ENTRE TABLE DANS MODELS***
-        
-        if (!empty($categories)) {
-            $requete->where(function ($query) use ($categories) {
-                foreach ($categories as $categoryId) {
-                    $query->orWhereHas('licences', function ($subQuery) use ($categoryId) {
-                        $subQuery->where('numCategorie', $categoryId);
-                    });
+            $requeteBD->withCount([
+                'offres as nbr_offres_correspondant' => function ($sousRequete) use ($offreSelect) {
+                    $sousRequete->whereIn('codeUNSPSC', $offreSelect);
                 }
-            });
+            ]);
         }
+    
+        if ($requete->has('categories')) {
+            $requeteBD->whereHas('offres.categories', function($sousRequete) use ($catSelect) {
+                $sousRequete->whereIn('numCategorie', $catSelect);
+            });
 
-        $requete->withCount([
-            'licence as nbr_categories_correspondant' => function ($subQuery) use ($categories) {
-                $subQuery->whereIn('numCategorie', $categories);
-            },
-            'licence as nbr_categories_correspondant'
-        ]);
-*/
-        /*
-        if (!empty($villes)) {
-            $query->where(function ($query) use ($villes) {
-                foreach ($villes as $ville) {
-                    $query->orWhere('ville', 'like', '%' . $ville . '%');
+            $requeteBD->withCount([
+                'licence as nbr_categories_correspondant' => function ($sousRequete) use ($catSelect) {
+                    $sousRequete->whereIn('numCategorie', $catSelect);
                 }
-            });
+            ]);
+
         }
+    
+        /*if ($requete->has('regions')) {
+            $regions = $requete->input('regions');
+            // Filtrer par région
+            $query->whereIn('region', $regions);
+        }
+    
+        if ($requete->has('villes')) {
+            $villes = $requete->input('villes');
+            // Filtrer par ville
+            $query->whereIn('ville', $villes);
         }*/
 
-        $fournisseurs = $requete->get();
+        $fournisseurs = $requeteBD->get();
 
-        return view('fournisseurs.getListe', ['fournisseurs' => $fournisseurs]);
+        $listeOffres = $listeOffres->sortByDesc(function ($offre) use ($offreSelect) {
+            return in_array($offre->codeUNSPSC, $offreSelect) ? 1 : 0;
+        });
 
+        return view('Fiche.listeFournisseurs', [
+            'fournisseurs' => $fournisseurs,
+
+            'listeOffres' => $listeOffres,
+            'listeCategories' => $listeCategories,
+
+            'offreSelect' => $offreSelect,
+            'catSelect' => $catSelect
+            /*'regions' => $request->input('regions', []),
+            'villes' => $request->input('villes', []),*/
+        ]);
     }
 }

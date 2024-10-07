@@ -1,23 +1,29 @@
 @extends('layouts.app')
 @section('contenu')
 
-@auth
+<script src="{{ asset('js/filtre.js') }}"></script>
+
     <form method="GET" action="{{ route('getListeFournisseur') }}">
-        <h3>Filtres :</h3>
+        <h3>Filtres: </h3>
 
-        <h4>Produits :</h4>
-        @foreach ($produits as $produit)
-            <label>
-                <input type="checkbox" name="produits[]" value="{{ $produit->id }}" {{ in_array($produit->id, request('produits', [])) ? 'checked' : '' }}> {{ $produit->nom }}
-            </label>
-        @endforeach
-
-        <h4>Catégories :</h4>
-        @foreach ($categories as $categorie)
-            <label>
-                <input type="checkbox" name="categories[]" value="{{ $categorie->id }}" {{ in_array($categorie->id, request('categories', [])) ? 'checked' : '' }}> {{ $categorie->nom }}
-            </label>
-        @endforeach
+        <div class="cols-4 grid-filtre">  
+            <div class="rows-2 container-filtre">
+                <div class="recherche-filtre">
+                    <h4>Offres: </h4>
+                    <input placeholder="Offre" class="searchBar-filtre"/>
+                </div>
+                <div class="liste-filtre">
+                    @foreach ($listeOffres as $offre)
+                    <div>
+                        <input type="checkbox" name="offres[]" value="{{ $offre->codeUNSPSC }}" @if(in_array($offre ->codeUNSPSC, $offreSelect)) checked @endif>
+                                {{ $offre->nom }}
+                        </input>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            
+        </div>
 
         <button type="submit">Rechercher</button>
     </form>
@@ -26,10 +32,9 @@
         @foreach ($fournisseurs as $fournisseur)
             <li>
                 {{ $fournisseur->nomFournisseur }} 
-                ({{ $fournisseur->matching_offres_count }} offre(s) correspondante(s))
-                ({{ $fournisseur->matching_categories_count }} catégorie(s) correspondante(s))
+                {{ $fournisseur->matching_offres_count }}
+                {{ $fournisseur->matching_categories_count }}
             </li>
         @endforeach
     </ul>
-@endauth
 @endsection
