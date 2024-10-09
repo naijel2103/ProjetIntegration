@@ -9,6 +9,7 @@
   <table class="table text-center">
   <thead>
     <tr>
+
     <th scope="col-1">Statut</th>
       <th scope="col-1">Fournisseur</th>
       <th scope="col-1">Ville</th>
@@ -32,10 +33,13 @@
         
         @if($fournisseur->statut == "En attente")
         <img src="Images/enAttente.png" alt="enAttente" id='imgStatut'>
+        <p>En attente</p>
         @elseif($fournisseur->statut == "Accepter")
         <img src="Images/accepter.png" alt="accepter" id='imgStatut'>
+        <p>Accepter</p>
         @else
         <img src="Images/refuse.png" alt="refuse" id='imgStatut'>
+        <p>Refuser</p>
         @endif
       </td>
       <td>{{ $fournisseur->nomFournisseur }}</td>

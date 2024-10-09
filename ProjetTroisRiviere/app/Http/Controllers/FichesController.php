@@ -30,6 +30,12 @@ class FichesController extends Controller
         return View('Fiche.demandeFiche');
     }
 
+    public function gererDemande(Fournisseurs $fournisseur)
+    {
+
+        return View('Fiche.gererDemande',compact("fournisseur"));
+    }
+
     /**
      * Store a newly created resource in storage.
      */

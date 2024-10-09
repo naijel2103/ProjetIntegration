@@ -7,7 +7,7 @@ use App\Http\Controllers\ProfilsController;
 use App\Http\Controllers\ApiController;
 
 Route::get('/',
-[AcceuilsController::class, 'index']) -> name('accueil');
+[AcceuilsController::class, 'index']) -> name('acceuils.index');
 
 Route::get('/demandeFiche',
 [FichesController::class, 'demandeFiche']) -> name('fiche.demandeFiche');
@@ -20,6 +20,9 @@ Route::get('/envoieDemandeFiche',
 
 Route::get('/fournisseurs/{fournisseur}',
 [FichesController::class, 'show']) -> name('fiche.show');
+
+Route::get('/gererDemande/{fournisseur}',
+[FichesController::class, 'gererDemande']) -> name('fiche.gererDemande');
 
 
 
