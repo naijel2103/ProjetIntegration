@@ -69,6 +69,7 @@ class FournisseurController extends Controller
             'listeOffres' => $listeOffres,
             'listeCategories' => $listeCategories,
 
+
             'offreSelect' => $offreSelect,
             'catSelect' => $catSelect
             /*'regions' => $request->input('regions', []),

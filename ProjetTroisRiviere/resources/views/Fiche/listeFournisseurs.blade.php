@@ -14,7 +14,7 @@
                 </div>
                 <div class="liste-filtre">
                     @foreach ($listeOffres as $offre)
-                    <div>
+                    <div class="uneOffre">
                         <input type="checkbox" name="offres[]" value="{{ $offre->codeUNSPSC }}" @if(in_array($offre ->codeUNSPSC, $offreSelect)) checked @endif>
                                 {{ $offre->nom }}
                         </input>
