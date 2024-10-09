@@ -2,6 +2,11 @@
 @section('titre', 'Connexion')
 @extends('layouts.app')
 @section('contenu')
+<head>
+    <link rel="stylesheet" style="text/css" href="\css\GabaritCss\GabaritCss.css">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+</head>
 <div class="page-wrap">
     <br>
     <br>
@@ -23,6 +28,7 @@
                             <input type="password" name="password" id="password" class="form-control" value="" required>
                             <a href="{{ route('motdepasse') }}" class="small fw-light">Mot de passe oublié</a>
                         </div>
+                        
                         <br>
                         <div class="form-group text-center">
                             <button type="submit" class="btn btn-primary" id="btncon">Connexion</button>

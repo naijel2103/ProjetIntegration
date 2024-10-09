@@ -3,6 +3,8 @@
 @section('contenu')
 <head>
     <link rel="stylesheet" style="text/css" href="\css\GabaritCss\GabaritCss.css">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
 </head>
 <div class="page-wrap">
     <div class="container">
@@ -23,7 +25,6 @@
                                     <span class="error" id="neq-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                             </div>
-
                             <div class="form-group row mb-3 justify-content-end">
                                 <label for="nom" class="col-sm-4 col-form-label text-end">Nom de l'entreprise (Obligatoire):</label>
                                 <div class="col-sm-6">

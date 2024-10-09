@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 #imgLogo {
   height: 150px;
   padding: 8px;
