@@ -25,6 +25,7 @@
                                     <span class="error" id="neq-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                             </div>
+                            <div class="space-y-5" data-hs-toggle-password-group="">
                             <div class="form-group row mb-3 justify-content-end">
                                 <label for="nom" class="col-sm-4 col-form-label text-end">Nom de l'entreprise (Obligatoire):</label>
                                 <div class="col-sm-6">
