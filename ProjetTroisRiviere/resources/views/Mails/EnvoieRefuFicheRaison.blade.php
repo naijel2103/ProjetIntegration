@@ -12,8 +12,9 @@
     </p>
     <p>
         En cas de changements, un email vous sera envoyé
- 
-
+    </p>
+    <p>
+        Raison du refu: <b>{{ $raison }}</b>
     </p>
   
 </body>

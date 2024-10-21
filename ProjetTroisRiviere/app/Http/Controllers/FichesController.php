@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Fournisseurs;
+use App\Mail\EnvoieRefuFiche;
+use App\Mail\EnvoieRefuFicheRaison;
+use App\Mail\EnvoieAccepteFiche;
+use App\Models\Demandesinscriptions;
+use Carbon\Carbon;
 
 class FichesController extends Controller
 {
@@ -36,19 +41,44 @@ class FichesController extends Controller
         return View('Fiche.gererDemande',compact("fournisseur"));
     }
 
-    public function reponseDemande(Fournisseurs $fournisseur)
+    public function reponseDemande(Request $request,Fournisseurs $fournisseur)
     {
+            $demandeInscription = Demandesinscriptions::where('idFournisseur', $fournisseur->idFournisseur)->first();
         try{
-            $fournisseur->etat = $request->etat;
-            $fournisseur->save();
+            $dateAujourdhui = Carbon::today();
             
-            return redirect()->route('fiche.index')->with('message', "Modification de " .$compte->nom . " réussi!");
+            $dateFormatee = $dateAujourdhui->format('Y-m-d'); // Format: 2024-10-21
+
+            if ($demandeInscription) {
+                $demandeInscription->dateChangementStatut = $dateFormatee;
+                $demandeInscription->statut = $request->statut;
+                if($request->statut == "Refuse")
+                {
+                    $raison = $request->raisonRefus;
+                    $donneeCryptee = encrypt($request->raisonRefus);
+                    $demandeInscription->raisonRefus =$donneeCryptee;
+                    $estCochee = $request->has('envoyerRaison');
+                    if($estCochee)
+                    {
+                        Mail::to($fournisseur->email )->send(new EnvoieRefuFicheRaison($raison));
+                    }else
+                    {
+                        Mail::to($fournisseur->email )->send(new EnvoieRefuFiche());
+                    }
+                }else if($request->statut == "Approuve"){
+                    Mail::to($fournisseur->email )->send(new EnvoieAccepteFiche());
+                    $demandeInscription->raisonRefus = null;
+                }
+                $demandeInscription->save(); // Enregistrer les modifications
+            }
+            
+            return redirect()->route('fiche.index')->with('message', "Modification de  réussi!");
         }catch(\Throwable $e)
         {
-        
-            return redirect()->route('fiche.index')->with('message', "Modification de " . $compte->nom . "non");
+            Log::debug($e);
+            return redirect()->route('fiche.gererDemande',compact("fournisseur"))->with('message', "Modification pas effectue");
         }
-        return redirect()->route('fiche.index');
+        return redirect()->route('fiche.gererDemande',compact("fournisseur"));
     }
 
     /**

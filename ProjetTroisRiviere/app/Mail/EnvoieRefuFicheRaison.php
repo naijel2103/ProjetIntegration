@@ -9,16 +9,17 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class EnvoieRefuFiche extends Mailable
+class EnvoieRefuFicheRaison extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $raison;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($raison)
     {
-        //
+        $this->raison = $raison;
     }
 
     /**
@@ -27,7 +28,7 @@ class EnvoieRefuFiche extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Refu de votre fiche',
+            subject: 'Refu de votre fiche ',
         );
     }
 
@@ -37,7 +38,7 @@ class EnvoieRefuFiche extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'Mails.EnvoieRefuFiche',
+            view: 'Mails.EnvoieRefuFicheRaison',
         );
     }
 

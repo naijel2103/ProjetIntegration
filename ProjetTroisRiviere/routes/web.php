@@ -26,7 +26,7 @@ Route::get('/gererDemande/{fournisseur}',
 
 
 Route::patch('/gererDemande/{fournisseur}',
-[ProfilsController::class, 'reponseDemande'])->name('fiche.reponseDemande');
+[FichesController::class, 'reponseDemande'])->name('fiche.reponseDemande');
 
 
 

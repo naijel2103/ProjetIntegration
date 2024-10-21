@@ -19,30 +19,32 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="{{ route('fiche.show', [$fournisseur]) }} ">
+                        <form method="POST" action="{{ route('fiche.reponseDemande',[$fournisseur]) }} ">
                         @method('PATCH')
                             @csrf
                             <div class="row">
                 <div class="col-10 offset-1">
-                    <label for="etat">Choisissez le statut</label>
-                    <select name="etat" id="etat" onclick="othertype()" value="Select" required>
+                    <label for="statut">Choisissez le statut</label>
+                    <select name="statut" id="statut" onclick="othertype()" value="Select" required>
                         <option disabled selected hidden></option>
-                        <option value="en attente">En attente</option>
-                        <option value="accepter">Accepter</option>
-                        <option value="refuse">Refusé</option>
+                        <option value="En attente">En attente</option>
+                        <option value="Approuve">Approuvé</option>
+                        <option value="Refuse">Refusé</option>
                     </select>
-                    <div id="feedbackOther">
+                    <div id="refuse">
                     <label for="raisonRefus">Entrez la raison du refus</label>
                     <textarea id="raisonRefus" name="raisonRefus" rows="4" cols="50"></textarea>
+                    <label for="envoyerRaison">Envoyer la raison</label>
+                    <input type="checkbox" name="envoyerRaison" value="1">
                     </div>
                     <script>
                         function othertype() {
-                            var x = document.getElementById('statuttype').value;
-                            if(x=='refuse') {
-                                document.getElementById('feedbackOther').style.display = "block";
+                            var x = document.getElementById('statut').value;
+                            if(x=='Refuse') {
+                                document.getElementById('refuse').style.display = "block";
                                 document.getElementById('raisonRefus').required = true;
                             } else {
-                                document.getElementById('feedbackOther').style.display = "none";
+                                document.getElementById('refuse').style.display = "none";
                                 document.getElementById('raisonRefus').required = false;
                                 document.getElementById('raisonRefus').value = "";
                             }
@@ -54,7 +56,7 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <div class="d-flex justify-content-between">
-                                        <a href="{{ route('fiche.show', [$fournisseur]) }}" id="btnretour" class="btn btn-success">Retour</a>
+                                        <a href="{{ route('fiche.show', [$fournisseur]) }}" id="btnretour" class="btn btn-danger">Retour</a>
                                         <button type="submit" id="btnaccept" class="btn btn-primary">
                                             Confirmer la demande
                                         </button>
