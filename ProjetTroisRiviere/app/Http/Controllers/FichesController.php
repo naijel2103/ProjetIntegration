@@ -36,6 +36,21 @@ class FichesController extends Controller
         return View('Fiche.gererDemande',compact("fournisseur"));
     }
 
+    public function reponseDemande(Fournisseurs $fournisseur)
+    {
+        try{
+            $fournisseur->etat = $request->etat;
+            $fournisseur->save();
+            
+            return redirect()->route('fiche.index')->with('message', "Modification de " .$compte->nom . " réussi!");
+        }catch(\Throwable $e)
+        {
+        
+            return redirect()->route('fiche.index')->with('message', "Modification de " . $compte->nom . "non");
+        }
+        return redirect()->route('fiche.index');
+    }
+
     /**
      * Store a newly created resource in storage.
      */

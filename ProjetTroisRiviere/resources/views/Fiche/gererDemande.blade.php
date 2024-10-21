@@ -19,13 +19,13 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="{{ route('fiche.demande') }} ">
+                        <form method="POST" action="{{ route('fiche.show', [$fournisseur]) }} ">
                         @method('PATCH')
                             @csrf
                             <div class="row">
                 <div class="col-10 offset-1">
-                    <label for="statuttype">Choisissez le statut</label>
-                    <select name="type" id="statuttype" onclick="othertype()" value="Select" required>
+                    <label for="etat">Choisissez le statut</label>
+                    <select name="etat" id="etat" onclick="othertype()" value="Select" required>
                         <option disabled selected hidden></option>
                         <option value="en attente">En attente</option>
                         <option value="accepter">Accepter</option>
@@ -54,7 +54,7 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <div class="d-flex justify-content-between">
-                                        <a href="{{ route('fiche.show', [$fournisseur]) }}" id="btnretour" class="btn btn-danger">Retour</a>
+                                        <a href="{{ route('fiche.show', [$fournisseur]) }}" id="btnretour" class="btn btn-success">Retour</a>
                                         <button type="submit" id="btnaccept" class="btn btn-primary">
                                             Confirmer la demande
                                         </button>
