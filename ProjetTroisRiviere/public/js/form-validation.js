@@ -121,13 +121,41 @@ document.getElementById('btnNext').addEventListener('click', function () {
     }
 });
 
-// Event listener for "Suivant" button in step 2
+// Function to format telephone number and automatically add hyphens
+function formatTelephoneNumber(input) {
+    let digits = input.value.replace(/\D/g, ''); // Remove non-digit characters
+
+    // Format to "000-000-0000"
+    if (digits.length > 10) {
+        digits = digits.slice(0, 10); // Limit to 10 digits
+    }
+
+    let formattedNumber = '';
+    if (digits.length > 0) {
+        formattedNumber += digits.slice(0, 3); // First 3 digits
+    }
+    if (digits.length > 3) {
+        formattedNumber += '-' + digits.slice(3, 6); // Next 3 digits
+    }
+    if (digits.length > 6) {
+        formattedNumber += '-' + digits.slice(6); // Remaining digits
+    }
+
+    input.value = formattedNumber; // Update the input value
+}
+
+// Event listener for telephone number input
+const numTelInput = document.getElementById('num_tel');
+numTelInput.addEventListener('input', function () {
+    formatTelephoneNumber(numTelInput);
+});
+
+// Validation for step 2
 document.getElementById('btnNextStep').addEventListener('click', function () {
-    // Reset error messages
+    // Reset error messages and borders
     const errorMessages = document.querySelectorAll('.error');
     errorMessages.forEach(error => error.style.display = 'none');
 
-    // Reset input borders
     const inputs = document.querySelectorAll('.form-control');
     inputs.forEach(input => {
         input.style.borderColor = ''; // Reset border color
@@ -137,7 +165,7 @@ document.getElementById('btnNextStep').addEventListener('click', function () {
         }
     });
 
-    // Validate inputs in step2
+    // Validate inputs in step 2
     const siteInternet = document.getElementById('siteInternet').value;
     const numeroCivique = document.getElementById('numero_civique').value;
     const rue = document.getElementById('rue').value;
@@ -153,36 +181,33 @@ document.getElementById('btnNextStep').addEventListener('click', function () {
 
     function addCheckmarkStep2(input, isValid) {
         const existingCheckmark = input.parentNode.querySelector('.check-icon');
-
-        // Check if the checkmark already exists
         if (!existingCheckmark) {
             const img = document.createElement('img');
             img.src = isValid ? 'Images/checkVert.png' : 'Images/XIcon.png';
             img.alt = '';
-            img.classList.add('icon', 'check-icon'); // Add the check-icon class
-            img.style.marginLeft = '10px'; // Adjust margin if necessary
+            img.classList.add('icon', 'check-icon');
+            img.style.marginLeft = '10px';
             input.parentNode.appendChild(img);
         } else {
-            // If it exists, update the source
             existingCheckmark.src = isValid ? 'Images/checkVert.png' : 'Images/XIcon.png';
         }
     }
 
     // Validation for adresse
     if (!siteInternet) {
-        document.getElementById('siteInternet-error').textContent = 'siteInternet est requise.';
+        document.getElementById('siteInternet-error').textContent = 'Site internet est requis.';
         document.getElementById('siteInternet-error').style.display = 'block';
         document.getElementById('siteInternet').style.borderColor = 'red'; // Red border
         isValidStep2 = false;
         addCheckmarkStep2(document.getElementById('siteInternet'), false);
     } else {
         document.getElementById('siteInternet').style.borderColor = 'green'; // Green border
-        addCheckmarkStep2(document.getElementById('adresse'), true);
+        addCheckmarkStep2(document.getElementById('siteInternet'), true);
     }
 
-    // Validation for numéro civique
-    if (!numeroCivique) {
-        document.getElementById('numero_civique-error').textContent = 'Numéro civique est requis.';
+    // Validation for numéro civique (only numbers)
+    if (!numeroCivique || !/^\d+$/.test(numeroCivique) ) {
+        document.getElementById('numero_civique-error').textContent = 'Numéro civique est requis et doit contenir uniquement des chiffres.';
         document.getElementById('numero_civique-error').style.display = 'block';
         document.getElementById('numero_civique').style.borderColor = 'red'; // Red border
         isValidStep2 = false;
@@ -192,9 +217,9 @@ document.getElementById('btnNextStep').addEventListener('click', function () {
         addCheckmarkStep2(document.getElementById('numero_civique'), true);
     }
 
-    // Validation for rue
-    if (!rue) {
-        document.getElementById('rue-error').textContent = 'Rue est requise.';
+    // Validation for rue (only letters)
+    if (!rue || !/^[A-Za-zÀ-ÿ\s]+$/.test(rue)) {
+        document.getElementById('rue-error').textContent = 'Rue est requise et doit contenir uniquement des lettres.';
         document.getElementById('rue-error').style.display = 'block';
         document.getElementById('rue').style.borderColor = 'red'; // Red border
         isValidStep2 = false;
@@ -240,9 +265,10 @@ document.getElementById('btnNextStep').addEventListener('click', function () {
         addCheckmarkStep2(document.getElementById('province'), true);
     }
 
-    // Validation for code postal
-    if (!codePostal) {
-        document.getElementById('code_postal-error').textContent = 'Code postal est requis.';
+    // Validation for code postal (format "G8T 2R7")
+    const codePostalPattern = /^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$/;
+    if (!codePostal || !codePostalPattern.test(codePostal)) {
+        document.getElementById('code_postal-error').textContent = 'Code postal est requis et doit être au format "G8T 2R7".';
         document.getElementById('code_postal-error').style.display = 'block';
         document.getElementById('code_postal').style.borderColor = 'red'; // Red border
         isValidStep2 = false;
@@ -264,16 +290,17 @@ document.getElementById('btnNextStep').addEventListener('click', function () {
         addCheckmarkStep2(document.getElementById('num_tel_type'), true);
     }
 
-    // Validation for numTel
-    if (!numTel) {
-        document.getElementById('num_tel-error').textContent = 'Numéro de téléphone est requis.';
+    // Validation for numTel (format "000-000-0000")
+    const numTelPattern = /^\d{3}-\d{3}-\d{4}$/;
+    if (!numTel || !numTelPattern.test(numTel)) {
+        document.getElementById('num_tel-error').textContent = 'Format du numéro de téléphone invalide. Ex: 000-000-0000';
         document.getElementById('num_tel-error').style.display = 'block';
         document.getElementById('num_tel').style.borderColor = 'red'; // Red border
         isValidStep2 = false;
-        addCheckmarkStep2(document.getElementById('num_tel'), false);
+        addCheckmarkStep2(numTelInput, false);
     } else {
-        document.getElementById('num_tel').style.borderColor = 'green'; // Green border
-        addCheckmarkStep2(document.getElementById('num_tel'), true);
+        numTelInput.style.borderColor = 'green'; // Green border
+        addCheckmarkStep2(numTelInput, true);
     }
 
     // Validation for poste
@@ -288,17 +315,18 @@ document.getElementById('btnNextStep').addEventListener('click', function () {
         addCheckmarkStep2(document.getElementById('poste'), true);
     }
 
+    // Proceed to next step if valid
+    if (isValidStep2) {
+        console.log('Step 2 is valid. Proceeding to the next step...');
+        // Add your code to proceed to the next step
+    }
+});
 
 
-        // If all validations pass, go to the next step or submit
-        if (isValidStep2) {
-            document.getElementById('step2').style.display = 'none';
-            document.getElementById('step3').style.display = 'block'; // Ensure step3 exists and is correctly defined
-        }
-    });
-
-
-
+    if (isValidStep2) {
+        document.getElementById('step2').style.display = 'none';
+        document.getElementById('step3').style.display = 'block'; // Ensure step3 exists and is correctly defined
+    }
 
 // Go back to step1 from step2
 document.getElementById('btnRetour').addEventListener('click', function () {

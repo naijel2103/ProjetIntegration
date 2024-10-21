@@ -40,4 +40,3 @@ Route::get('/motdepasse',
 
 Route::post('/reset',
 [ProfilsController::class, 'reset']) -> name('profil.reset');
-
