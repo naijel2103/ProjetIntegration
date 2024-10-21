@@ -19,13 +19,13 @@ class SpecificationLiscences extends Model
         'numCategorie'
     ];
 
-    public function fournisseur()
+    public function liscence()
     {
-        return $this->belongsTo(Liscences::class, 'liscence');
+        return $this->belongsTo(Liscences::class, 'numLiscence');
     }
 
-    public function offre()
+    public function categorieLiscences()
     {
-        return $this->belongsTo(CategorieLiscences::class, 'categorie_liscence');
+        return $this->belongsTo(CategorieLiscences::class, 'numCategorie');
     }
 }

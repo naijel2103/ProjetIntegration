@@ -41,6 +41,6 @@ class Fournisseurs extends Model
 
     public function licence()
     {
-        return $this->hasOne(Liscences::class);
+        return $this->belongsTo(Liscences::class, 'numLiscence', 'numLiscence');
     }
 }

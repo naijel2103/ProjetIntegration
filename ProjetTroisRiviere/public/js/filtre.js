@@ -1,13 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
     const barRecherches = Array.from(document.getElementsByClassName('searchBar-filtre'));
-    const listeFiltre = document.querySelector('.liste-filtre');
-    const listeOffres = listeFiltre.querySelectorAll('.uneOffre');
+    const listeFiltres = document.querySelectorAll('.liste-filtre');
+    const listeOffres = listeFiltres[0].querySelectorAll('.uneOffre');
+    const listeCats = listeFiltres[1].querySelectorAll('.uneCategorie');
+    var textEntre;
 
     function majListe(event, index){
         switch(index){
             case 0:
-                const textEntre = event.target.value.toLowerCase();
-        
+                textEntre = event.target.value.toLowerCase();
+                
                 listeOffres.forEach(offre => {
                 const nomOffre = offre.textContent.trim().toLowerCase(); 
                 const codeOffre = String(offre.querySelector('input[type="checkbox"]').value);
@@ -18,13 +20,29 @@ document.addEventListener('DOMContentLoaded', function() {
                     offre.style.display = 'none'; 
                 }
             });
+            break;
+
+            case 1:
+                textEntre = event.target.value.toLowerCase();
+
+                listeCats.forEach(categorie => {
+                const nomCat = categorie.textContent.trim().toLowerCase(); 
+                const numCat = String(categorie.querySelector('input[type="checkbox"]').value);
+                
+                if (nomCat.includes(textEntre) || numCat.includes(textEntre) ) {
+                    categorie.style.display = 'block';
+                    
+                } else {
+                    categorie.style.display = 'none'; 
+                }
+            });
+            break;
         }
         
     }
     barRecherches.forEach(input => {
         input.addEventListener('input', (event) => {
-            const index = Array.prototype.indexOf.call(barRecherches, event.target);
-            console.log(index);
+            var index = Array.prototype.indexOf.call(barRecherches, event.target);
             majListe(event, index); 
         });
     });

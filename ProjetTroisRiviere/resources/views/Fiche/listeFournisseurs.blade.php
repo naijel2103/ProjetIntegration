@@ -22,7 +22,22 @@
                     @endforeach
                 </div>
             </div>
-            
+
+            <div class="rows-2 container-filtre">
+                <div class="recherche-filtre">
+                    <h4>Catégories de liscence: </h4>
+                    <input placeholder="Catégorie" class="searchBar-filtre"/>
+                </div>
+                <div class="liste-filtre">
+                    @foreach ($listeCategories as $categorie)
+                    <div class="uneCategorie">
+                        <input type="checkbox" name="categories[]" value="{{ $categorie->numCategorie }}" @if(in_array($categorie ->numCategorie, $catSelect)) checked @endif>
+                            {{ $categorie->numCategorie }} {{ $categorie->nom }}
+                        </input>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
         </div>
 
         <button type="submit">Rechercher</button>

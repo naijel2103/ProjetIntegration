@@ -17,8 +17,12 @@ class CategorieLiscences extends Model
         'classe',
     ];
 
+    protected $casts = [
+        'numCategorie' => 'string'
+    ];
+
     public function liscences()
     {
-        return $this->belongsToMany(Liscences::class, 'specification_liscences','categorie_liscence','numLiscence');
+        return $this->belongsToMany(Liscences::class, 'specification_liscences','numCategorie','numLiscence');
     }
 }

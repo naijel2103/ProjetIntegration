@@ -21,11 +21,11 @@ class Liscences extends Model
 
     public function fournisseur()
     {
-        return $this->belongsTo(Fournisseurs::class, 'fournisseur');
+        return $this->hasOne(Fournisseurs::class, 'numLiscence', 'numLiscence');
     }
 
     public function categorieLiscences()
     {
-        return $this->belongsToMany(CategorieLiscences::class, 'specification_liscences','numLiscence','categorie_liscence');
+        return $this->belongsToMany(CategorieLiscences::class, 'specification_liscences','numLiscence','numCategorie');
     }
 }
