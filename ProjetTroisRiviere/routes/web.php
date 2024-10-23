@@ -49,11 +49,5 @@ Route::post('/reset',
 Route::get('/api/data/{neq}', 
 [ApiController::class, 'getData']);
 
-Route::get('/api/regions', 
-[ApiController::class, 'getRegion']);
-
-Route::get('/api/villes', 
-[ApiController::class, 'getVille']);
-
 Route::get('/listeFournisseur', 
 [FournisseurController::class, 'getListe'])->name('getListeFournisseur');

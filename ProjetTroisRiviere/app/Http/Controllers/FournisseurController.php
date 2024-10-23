@@ -8,16 +8,24 @@ use App\Models\Offres;
 use App\Models\CategorieLiscences;
 use App\Models\Liscences;
 
+use App\Http\Controllers\ApiController;
+
 
 class FournisseurController extends Controller
 {
     public function getListe(Request $requete)
     {
+        $apiController = new ApiController();
+
         $listeOffres = Offres::all();
         $listeCategories = CategorieLiscences::all();
+        $listeRegions = collect($apiController->getRegion());
+        $listeVilles = collect($apiController->getVille());
 
         $offreSelect = $requete->input('offres', []);
         $catSelect =  $requete->input('categories', []);
+        $regionSelect = $requete->input('regions',[]);
+        $villeSelect = $requete->input('villes',[]);
 
         $requeteBD = Fournisseurs::query();
 
@@ -37,6 +45,7 @@ class FournisseurController extends Controller
                     });
                 }
             });
+            
         
             if ($requete->has('offres')) {
                 $requeteBD->withCount([
@@ -57,17 +66,18 @@ class FournisseurController extends Controller
             }
         }
     
-        /*if ($requete->has('regions')) {
-            $regions = $requete->input('regions');
-            // Filtrer par région
-            $query->whereIn('region', $regions);
+        if ($requete->has('regions')) {
+            $requeteBD->where(function($sousRequete) use ($requete, $regionSelect) {
+                $sousRequete->whereIn('codeRegion', $regionSelect);
+            });
         }
-    
+
         if ($requete->has('villes')) {
-            $villes = $requete->input('villes');
-            // Filtrer par ville
-            $query->whereIn('ville', $villes);
-        }*/
+            $requeteBD->where(function($sousRequete) use ($requete, $villeSelect) {
+                $sousRequete->whereIn('municipalite', $villeSelect);
+            });
+        }
+        
 
         $fournisseurs = $requeteBD->get();
 
@@ -75,8 +85,23 @@ class FournisseurController extends Controller
             return in_array($offre->codeUNSPSC, $offreSelect) ? 1 : 0;
         });
 
-        $listeCategories = $listeCategories->sortByDesc(function ($cat) use ($catSelect) {
-            return in_array($cat->numCategorie, $catSelect) ? 1 : 0;
+        $listeCategories = $listeCategories->sortBy(function ($cat) use ($catSelect) {
+            return [
+                in_array($cat->numCategorie, $catSelect) ? 0 : 1,
+                (int)$cat->numCategorie
+            ];
+        });
+
+        $listeRegions = $listeRegions->sortBy(function ($nomRegion, $codeRegion) use ($regionSelect) {
+            return [
+                in_array($codeRegion, $regionSelect) ? 0 : 1,
+                (int)$codeRegion
+            ];
+        });
+
+        $listeVilles = $listeVilles->sortByDesc(function ($ville) use ($villeSelect) {
+            $nomVille = is_array($ville) ? $ville['nomVille'] : $ville->nomVille;
+            return in_array($nomVille, $villeSelect) ? 1 : 0;
         });
 
         return view('Fiche.listeFournisseurs', [
@@ -84,12 +109,15 @@ class FournisseurController extends Controller
 
             'listeOffres' => $listeOffres,
             'listeCategories' => $listeCategories,
+            'listeVilles' => $listeVilles,
+            'listeRegions' => $listeRegions,
 
 
             'offreSelect' => $offreSelect,
-            'catSelect' => $catSelect
-            /*'regions' => $request->input('regions', []),
-            'villes' => $request->input('villes', []),*/
+            'catSelect' => $catSelect,
+            'regionSelect' => $regionSelect,
+            'villeSelect' => $villeSelect
+            
         ]);
     }
 }

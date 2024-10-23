@@ -38,6 +38,38 @@
                     @endforeach
                 </div>
             </div>
+
+            <div class="rows-2 container-filtre">
+                <div class="recherche-filtre">
+                    <h4>Régions: </h4>
+                    <input placeholder="Région" class="searchBar-filtre"/>
+                </div>
+                <div class="liste-filtre">
+                    @foreach ($listeRegions as $codeRegion => $nomRegion)
+                    <div class="uneRegion">
+                        <input type="checkbox" name="regions[]" value="{{ $codeRegion }}" @if(in_array($codeRegion, $regionSelect)) checked @endif>
+                            {{ $codeRegion }} {{ $nomRegion }}
+                        </input>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="rows-2 container-filtre">
+                <div class="recherche-filtre">
+                    <h4>Municipalite: </h4>
+                    <input placeholder="Municipalite" class="searchBar-filtre"/>
+                </div>
+                <div class="liste-filtre">
+                    @foreach ($listeVilles as $ville)
+                    <div class="uneVille">
+                        <input type="checkbox" name="villes[]" value="{{ $ville['nomVille']}}" @if(in_array($ville["nomVille"], $villeSelect)) checked @endif>
+                            {{ $ville['nomVille'] }}
+                        </input>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
         </div>
 
         <button type="submit">Rechercher</button>
