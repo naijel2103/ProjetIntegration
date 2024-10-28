@@ -9,7 +9,7 @@ class ApiController extends Controller
 {
     public function getData(int $neq)
     {
-        $sql = 'SELECT * FROM "32f6ec46-85fd-45e9-945b-965d9235840a" WHERE "NEQ" = \'' . $neq . '\'';
+        $sql = 'SELECT * FROM "19385b4e-5503-4330-9e59-f998f5918363" /*"32f6ec46-85fd-45e9-945b-965d9235840a"­ WHERE "NEQ" = \'' . $neq . '\'*/';
         
         try{
             $response = Http::withoutVerifying()->get(env('API_BASE_URL'), [
