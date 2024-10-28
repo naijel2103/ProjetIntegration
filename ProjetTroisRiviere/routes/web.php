@@ -18,6 +18,9 @@ Route::get('/fiche',
 Route::get('/envoieDemandeFiche',
 [FichesController::class, 'envoieDemandeFiche']) -> name('fiche.envoieDemandeFiche');
 
+Route::get('/envoieFicheFinance/{fournisseur}',
+[FichesController::class, 'envoieFicheFinance']) -> name('fiche.envoieFicheFinance');
+
 Route::get('/fournisseurs/{fournisseur}',
 [FichesController::class, 'show']) -> name('fiche.show');
 

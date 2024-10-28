@@ -9,10 +9,12 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Fournisseurs;
+use App\Mail\EnvoieFicheFinance;
 use App\Mail\EnvoieRefuFiche;
 use App\Mail\EnvoieRefuFicheRaison;
 use App\Mail\EnvoieAccepteFiche;
 use App\Models\Demandesinscriptions;
+
 use Carbon\Carbon;
 
 class FichesController extends Controller
@@ -84,24 +86,14 @@ class FichesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function envoieDemandeFiche(Request $request)
+    public function envoieFicheFinance(Fournisseurs $fournisseur)
     {
-
-
-     /*   $compte = Compte::Find(Auth::id());
-        try {
-            Mail::to($compte->email)->send(new confirmationEnvoieFIche($compte));
-        }
-        catch (\Throwable $e) {
-            //Gérer l'erreur
-             Log::debug($e);
-             return View('Acceuils.index');
-            }
-       */
-
+        Mail::to('loick.michaud2103@gmail.com')->send(new EnvoieFicheFinance($fournisseur));
+       
+        return redirect()->route('acceuils.index');
 
        
-            return View('Acceuils.index');
+        
     }
 
     /**
@@ -109,9 +101,11 @@ class FichesController extends Controller
      */
     public function show(Fournisseurs $fournisseur)
     {
-      
-        return View('fiche.show',compact("fournisseur"));
+        $demandeInscription = Demandesinscriptions::where('idFournisseur', $fournisseur->idFournisseur)->first();
+        return View('fiche.show',compact("fournisseur", "demandeInscription"));
     }
+
+
 
     /**
      * Show the form for editing the specified resource.

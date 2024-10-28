@@ -4,7 +4,7 @@
 @section('contenu')
 <section class="main-container">
 <h1>Liste des fournisseurs</h1>
-
+<a href="" class="btn btn-primary text-center ">Liste des fournisseurs sélectionnés</a>
 
   <table class="table text-center">
   <thead>
@@ -63,6 +63,6 @@
     @endif
  
 </table>
-<a href="" class="btn btn-primary text-center ">Liste des fournisseurs sélectionnés</a>
+
     </form>
 @endsection

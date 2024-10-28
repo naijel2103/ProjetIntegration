@@ -28,8 +28,8 @@
                     <select name="statut" id="statut" onclick="othertype()" value="Select" required>
                         <option disabled selected hidden></option>
                         <option value="En attente">En attente</option>
-                        <option value="Approuve">Approuvé</option>
-                        <option value="Refuse">Refusé</option>
+                        <option value="Approuvé">Approuvé</option>
+                        <option value="Refusé">Refusé</option>
                     </select>
                     <div id="refuse">
                     <label for="raisonRefus">Entrez la raison du refus</label>
