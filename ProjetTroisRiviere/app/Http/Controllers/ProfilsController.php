@@ -122,7 +122,7 @@ class ProfilsController extends Controller
         $compte->save();
         Mail::to($compte-> email)->send(new AccountCreated($compte));
        
-            return redirect()->route('profil.gererComptes');
+            return redirect()->route('acceuils.index');
     }
 
     public function motdepasseView(){
@@ -148,13 +148,17 @@ class ProfilsController extends Controller
         
 
         $compte = Comptes::where('email', $request->email)->first();
-        if ($compte) {
+        if ($compte && $compte->verifier == 1) {
             $compte->code = Str::random(60);
             $compte->save();
             Mail::to($compte->email )->send(new resetDeMotDePasse($compte));
             return redirect()->route('profil.connexionNEQ');
-        } else {
-            return redirect()->route('motdepasse')->withErrors(['error' => 'Adresse courriel invalide']);
+        } else if($compte->verifier == 0) {
+            return redirect()->route('Profil.motdepasse')->withErrors(['error' => 'Veulliez verifier votre comptre']);
+           
+        }else
+        {
+            return redirect()->route('Profil.motdepasse')->withErrors(['error' => 'Adresse courriel invalide']);
         }
     }
 

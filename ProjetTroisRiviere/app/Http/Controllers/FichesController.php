@@ -109,6 +109,7 @@ class FichesController extends Controller
      */
     public function show(Fournisseurs $fournisseur)
     {
+      
         return View('fiche.show',compact("fournisseur"));
     }
 
