@@ -87,19 +87,13 @@ html, body {
   line-height: 1.2em;
 }
 
-
-.error {
-  display: block; 
-  color: red;
-  font-size: 0.8rem; 
-  margin-top: 5px; 
-}
-
 .input-container {
   position: relative; /* To position the icons inside the input */
   display: flex; /* Use flexbox for layout */
   align-items: center; /* Center icons vertically */
 }
+
+
 
 .form-control {
   width: calc(100% - 50px); /* Set fixed width minus space for icons */
@@ -132,39 +126,12 @@ html, body {
   height: 35px !important;
 }
 
-/*PAGE FILTRE*/
-.grid-filtre{
-  height: 25vh;
-  margin: 0 1vw;
-  display: flex;
-  flex-direction: row;
-}
 
-.container-filtre{
-  background-color:#eeeef0;
-  width: 24vw;
-  margin: 0 0.25vw;
-  border-radius: 5px;
-  padding: 3px;
-  border:groove, 2px, #afafaf;
-}
-
-.recherche-filtre{
-  height: 30%;
-}
-
-.liste-filtre{
-  height: 70%;
-  display: flex;
-  flex-direction: column;
-  overflow-y: scroll;
-  overflow-x: initial;
-  background-color: white;
-  border-radius: 5px;
-}
-
-.searchBar-filtre{
-  width: 100%;
+.error {
+  display: block; 
+  color: red;
+  font-size: 0.8rem; 
+  margin-top: 5px; 
 }
 
 
