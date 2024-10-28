@@ -1,3 +1,49 @@
+document.addEventListener('DOMContentLoaded', function () {
+    // Step navigation buttons
+    const btnNext = document.getElementById('btnNext');
+    const btnNextStep = document.getElementById('btnNextStep');
+    const btnSkipStep3 = document.getElementById('btnSkipStep3');
+    const btnRetour = document.getElementById('btnRetour');
+    const btnRetourStep2 = document.getElementById('btnRetourStep2');
+
+    // Step containers
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+    const step3 = document.getElementById('step3');
+
+    // Button to go to Step 2
+    btnNext.addEventListener('click', function () {
+        step1.style.display = 'none';
+        step2.style.display = 'block';
+    });
+
+    // Button to go to Step 3
+    btnNextStep.addEventListener('click', function () {
+        step2.style.display = 'none';
+        step3.style.display = 'block';
+    });
+
+    // Button to skip to Step 3
+    btnSkipStep3.addEventListener('click', function () {
+        step1.style.display = 'none'; // Hide step 1
+        step2.style.display = 'none'; // Hide step 2
+        step3.style.display = 'block'; // Show step 3
+    });
+
+    // Back button for Step 2
+    btnRetour.addEventListener('click', function () {
+        step1.style.display = 'block';
+        step2.style.display = 'none';
+    });
+
+    // Back button for Step 3
+    btnRetourStep2.addEventListener('click', function () {
+        step2.style.display = 'block';
+        step3.style.display = 'none';
+    });
+});
+
+
 function togglePasswordVisibility(inputId) {
     const inputField = document.getElementById(inputId);
     const inputType = inputField.getAttribute('type') === 'password' ? 'text' : 'password';

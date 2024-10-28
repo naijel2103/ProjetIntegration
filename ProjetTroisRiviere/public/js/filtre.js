@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const barRecherches = Array.from(document.getElementsByClassName('searchBar-filtre'));
     const listeFiltres = document.querySelectorAll('.liste-filtre');
     const listeOffres = listeFiltres[0].querySelectorAll('.uneOffre');
-    const listeCats = listeFiltres[1].querySelectorAll('.uneCategorie');
+    /*const listeCats = listeFiltres[1].querySelectorAll('.uneCategorie');*/
     var textEntre;
 
     function majListe(event, index){
