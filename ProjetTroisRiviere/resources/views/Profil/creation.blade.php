@@ -190,11 +190,11 @@
                                     <div class="recherche-filtre mb-3">
                                         <input placeholder="Recherche d'offre" class="searchBar-filtre form-control" />
                                     </div>
-                                    
-                                    <div class="liste-filtre w-100" style="max-height: 150px; margin-top: -25px;">
+                                    <br>
+                                    <div class="liste-filtre w-100" style="max-height: 150px; overflow-y: auto; margin-top: -25px;">
                                         @foreach ($listeOffres as $offre)
                                         <div class="uneOffre form-check">
-                                            <input type="checkbox" class="form-check-input" name="offres[]" value="{{ $offre->codeUNSPSC }}" id="offre-{{ $offre->codeUNSPSC }}" @if(in_array($offre->codeUNSPSC, $offreSelect)) checked @endif>
+                                            <input type="checkbox" name="offres[]" value="{{ $offre->codeUNSPSC }}" id="offre-{{ $offre->codeUNSPSC }}" @if(in_array($offre->codeUNSPSC, $offreSelect)) checked @endif>
                                             <label for="offre-{{ $offre->codeUNSPSC }}" class="form-check-label">
                                                 {{ $offre->codeUNSPSC }}  ---  {{ $offre->nom }}
                                             </label>
@@ -203,8 +203,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <br>
                             <div class="w-100"> <!-- Added margin-bottom for spacing -->
-                                <label for="">détails</label>
+                                <label for="">Détails et spécifications</label>
                                     <textarea name="" id="" cols="133" rows="2" class="form-control w-100"></textarea>
                             </div>
                         </div> 
