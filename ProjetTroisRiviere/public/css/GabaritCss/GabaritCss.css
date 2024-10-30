@@ -133,7 +133,7 @@ html, body {
 }
 
 /*PAGE FILTRE*/
-.filtre-bloc{
+.bloc{
   border: groove, 2px, #afafaf;
   margin: 0.5vh 0.25vw;
   padding: 0.75vh 0.75vw;
@@ -153,6 +153,7 @@ html, body {
   padding: 3px;
   border:groove, 2px, #afafaf;
 }
+
 
 .recherche-filtre{
   height: 30%;
@@ -201,8 +202,90 @@ html, body {
   font-weight: bold;
 }
 
-.sendBtn:hover{
+.sendBtn:hover, .extractBtn:hover{
   background-color: #eeeef0;
 }
 
 
+.container-fournisseur{
+  display: flex;
+  flex-direction: row;
+  height: 35vh;
+}
+
+.extractBtn{
+  align-self:center;
+  margin: auto;
+  border-radius: 5px;
+  background-color: rgb(184, 253, 170);
+  border-color: #afafaf;
+  font-weight:500
+}
+
+.liste-fournisseur{
+  width: 80vw;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.les-fournisseurs{
+  height: 30vh;
+  overflow-y: scroll;
+  overflow-x: initial;
+}
+
+.un-fournisseur, .titre-fournisseur{
+  display: flex;
+  flex-direction:row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.titre-fournisseur{
+  padding-right: 16px;
+}
+
+.un-fournisseur{
+  border: solid black 0.5px;
+  border-radius: 25px;
+  margin-bottom: 1px;
+  background-color: #cbfdc3;
+}
+
+.info{
+  text-align: center;
+  border-right: #000000 solid 0.5px;
+}
+
+.info-titre{
+  border:none
+}
+
+.info-etat{
+  width: 5vw;
+}
+
+.info-nom{
+  width: 20vw;
+}
+
+.info-ville{
+  width: 18vw;
+}
+
+.info-offre{
+  width: 10vw;
+}
+
+.info-cat{
+  width: 10vw;
+}
+
+.info-fiche{
+  width: 10vw;
+}
+
+.info-select{
+  width: 7vw;
+  border: none;
+}

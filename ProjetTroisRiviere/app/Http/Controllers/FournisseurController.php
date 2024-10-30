@@ -68,7 +68,7 @@ class FournisseurController extends Controller
             }
         }
     
-        if ($requete->has('regions')) {
+        /*if ($requete->has('regions')) {
             $requeteBD->where(function($sousRequete) use ($requete, $regionSelect) {
                 $sousRequete->whereIn('codeRegion', $regionSelect);
             });
@@ -78,7 +78,7 @@ class FournisseurController extends Controller
             $requeteBD->where(function($sousRequete) use ($requete, $villeSelect) {
                 $sousRequete->whereIn('municipalite', $villeSelect);
             });
-        }
+        }*/
         
 
         $fournisseurs = $requeteBD->get();
@@ -119,7 +119,10 @@ class FournisseurController extends Controller
             'offreSelect' => $offreSelect,
             'catSelect' => $catSelect,
             'regionSelect' => $regionSelect,
-            'villeSelect' => $villeSelect
+            'villeSelect' => $villeSelect,
+
+            'nbrOffreSelect' => count($offreSelect),
+            'nbrCatSelect' => count($catSelect)
         ]);
     }
 }

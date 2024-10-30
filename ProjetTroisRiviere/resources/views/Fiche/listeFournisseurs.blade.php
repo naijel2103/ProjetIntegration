@@ -4,7 +4,7 @@
 <script src="{{ asset('js/filtre.js') }}"></script>
 
     <form method="GET" action="{{ route('getListeFournisseur') }}">
-        <div class="filtre-bloc">
+        <div class="bloc">
             <div class="cols-4 grid-filtre">  
                 <div class="rows-2 container-filtre">
                     <div class="recherche-filtre">
@@ -91,17 +91,63 @@
 
             </div>
         </div>
-        
-        <hr>
 
-        <ul>
-            @foreach ($fournisseurs as $fournisseur)
-                <li>
-                    {{ $fournisseur->nomFournisseur }} 
-                    {{ $fournisseur->nbr_offres_correspondant }}
-                    {{ $fournisseur->nbr_categories_correspondant }}
-                </li>
-            @endforeach
-        </ul>
+        <div class="bloc">
+            <div class="container-fournisseur cols-2">
+                <div class="liste-fournisseur">
+                    <div class="cols-7 titre-fournisseur">
+                        <div class="info info-etat info-titre">
+                            <h6>État</h6>
+                        </div>
+                        <div  class="info info-nom info-titre">
+                            <h6>Fournisseur</h6>
+                        </div>
+                        <div  class="info info-ville info-titre">
+                            <h6>Ville</h6>
+                        </div>
+                        <div  class="info info-offre info-titre">
+                            <h6>Offres</h6>
+                        </div>
+                        <div  class="info info-cat info-titre">
+                            <h6>Catégories de travaux</h6>
+                        </div>
+                        <div  class="info info-fiche info-titre">
+                            <h6>Fiche </br> fournisseur</h6>
+                        </div>
+                        <div  class="info info-select info-titre">
+                            <h6>Sélectionner</h6>
+                        </div>
+                    </div>
+                    <div class="les-fournisseurs">
+                        @foreach ($fournisseurs as $fournisseur)
+                        <div class="cols-7 un-fournisseur">
+                            <div  class="info info-etat">
+                                {{ $fournisseur->statut }} 
+                            </div>
+                            <div  class="info info-nom">
+                                {{ $fournisseur->nomFournisseur }} 
+                            </div>
+                            <div  class="info info-ville">
+                                {{ $fournisseur->municipalite }}
+                            </div>
+                            <div  class="info info-offre">
+                            {{ empty($fournisseur->nbr_offres_correspondant) ? '0' : $fournisseur->nbr_offres_correspondant }} / {{$nbrOffreSelect}}
+                            </div>
+                            <div class="info info-cat">
+                            {{ empty($fournisseur->nbr_categories_correspondant) ? '0' : $fournisseur->nbr_categories_correspondant }} / {{$nbrCatSelect}}
+                            </div>
+                            <div  class="info info-fiche">
+                                <a href="">Fiche</a>
+                            </div>
+                            <div  class="info info-select">
+                                <input type="checkbox"></input>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                <button class="extractBtn">Extraire la sélection</button>
+            </div>
+        </div>
     </form>
 @endsection
