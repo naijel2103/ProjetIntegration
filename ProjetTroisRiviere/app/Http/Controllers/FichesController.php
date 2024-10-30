@@ -12,6 +12,7 @@ use App\Models\Fournisseurs;
 use App\Mail\EnvoieFicheFinance;
 use App\Mail\EnvoieRefuFiche;
 use App\Mail\EnvoieRefuFicheRaison;
+use App\Models\Modeles_courriels;
 use App\Mail\EnvoieAccepteFiche;
 use App\Models\Demandesinscriptions;
 
@@ -62,6 +63,7 @@ class FichesController extends Controller
                     $estCochee = $request->has('envoyerRaison');
                     if($estCochee)
                     {
+                        
                         Mail::to($fournisseur->email )->send(new EnvoieRefuFicheRaison($raison));
                     }else
                     {

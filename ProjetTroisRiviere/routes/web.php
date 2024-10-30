@@ -51,6 +51,12 @@ Route::get('/connexionNEQ',
 Route::get('/creation',
 [ProfilsController::class, 'creation']) -> name('profil.creation');
 
+Route::get('/gererModele',
+[ProfilsController::class, 'gererModele']) -> name('profil.gererModele');
+
+Route::patch('/gererModele/edit',
+[ProfilsController::class, 'editGererModele']) -> name('profil.editGererModele');
+
 
 Route::get('/confirmer/{code}',
 [ProfilsController::class, 'confirmer']) -> name('profil.confirmer');

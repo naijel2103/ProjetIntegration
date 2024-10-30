@@ -14,12 +14,14 @@ class EnvoieRefuFicheRaison extends Mailable
     use Queueable, SerializesModels;
 
     public $raison;
+    public $message;
     /**
      * Create a new message instance.
      */
-    public function __construct($raison)
+    public function __construct($raison,$message)
     {
         $this->raison = $raison;
+        $this->message = $message;
     }
 
     /**

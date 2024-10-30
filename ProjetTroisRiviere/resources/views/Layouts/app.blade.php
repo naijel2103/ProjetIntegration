@@ -39,6 +39,14 @@
         <div class="separator"></div>   
         <a href="\gererComptes" class="header-link-top">Gérer les comptes </a>   
         @endrole
+        @role('admin')
+        <div class="separator"></div>   
+        <a href="\gererModele" class="header-link-top">Gerer les modeles de courriels </a>      
+        <div class="separator"></div>   
+        <a href="\creation" class="header-link-top">Créer des comptes </a>    
+        <div class="separator"></div>   
+        <a href="\gererComptes" class="header-link-top">Gérer les comptes </a>   
+        @endrole
   </div>
 
 

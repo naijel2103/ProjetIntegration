@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Comptes;
+use App\Models\Modeles_courriels;
 use App\Mail\resetDeMotDePasse;
 use App\Mail\AccountCreated;
 
@@ -80,7 +81,44 @@ class ProfilsController extends Controller
         }
     }
 
+    public function gererModele()
+    {
+        $modeles = Modeles_courriels::all();
+        $refus = Modeles_courriels::where('idModele',1)->first();
+        $appro = Modeles_courriels::where('idModele',2)->first();
+        $accuse = Modeles_courriels::where('idModele',3)->first();
+   
+      return view('Profil.gererModele',compact("modeles","refus","appro","accuse"));
+    }
 
+    public function editGererModele(Request $request,Modeles_courriels $modele)
+    {
+      if($request->modele == "Refus")
+      {
+        $modele = Modeles_courriels::where('idModele',1)->first();
+        $modele->message = $request->texteEmail;
+        $modele->save();
+      }
+      if($request->modele == "Approbation")
+      {
+        $modele = Modeles_courriels::where('idModele',2)->first();
+        $modele->message = $request->texteEmail;
+        $modele->save();
+      }
+      if($request->modele == "Accusé de reception")
+      {
+        $modele = Modeles_courriels::where('idModele',3)->first();
+        $modele->message = $request->texteEmail;
+        $modele->save();
+      }
+
+
+      $refus = Modeles_courriels::where('idModele',1)->first();
+      $appro = Modeles_courriels::where('idModele',2)->first();
+      $accuse = Modeles_courriels::where('idModele',3)->first();
+      return view('Profil.gererModele',compact("refus","appro","accuse"));
+
+    }
 
 
     public function loginNEQ(Request $request)
