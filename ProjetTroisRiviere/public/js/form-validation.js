@@ -1,47 +1,3 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Step navigation buttons
-    const btnNext = document.getElementById('btnNext');
-    const btnNextStep = document.getElementById('btnNextStep');
-    const btnSkipStep3 = document.getElementById('btnSkipStep3');
-    const btnRetour = document.getElementById('btnRetour');
-    const btnRetourStep2 = document.getElementById('btnRetourStep2');
-
-    // Step containers
-    const step1 = document.getElementById('step1');
-    const step2 = document.getElementById('step2');
-    const step3 = document.getElementById('step3');
-
-    // Button to go to Step 2
-    btnNext.addEventListener('click', function () {
-        step1.style.display = 'none';
-        step2.style.display = 'block';
-    });
-
-    // Button to go to Step 3
-    btnNextStep.addEventListener('click', function () {
-        step2.style.display = 'none';
-        step3.style.display = 'block';
-    });
-
-    // Button to skip to Step 3
-    btnSkipStep3.addEventListener('click', function () {
-        step1.style.display = 'none'; // Hide step 1
-        step2.style.display = 'none'; // Hide step 2
-        step3.style.display = 'block'; // Show step 3
-    });
-
-    // Back button for Step 2
-    btnRetour.addEventListener('click', function () {
-        step1.style.display = 'block';
-        step2.style.display = 'none';
-    });
-
-    // Back button for Step 3
-    btnRetourStep2.addEventListener('click', function () {
-        step2.style.display = 'block';
-        step3.style.display = 'none';
-    });
-});
 
 
 function togglePasswordVisibility(inputId) {
@@ -329,9 +285,55 @@ document.getElementById('btnNextStep').addEventListener('click', function () {
         addCheckmarkStep2(document.getElementById('num_tel'), true);
     }
 
+    document.getElementById('btnRetour').addEventListener('click', function() {
+        document.getElementById('step2').style.display = 'none';
+        document.getElementById('step1').style.display = 'block';
+    });
+
     // If all validations pass, go to step3
     if (isValidStep2) {
         document.getElementById('step2').style.display = 'none';
         document.getElementById('step3').style.display = 'block';
+    }
+
+
+    
+});
+
+document.getElementById('btnNextStep2').addEventListener('click', function() {
+    // Validation for step 3 (add your validation logic here if needed)
+    const isValid = true; // Placeholder for validation logic
+
+    if (isValid) {
+        document.getElementById('step3').style.display = 'none';
+        document.getElementById('step4').style.display = 'block';
+    } else {
+        // Handle invalid case (show error messages, etc.)
+    }
+});
+
+document.getElementById('btnRetour2').addEventListener('click', function() {
+    document.getElementById('step3').style.display = 'none';
+    document.getElementById('step2').style.display = 'block';
+});
+
+document.getElementById('btnRetour3').addEventListener('click', function() {
+    document.getElementById('step4').style.display = 'none';
+    document.getElementById('step3').style.display = 'block';
+});
+
+
+
+// Optionally add validation for Step 4 before submitting the form
+document.getElementById('account-form').addEventListener('submit', function(event) {
+    const uniqueField = document.getElementById('uniqueField');
+    const uniqueFieldError = document.getElementById('uniqueField-error');
+
+    if (uniqueField.value.trim() === '') {
+        uniqueFieldError.textContent = 'Ce champ est requis.';
+        uniqueFieldError.style.display = 'block';
+        event.preventDefault(); // Prevent form submission
+    } else {
+        uniqueFieldError.style.display = 'none'; // Hide error if valid
     }
 });

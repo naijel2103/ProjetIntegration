@@ -200,6 +200,7 @@
                                             </label>
                                         </div>
                                         @endforeach
+                                        <div id="offers-error" class="error" style="display:none;color:red;"></div>
                                     </div>
                                 </div>
                             </div>
@@ -210,11 +211,27 @@
                             </div>
                         </div> 
                         <div class="text-center mt-2 mb-3"> <!-- Added margin-top to button container -->
-                            <button type="button" id="btnRetourStep2" class="btn btn-danger btn-lg">Retour</button>
-                            <button type="submit" id="btnSubmit" class="btn btn-primary btn-lg">Soumettre</button>
+                            <button type="button" id="btnRetour2" class="btn btn-danger btn-lg">Retour</button>
+                            <button type="button" id="btnNextStep2" class="btn btn-primary btn-lg">Suivant</button>
                         </div>
                     </div>
 
+                    <div id="step4" class="form-step" style="display: none;">
+                        <div class="col-10 offset-1">
+                            <br>
+                            <div class="form-group row mb-3 justify-content-end">
+                                <label for="uniqueField" class="col-sm-4 col-form-label text-end">Champ Unique (Obligatoire):</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="uniqueField" id="uniqueField" class="form-control" required>
+                                    <span class="error" id="uniqueField-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" id="btnRetour3" class="btn btn-danger btn-lg">Retour</button>
+                            <button type="submit" id="btnSubmit" class="btn btn-primary btn-lg">Soumettre</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
