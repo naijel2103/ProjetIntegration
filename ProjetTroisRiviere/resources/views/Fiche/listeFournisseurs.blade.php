@@ -127,14 +127,15 @@
                             <div  class="info info-nom">
                                 {{ $fournisseur->nomFournisseur }} 
                             </div>
-                            <div  class="info info-ville"  data-dansVille="{{$fournisseur->dansVille}}">
-                                {{ $fournisseur->municipalite }}
+                            <div  class="info info-ville"  data-dans_ville="{{$fournisseur->dansVille}}" data-dans_region="{{$fournisseur->dansRegion}}" 
+                            data-ville_selected="{{$villeSelect ? 'true' : 'false' }}" data-region_selected="{{$regionSelect ? 'true' : 'false' }}">
+                            {{ $fournisseur->municipalite }}
                             </div>
                             <div  class="info info-offre" data-nbr_offres={{$nbrOffreSelect}} data-nbr_offres_correspondant="{{$fournisseur->nbr_offres_correspondant}}">
-                            {{ empty($fournisseur->nbr_offres_correspondant) ? '0' : $fournisseur->nbr_offres_correspondant }} / {{$nbrOffreSelect}}
+                                {{ empty($fournisseur->nbr_offres_correspondant) ? '0' : $fournisseur->nbr_offres_correspondant }} / {{$nbrOffreSelect}}
                             </div>
                             <div class="info info-cat" data-nbr_cats={{$nbrCatSelect}} data-nbr_cats_correspondant="{{$fournisseur->nbr_categories_correspondant}}">
-                            {{ empty($fournisseur->nbr_categories_correspondant) ? '0' : $fournisseur->nbr_categories_correspondant }} / {{$nbrCatSelect}}
+                                {{ empty($fournisseur->nbr_categories_correspondant) ? '0' : $fournisseur->nbr_categories_correspondant }} / {{$nbrCatSelect}}
                             </div>
                             <div  class="info info-fiche">
                                 <a href="">Fiche</a>

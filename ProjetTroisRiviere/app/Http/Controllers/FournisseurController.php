@@ -44,9 +44,6 @@ class FournisseurController extends Controller
         $listeRegions = Fournisseurs::select('region','codeRegion')->distinct()->get();
         $listeVilles = Fournisseurs::select('codeRegion','municipalite')->distinct()->get();
 
-        $dansVille = false;
-        $dansRegion = false;
-
         if ($requete->has('offres') || $requete->has('categories')) {
             $requeteBD->where(function($sousRequete) use ($requete, $offreSelect, $catSelect) {
                 if ($requete->has('offres')) {
@@ -83,27 +80,15 @@ class FournisseurController extends Controller
                 ]);
             }
         }
-    
-        if ($requete->has('regions')) {
-            $requeteBD->where(function($sousRequete) use ($requete, $regionSelect, $dansRegion) {
-                $sousRequete->whereIn('codeRegion', $regionSelect);
-                if ($sousRequete->exists()) {
-                    $dansRegion = true;
-                }
-            });
-        }
-
-        if ($requete->has('villes')) {
-            $requeteBD->where(function($sousRequete) use ($requete, $villeSelect, $dansVille) {
-                $sousRequete->whereIn('municipalite', $villeSelect);
-                if ($sousRequete->exists()) {
-                    $dansVille = true;
-                }
-            });
-        }
         
 
         $fournisseurs = $requeteBD->get();
+
+        $fournisseurs->transform(function($fournisseur) use ($regionSelect, $villeSelect) {
+            $fournisseur->dansRegion = in_array($fournisseur->codeRegion, $regionSelect) ? 1 : 0;
+            $fournisseur->dansVille = in_array($fournisseur->municipalite, $villeSelect) ? 1 : 0;
+            return $fournisseur;
+        });
 
         $listeOffres = $listeOffres->sortByDesc(function ($offre) use ($offreSelect) {
             return in_array($offre->codeUNSPSC, $offreSelect) ? 1 : 0;
@@ -142,11 +127,9 @@ class FournisseurController extends Controller
             'catSelect' => $catSelect,
             'regionSelect' => $regionSelect,
             'villeSelect' => $villeSelect,
-
+            
             'nbrOffreSelect' => count($offreSelect),
-            'nbrCatSelect' => count($catSelect),
-            'dansRegion' => $dansRegion,
-            'dansVille' => $dansVille
+            'nbrCatSelect' => count($catSelect)
         ]);
     }
 }

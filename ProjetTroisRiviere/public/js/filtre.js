@@ -9,8 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
     var textEntre;
     var listeRegionSelect  = [];
 
-    const listeDesFours = document.querySelectorAll('.les-fournisseurs');
+    const listeDesFours = document.getElementsByClassName('les-fournisseurs')[0];
     const listeFours = listeDesFours.querySelectorAll('.un-fournisseur');
+    const listeFoursAvecTaux = [];
 
 
     listeRegion.forEach(region => {
@@ -133,12 +134,89 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     listeFours.forEach(fournisseur => {
-        const codeRegion = String(region.querySelector('input[type="checkbox"]').value);
-        const checkboxRegion = region.querySelector('input[type="checkbox"]'); 
+        const regionSelected = fournisseur.getElementsByClassName('info-ville')[0].dataset.region_selected ;
+        const villeSelected = fournisseur.getElementsByClassName('info-ville')[0].dataset.ville_selected;
+        const nbrOffre = fournisseur.getElementsByClassName('info-offre')[0].dataset.nbr_offres ;
+        const nbrCat = fournisseur.getElementsByClassName('info-cat')[0].dataset.nbr_cats ;
+        const dansVille =  parseInt(fournisseur.getElementsByClassName('info-ville')[0].dataset.dans_ville) ;
+        const dansRegion =  parseInt(fournisseur.getElementsByClassName('info-ville')[0].dataset.dans_region) ;
+        const nbrOffreCoresp = fournisseur.getElementsByClassName('info-offre')[0].dataset.nbr_offres_correspondant ;
+        const nbrCatCoresp = fournisseur.getElementsByClassName('info-cat')[0].dataset.nbr_cats_correspondant;
+
+        let tauxCoresp = 0;
         
-        if (checkboxRegion.checked) {
-            majListeVille(codeRegion);
+        if(regionSelected == "true" && villeSelected == "true"){
+            if(dansRegion == 1){
+                if(dansVille == 1){
+                    tauxCoresp +=30;
+                    fournisseur.getElementsByClassName('info-ville')[0].style.color = "#1bd115";
+                } else {
+                    tauxCoresp +=15;
+                    fournisseur.getElementsByClassName('info-ville')[0].style.color = "#ffc400";
+                }
+            } else {
+                fournisseur.getElementsByClassName('info-ville')[0].style.color = "#db0000";
+            }
+
+        } else if (regionSelected == "true" && villeSelected == "false"){
+            if(dansRegion == 1){
+                tauxCoresp +=30;
+                fournisseur.getElementsByClassName('info-ville')[0].style.color = "#1bd115";
+            } 
+
+        } else if (regionSelected == "false" && villeSelected == "true"){
+            if(dansVille == 1){
+                tauxCoresp +=30;
+                fournisseur.getElementsByClassName('info-ville')[0].style.color = "#1bd115";
+            }
+
+        } else if (regionSelected == "false" && villeSelected == "false"){
+            tauxCoresp += 30;
+        }
+
+        if (nbrOffre > 0){
+            tauxCoresp += (nbrOffreCoresp * 30)/nbrOffre;
+            if(((nbrOffreCoresp * 30)/nbrOffre)>=15){
+                fournisseur.getElementsByClassName('info-offre')[0].style.color = "#1bd115";
+            } else if(((nbrOffreCoresp * 30)/nbrOffre)> 0){
+                fournisseur.getElementsByClassName('info-offre')[0].style.color = "#ffc400";
+            } else {
+                fournisseur.getElementsByClassName('info-offre')[0].style.color = "#db0000";
+            }
+        } else {
+            tauxCoresp +=30;
+        }
+
+        if (nbrCat > 0){
+            tauxCoresp += (nbrCatCoresp * 30)/nbrCat;
+            if(((nbrCatCoresp * 30)/nbrCat)>=15){
+                fournisseur.getElementsByClassName('info-cat')[0].style.color = "#1bd115";
+            } else if(((nbrCatCoresp * 30)/nbrCat)> 0){
+                fournisseur.getElementsByClassName('info-cat')[0].style.color = "#ffc400";
+            } else {
+                fournisseur.getElementsByClassName('info-cat')[0].style.color = "#db0000";
+            }
+        } else {
+            tauxCoresp +=30;
+        }
+
+        listeFoursAvecTaux.push({ fournisseur, tauxCoresp });
+        
+        if(tauxCoresp >= 60){
+            fournisseur.style.backgroundColor = "#cbfdc3";
+        } else if (tauxCoresp >= 30){
+            fournisseur.style.backgroundColor = "#fdf4c3";
+        } else {
+            fournisseur.style.backgroundColor ="#fc897a";
         }
     });
     
+    listeFoursAvecTaux.sort((a, b) => b.tauxCoresp - a.tauxCoresp);
+
+    listeDesFours.innerHTML = '';
+
+    listeFoursAvecTaux.forEach(item => {
+        listeDesFours.appendChild(item.fournisseur);
+        
+    });
 });
