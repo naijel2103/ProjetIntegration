@@ -4,6 +4,8 @@
 <head>
     <link rel="stylesheet" style="text/css" href="\css\GabaritCss\GabaritCss.css">
 </head>
+<script src="{{ asset('js/filtre.js') }}"></script>
+
 <div class="page-wrap">
     <div class="container">
         <div>
@@ -168,12 +170,68 @@
 
                         </div>
 
+                        
+
                         <div class="text-center">
+
                             <button type="button" id="btnRetour" class="btn btn-danger btn-lg">Retour</button>
                             <button type="button" id="btnNextStep" class="btn btn-primary btn-lg">Suivant</button>
+
+                        </div>
+                    </div>
+                    <div id="step3" class="form-step" style="display: none;">
+                        <div class="col-10 offset-1">
+                            <div class="text-center mb-4">
+                                <h4>Services :</h4>
+                            </div>
+
+                            <div class="cols-4 grid-filtre d-flex flex-column align-items-center">  
+                                <div class="rows-3 container-filtre w-100">
+                                    <div class="recherche-filtre mb-3">
+                                        <input placeholder="Recherche d'offre" class="searchBar-filtre form-control" />
+                                    </div>
+                                    <br>
+                                    <div class="liste-filtre w-100" style="max-height: 150px; overflow-y: auto; margin-top: -25px;">
+                                        @foreach ($listeOffres as $offre)
+                                        <div class="uneOffre form-check">
+                                            <input type="checkbox" name="offres[]" value="{{ $offre->codeUNSPSC }}" id="offre-{{ $offre->codeUNSPSC }}" @if(in_array($offre->codeUNSPSC, $offreSelect)) checked @endif>
+                                            <label for="offre-{{ $offre->codeUNSPSC }}" class="form-check-label">
+                                                {{ $offre->codeUNSPSC }}  ---  {{ $offre->nom }}
+                                            </label>
+                                        </div>
+                                        @endforeach
+                                        <div id="offers-error" class="error" style="display:none;color:red;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="w-100"> <!-- Added margin-bottom for spacing -->
+                                <label for="">Détails et spécifications</label>
+                                    <textarea name="" id="" cols="133" rows="2" class="form-control w-100"></textarea>
+                            </div>
+                        </div> 
+                        <div class="text-center mt-2 mb-3"> <!-- Added margin-top to button container -->
+                            <button type="button" id="btnRetour2" class="btn btn-danger btn-lg">Retour</button>
+                            <button type="button" id="btnNextStep2" class="btn btn-primary btn-lg">Suivant</button>
                         </div>
                     </div>
 
+                    <div id="step4" class="form-step" style="display: none;">
+                        <div class="col-10 offset-1">
+                            <br>
+                            <div class="form-group row mb-3 justify-content-end">
+                                <label for="uniqueField" class="col-sm-4 col-form-label text-end">Champ Unique (Obligatoire):</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="uniqueField" id="uniqueField" class="form-control" required>
+                                    <span class="error" id="uniqueField-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" id="btnRetour3" class="btn btn-danger btn-lg">Retour</button>
+                            <button type="submit" id="btnSubmit" class="btn btn-primary btn-lg">Soumettre</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -181,4 +239,5 @@
 </div>
 
 <script src="{{ asset('js/form-validation.js') }}"></script>
+<script src="{{ asset('js/filtre.js') }}"></script>
 @endsection

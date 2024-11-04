@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const barRecherches = Array.from(document.getElementsByClassName('searchBar-filtre'));
     const listeFiltres = document.querySelectorAll('.liste-filtre');
     const listeOffres = listeFiltres[0].querySelectorAll('.uneOffre');
+    /*const listeCats = listeFiltres[1].querySelectorAll('.uneCategorie');*/
     const listeCats = listeFiltres[1].querySelectorAll('.uneCategorie');
     const listeRegion = listeFiltres[2].querySelectorAll('.uneRegion');
     const listeVille = listeFiltres[3].querySelectorAll('.uneVille');

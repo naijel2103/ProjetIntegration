@@ -107,3 +107,5 @@ Route::get('/api/data/{neq}',
 
 Route::get('/listeFournisseur', 
 [FournisseurController::class, 'getListe'])->name('getListeFournisseur');
+
+Route::get('/creation', [FournisseurController::class, 'showCreationForm'])->name('profil.creation');
