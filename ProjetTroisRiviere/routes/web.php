@@ -55,8 +55,15 @@ Route::get('/creation',
 Route::get('/gererModele',
 [ProfilsController::class, 'gererModele']) -> name('profil.gererModele');
 
+
 Route::patch('/gererModele/edit',
 [ProfilsController::class, 'editGererModele']) -> name('profil.editGererModele');
+
+Route::get('/gererParametres',
+[ProfilsController::class, 'gererParametres']) -> name('profil.gererParametres');
+
+Route::patch('/editGererParametres/edit',
+[ProfilsController::class, 'editGererParametres']) -> name('profil.editGererParametres');
 
 
 Route::get('/confirmer/{code}',

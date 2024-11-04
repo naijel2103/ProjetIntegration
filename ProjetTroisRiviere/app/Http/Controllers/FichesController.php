@@ -12,6 +12,7 @@ use App\Models\Fournisseurs;
 use App\Mail\EnvoieFicheFinance;
 use App\Mail\EnvoieRefuFiche;
 use App\Mail\EnvoieRefuFicheRaison;
+use App\Models\Parametres;
 use App\Models\Modeles_courriels;
 use App\Mail\EnvoieAccepteFiche;
 use App\Models\Demandesinscriptions;
@@ -61,6 +62,8 @@ class FichesController extends Controller
                     $donneeCryptee = encrypt($request->raisonRefus);
                     $demandeInscription->raisonRefus =$donneeCryptee;
                     $estCochee = $request->has('envoyerRaison');
+                    
+                 
                     if($estCochee)
                     {
                         
@@ -90,7 +93,8 @@ class FichesController extends Controller
      */
     public function envoieFicheFinance(Fournisseurs $fournisseur)
     {
-        Mail::to('loick.michaud2103@gmail.com')->send(new EnvoieFicheFinance($fournisseur));
+        $finance = Parametres::where('id',1)->first();
+        Mail::to($finance->courrielFinance)->send(new EnvoieFicheFinance($fournisseur));
        
         return redirect()->route('acceuils.index');
 
