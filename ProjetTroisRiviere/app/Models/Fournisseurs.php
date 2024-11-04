@@ -17,11 +17,23 @@ class Fournisseurs extends Model
     protected $fillable = [
         'neq',
         'nomFournisseur',
-        'adresse',
-        'numTel',
-        'postTel',
+        'numLiscence',
+        'email',
+        'mdp',
+        'numCivique',
+        'rue',
+        'bureau',
+        'municipalite',
+        'province',
+        'codePostal',
+        'region',
+        'codeRegion',
         'siteWeb',
         'detailService',
+        'numTPS',
+        'numTVQ',
+        'conditionPaiement',
+        'codeCondition',
         'devise',
         'modCom',
         'statut',
@@ -35,11 +47,11 @@ class Fournisseurs extends Model
 
     public function offres()
     {
-        return $this->belongsToMany(Offre::class, 'offres_fournisseurs');
+        return $this->belongsToMany(Offres::class, 'offres_fournisseurs', 'fournisseur', 'offre');
     }
 
     public function licence()
     {
-        return $this->hasOne(Licence::class);
+        return $this->belongsTo(Liscences::class, 'numLiscence', 'numLiscence');
     }
 }
