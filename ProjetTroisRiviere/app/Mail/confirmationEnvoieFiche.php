@@ -39,7 +39,7 @@ class confirmationEnvoieFiche extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'confirmationEnvoieFiche',
+            view: 'Mails.confirmationEnvoieFiche',
         );
     }
 
