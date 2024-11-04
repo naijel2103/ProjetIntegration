@@ -87,19 +87,13 @@ html, body {
   line-height: 1.2em;
 }
 
-
-.error {
-  display: block; 
-  color: red;
-  font-size: 0.8rem; 
-  margin-top: 5px; 
-}
-
 .input-container {
   position: relative; /* To position the icons inside the input */
   display: flex; /* Use flexbox for layout */
   align-items: center; /* Center icons vertically */
 }
+
+
 
 .form-control {
   width: calc(100% - 50px); /* Set fixed width minus space for icons */
@@ -132,6 +126,13 @@ html, body {
   height: 35px !important;
 }
 
+
+.error {
+  display: block; 
+  color: red;
+  font-size: 0.8rem; 
+  margin-top: 5px; 
+=======
 /*PAGE FILTRE*/
 .bloc{
   border: groove, 2px, #afafaf;

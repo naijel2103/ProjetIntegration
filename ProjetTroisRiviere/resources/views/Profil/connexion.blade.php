@@ -18,6 +18,7 @@
                             <input type="email" name="email" id="email" value="" class="form-control" required>
                             <a href="{{ route('profil.connexionNEQ') }}">NEQ?</a>
                         </div>
+                        
                         <div class="form-group">
                             <label for="password">Mot de passe:</label>
                             <input type="password" name="password" id="password" class="form-control" value="" required>

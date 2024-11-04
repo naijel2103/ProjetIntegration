@@ -15,6 +15,20 @@ use App\Http\Controllers\ApiController;
 
 class FournisseurController extends Controller
 {
+    public function showCreationForm()
+    {
+        $listeOffres = Offres::all();
+        $listeCategories = CategorieLiscences::all();
+    
+        return view('Profil.creation', [
+            'listeOffres' => $listeOffres,
+            'listeCategories' => $listeCategories,
+            'offreSelect' => [],
+            'catSelect' => []
+        ]);
+    }
+    
+
     public function getListe(Request $requete)
     {
 
