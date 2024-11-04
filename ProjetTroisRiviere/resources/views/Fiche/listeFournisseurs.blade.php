@@ -127,13 +127,13 @@
                             <div  class="info info-nom">
                                 {{ $fournisseur->nomFournisseur }} 
                             </div>
-                            <div  class="info info-ville">
+                            <div  class="info info-ville"  data-dansVille="{{$fournisseur->dansVille}}">
                                 {{ $fournisseur->municipalite }}
                             </div>
-                            <div  class="info info-offre">
+                            <div  class="info info-offre" data-nbr_offres={{$nbrOffreSelect}} data-nbr_offres_correspondant="{{$fournisseur->nbr_offres_correspondant}}">
                             {{ empty($fournisseur->nbr_offres_correspondant) ? '0' : $fournisseur->nbr_offres_correspondant }} / {{$nbrOffreSelect}}
                             </div>
-                            <div class="info info-cat">
+                            <div class="info info-cat" data-nbr_cats={{$nbrCatSelect}} data-nbr_cats_correspondant="{{$fournisseur->nbr_categories_correspondant}}">
                             {{ empty($fournisseur->nbr_categories_correspondant) ? '0' : $fournisseur->nbr_categories_correspondant }} / {{$nbrCatSelect}}
                             </div>
                             <div  class="info info-fiche">

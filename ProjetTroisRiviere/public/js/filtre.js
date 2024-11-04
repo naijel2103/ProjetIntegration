@@ -2,12 +2,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const barRecherches = Array.from(document.getElementsByClassName('searchBar-filtre'));
     const listeFiltres = document.querySelectorAll('.liste-filtre');
     const listeOffres = listeFiltres[0].querySelectorAll('.uneOffre');
-    /*const listeCats = listeFiltres[1].querySelectorAll('.uneCategorie');*/
     const listeCats = listeFiltres[1].querySelectorAll('.uneCategorie');
     const listeRegion = listeFiltres[2].querySelectorAll('.uneRegion');
     const listeVille = listeFiltres[3].querySelectorAll('.uneVille');
+
     var textEntre;
     var listeRegionSelect  = [];
+
+    const listeDesFours = document.querySelectorAll('.les-fournisseurs');
+    const listeFours = listeDesFours.querySelectorAll('.un-fournisseur');
+
 
     listeRegion.forEach(region => {
         const codeRegion = String(region.querySelector('input[type="checkbox"]').value);
@@ -127,4 +131,14 @@ document.addEventListener('DOMContentLoaded', function() {
             majListeVille(value); 
         });
     });
+
+    listeFours.forEach(fournisseur => {
+        const codeRegion = String(region.querySelector('input[type="checkbox"]').value);
+        const checkboxRegion = region.querySelector('input[type="checkbox"]'); 
+        
+        if (checkboxRegion.checked) {
+            majListeVille(codeRegion);
+        }
+    });
+    
 });

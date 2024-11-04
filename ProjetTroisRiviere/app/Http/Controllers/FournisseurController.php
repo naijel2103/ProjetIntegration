@@ -44,6 +44,8 @@ class FournisseurController extends Controller
         $listeRegions = Fournisseurs::select('region','codeRegion')->distinct()->get();
         $listeVilles = Fournisseurs::select('codeRegion','municipalite')->distinct()->get();
 
+        $dansVille = false;
+        $dansRegion = false;
 
         if ($requete->has('offres') || $requete->has('categories')) {
             $requeteBD->where(function($sousRequete) use ($requete, $offreSelect, $catSelect) {
@@ -82,17 +84,23 @@ class FournisseurController extends Controller
             }
         }
     
-        /*if ($requete->has('regions')) {
-            $requeteBD->where(function($sousRequete) use ($requete, $regionSelect) {
+        if ($requete->has('regions')) {
+            $requeteBD->where(function($sousRequete) use ($requete, $regionSelect, $dansRegion) {
                 $sousRequete->whereIn('codeRegion', $regionSelect);
+                if ($sousRequete->exists()) {
+                    $dansRegion = true;
+                }
             });
         }
 
         if ($requete->has('villes')) {
-            $requeteBD->where(function($sousRequete) use ($requete, $villeSelect) {
+            $requeteBD->where(function($sousRequete) use ($requete, $villeSelect, $dansVille) {
                 $sousRequete->whereIn('municipalite', $villeSelect);
+                if ($sousRequete->exists()) {
+                    $dansVille = true;
+                }
             });
-        }*/
+        }
         
 
         $fournisseurs = $requeteBD->get();
@@ -136,7 +144,9 @@ class FournisseurController extends Controller
             'villeSelect' => $villeSelect,
 
             'nbrOffreSelect' => count($offreSelect),
-            'nbrCatSelect' => count($catSelect)
+            'nbrCatSelect' => count($catSelect),
+            'dansRegion' => $dansRegion,
+            'dansVille' => $dansVille
         ]);
     }
 }
