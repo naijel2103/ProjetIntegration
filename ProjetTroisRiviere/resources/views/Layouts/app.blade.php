@@ -31,7 +31,7 @@
       <div class="separator"></div>    
         <a href="\demandeFiche" class="header-link-top">Voir ma fiche</a>
       @endauth
-        @role('responsable')
+        @role('Responsable')
         <div class="separator"></div>   
         <a href="\fiche" class="header-link-top">Voir les fiches </a>      
         <div class="separator"></div>   

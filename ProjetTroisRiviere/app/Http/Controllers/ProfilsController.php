@@ -30,7 +30,7 @@ class ProfilsController extends Controller
     {
 
         if (auth()->check()) {
-            return redirect()->route('profil');
+            return redirect('/');
         }
         else {
             return view('Profil.connexion');
@@ -53,7 +53,7 @@ class ProfilsController extends Controller
     {
  
         if (auth()->check()) {
-            return redirect()->route('profil');
+            return redirect('/');
         }
         else {
             return view('Profil.connexionNEQ');
