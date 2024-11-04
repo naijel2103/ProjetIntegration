@@ -313,3 +313,22 @@ html, body {
   margin-bottom: 1px;
   background-color: #cbfdc3; /* Gardez cette couleur si vous le souhaitez */
 }
+
+.uneOffre {
+  margin-bottom: 30px; /* Espace entre les lignes */
+  display: flex; /* Utilisez flex pour gérer l'espace */
+  align-items: center; /* Centrer verticalement */
+}
+
+.uneCategorie {
+  margin-bottom: 30px; /* Espace entre les lignes */
+  display: flex; /* Utilisez flex pour gérer l'espace */
+  align-items: center; /* Centrer verticalement */
+}
+
+.form-check-label {
+  white-space: normal; /* Permet au texte de passer à la ligne */
+  overflow: hidden; /* Cache le texte qui déborde */
+  text-overflow: ellipsis; /* Ajoute des "..." à la fin si le texte est trop long */
+  flex-grow: 1; /* Permet au label de prendre tout l'espace disponible */
+}

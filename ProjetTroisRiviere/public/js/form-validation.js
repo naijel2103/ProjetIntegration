@@ -337,3 +337,38 @@ document.getElementById('account-form').addEventListener('submit', function(even
         uniqueFieldError.style.display = 'none'; // Hide error if valid
     }
 });
+
+document.getElementById('btnNextStep2').addEventListener('click', function() {
+    // Récupérer les offres sélectionnées
+    const selectedOffers = [];
+    const offerCheckboxes = document.querySelectorAll('.offer-checkbox:checked'); // Assurez-vous que vos cases à cocher ont la classe 'offer-checkbox'
+    
+    offerCheckboxes.forEach(checkbox => {
+        selectedOffers.push(checkbox.value); // Valeur de l'offre sélectionnée
+    });
+
+    // Récupérer les détails et spécifications de l'utilisateur
+    const specifications = document.getElementById('specificationsInput').value; // Remplacez 'specificationsInput' par l'ID réel de votre champ d'entrée
+
+    // Afficher les offres et spécifications au step 4
+    const offersDisplay = document.getElementById('offersDisplay'); // Remplacez 'offersDisplay' par l'ID de l'élément où vous voulez afficher les offres
+    offersDisplay.innerHTML = ''; // Réinitialiser l'affichage
+
+    if (selectedOffers.length > 0) {
+        selectedOffers.forEach(offer => {
+            const offerItem = document.createElement('div');
+            offerItem.textContent = offer; // Affiche l'offre sélectionnée
+            offersDisplay.appendChild(offerItem);
+        });
+    } else {
+        offersDisplay.textContent = 'Aucune offre sélectionnée.';
+    }
+
+    const specificationsDisplay = document.getElementById('specificationsDisplay'); // Remplacez 'specificationsDisplay' par l'ID de l'élément où vous voulez afficher les spécifications
+    specificationsDisplay.textContent = specifications ? specifications : 'Aucune spécification fournie.';
+
+    // Passer au step 4
+    document.getElementById('step3').style.display = 'none';
+    document.getElementById('step4').style.display = 'block';
+});
+

@@ -211,14 +211,16 @@
                                         <div class="uneOffre form-check">
                                             <input type="checkbox" name="offres[]" value="{{ $offre->codeUNSPSC }}" id="offre-{{ $offre->codeUNSPSC }}" @if(in_array($offre->codeUNSPSC, $offreSelect)) checked @endif>
                                             <label for="offre-{{ $offre->codeUNSPSC }}" class="form-check-label">
-                                                {{ $offre->codeUNSPSC }}  ---  {{ $offre->nom }}
+                                                {{ $offre->codeUNSPSC }} --- {{ $offre->nom }}
                                             </label>
                                         </div>
                                         @endforeach
                                         <div id="offers-error" class="error" style="display:none;color:red;"></div>
                                     </div>
+
                                 </div>
                             </div>
+                            <br>
                             <br>
                             <div class="w-100">
                                 <label for="">Détails et spécifications</label>
@@ -232,22 +234,42 @@
                     </div>
 
 
+                    
                     <div id="step4" class="form-step" style="display: none;">
-                        <div class="col-10 offset-1">
-                            <br>
-                            <div class="form-group row mb-3 justify-content-end">
-                                <label for="uniqueField" class="col-sm-4 col-form-label text-end">Champ Unique (Obligatoire):</label>
-                                <div class="col-sm-6">
-                                    <input type="text" name="uniqueField" id="uniqueField" class="form-control" required>
-                                    <span class="error" id="uniqueField-error" style="color: red; display: none; font-size: 0.8rem;"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-center">
-                            <button type="button" id="btnRetour3" class="btn btn-danger btn-lg">Retour</button>
-                            <button type="submit" id="btnSubmit" class="btn btn-primary btn-lg">Soumettre</button>
-                        </div>
+    <div class="col-10 offset-1">
+        <div class="text-center mb-4">
+            <h4>Catégories de licence</h4>
+        </div>
+
+        <div class="cols-4 grid-filtre d-flex flex-column align-items-center">
+            <div class="rows-3 container-filtre w-100">
+                <div class="recherche-filtre mb-3">
+                    <input placeholder="Catégorie" class="searchBar-filtre form-control" />
+                </div>
+                <br>
+                <div class="liste-filtre w-100" style="max-height: 150px; overflow-y: auto; margin-top: -25px;">
+                    @foreach ($listeCategories as $categorie)
+                    <div class="uneCategorie form-check" style="margin-bottom: 30px; display: flex; align-items: center;">
+                        <input type="checkbox" name="categories[]" value="{{ $categorie->numCategorie }}" id="categorie-{{ $categorie->numCategorie }}" @if(in_array($categorie->numCategorie, $catSelect)) checked @endif>
+                        <label for="categorie-{{ $categorie->numCategorie }}" class="form-check-label" style="white-space: normal; overflow: hidden; text-overflow: ellipsis; flex-grow: 1;">
+                            {{ $categorie->numCategorie }} {{ $categorie->nom }}
+                        </label>
                     </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+    </div>
+    <div class="text-center mt-2 mb-3">
+        <button type="button" id="btnRetour3" class="btn btn-danger btn-lg">Retour</button>
+        <button type="submit" id="btnSubmit" class="btn btn-primary btn-lg">Soumettre</button>
+    </div>
+</div>
+
+
+
                 </form>
             </div>
         </div>
