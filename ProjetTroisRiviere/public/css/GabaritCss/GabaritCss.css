@@ -291,3 +291,25 @@ html, body {
   width: 7vw;
   border: none;
 }
+
+.container-filtre {
+  background-color: transparent; /* Supprime la couleur de fond */
+  width: 24vw;
+  margin: 0 0.25vw;
+  border-radius: 5px;
+  padding: 3px;
+  border: none; /* Supprime la bordure */
+}
+
+.liste-filtre {
+  background-color: transparent; /* Supprime la couleur de fond */
+  border-radius: 5px;
+  border: none; /* Supprime la bordure */
+}
+
+.un-fournisseur {
+  border: none; /* Supprime la bordure */
+  border-radius: 25px;
+  margin-bottom: 1px;
+  background-color: #cbfdc3; /* Gardez cette couleur si vous le souhaitez */
+}

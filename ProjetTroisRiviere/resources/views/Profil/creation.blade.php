@@ -5,6 +5,21 @@
     <link rel="stylesheet" style="text/css" href="\css\GabaritCss\GabaritCss.css">
 </head>
 <script src="{{ asset('js/filtre.js') }}"></script>
+<div class="text-center mb-3">
+    <button type="button" id="btnDirectStep3" class="btn btn-warning btn-lg">Aller à l'étape 3</button>
+</div>
+
+<script>
+    document.getElementById('btnDirectStep3').addEventListener('click', function() {
+        // Cacher les autres étapes
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('step2').style.display = 'none';
+        document.getElementById('step4').style.display = 'none';
+        
+        // Afficher l'étape 3
+        document.getElementById('step3').style.display = 'block';
+    });
+</script>
 
 <div class="page-wrap">
     <div class="container">
@@ -185,7 +200,7 @@
                                 <h4>Services :</h4>
                             </div>
 
-                            <div class="cols-4 grid-filtre d-flex flex-column align-items-center">  
+                            <div class="cols-4 grid-filtre d-flex flex-column align-items-center">
                                 <div class="rows-3 container-filtre w-100">
                                     <div class="recherche-filtre mb-3">
                                         <input placeholder="Recherche d'offre" class="searchBar-filtre form-control" />
@@ -205,16 +220,17 @@
                                 </div>
                             </div>
                             <br>
-                            <div class="w-100"> <!-- Added margin-bottom for spacing -->
+                            <div class="w-100">
                                 <label for="">Détails et spécifications</label>
-                                    <textarea name="" id="" cols="133" rows="2" class="form-control w-100"></textarea>
+                                <textarea name="" id="" cols="133" rows="2" class="form-control w-100"></textarea>
                             </div>
-                        </div> 
-                        <div class="text-center mt-2 mb-3"> <!-- Added margin-top to button container -->
+                        </div>
+                        <div class="text-center mt-2 mb-3">
                             <button type="button" id="btnRetour2" class="btn btn-danger btn-lg">Retour</button>
                             <button type="button" id="btnNextStep2" class="btn btn-primary btn-lg">Suivant</button>
                         </div>
                     </div>
+
 
                     <div id="step4" class="form-step" style="display: none;">
                         <div class="col-10 offset-1">
@@ -239,5 +255,5 @@
 </div>
 
 <script src="{{ asset('js/form-validation.js') }}"></script>
-<script src="{{ asset('js/filtre.js') }}"></script>
+<script src="{{ asset('js/rechercheOffre.js') }}"></script>
 @endsection
