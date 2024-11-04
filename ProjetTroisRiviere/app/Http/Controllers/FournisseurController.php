@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Fournisseurs;
 use App\Models\Offres;
+use App\Models\OffresFournisseurs;
 use App\Models\CategorieLiscences;
+use App\Models\SpecificationLiscences;
 use App\Models\Liscences;
+
+use App\Http\Controllers\ApiController;
 
 
 class FournisseurController extends Controller
@@ -27,13 +31,19 @@ class FournisseurController extends Controller
 
     public function getListe(Request $requete)
     {
-        $listeOffres = Offres::all();
-        $listeCategories = CategorieLiscences::all();
 
         $offreSelect = $requete->input('offres', []);
         $catSelect =  $requete->input('categories', []);
+        $regionSelect = $requete->input('regions',[]);
+        $villeSelect = $requete->input('villes',[]);
 
         $requeteBD = Fournisseurs::query();
+
+        $listeOffres = Offres::whereIn('codeUNSPSC', OffresFournisseurs::select('offre'))->distinct()->get();
+        $listeCategories = CategorieLiscences::whereIn('numCategorie', SpecificationLiscences::select('numCategorie'))->distinct()->get();
+        $listeRegions = Fournisseurs::select('region','codeRegion')->distinct()->get();
+        $listeVilles = Fournisseurs::select('codeRegion','municipalite')->distinct()->get();
+
 
         if ($requete->has('offres') || $requete->has('categories')) {
             $requeteBD->where(function($sousRequete) use ($requete, $offreSelect, $catSelect) {
@@ -51,6 +61,7 @@ class FournisseurController extends Controller
                     });
                 }
             });
+            
         
             if ($requete->has('offres')) {
                 $requeteBD->withCount([
@@ -72,25 +83,42 @@ class FournisseurController extends Controller
         }
     
         /*if ($requete->has('regions')) {
-            $regions = $requete->input('regions');
-            // Filtrer par région
-            $query->whereIn('region', $regions);
+            $requeteBD->where(function($sousRequete) use ($requete, $regionSelect) {
+                $sousRequete->whereIn('codeRegion', $regionSelect);
+            });
         }
-    
+
         if ($requete->has('villes')) {
-            $villes = $requete->input('villes');
-            // Filtrer par ville
-            $query->whereIn('ville', $villes);
+            $requeteBD->where(function($sousRequete) use ($requete, $villeSelect) {
+                $sousRequete->whereIn('municipalite', $villeSelect);
+            });
         }*/
+        
 
         $fournisseurs = $requeteBD->get();
 
         $listeOffres = $listeOffres->sortByDesc(function ($offre) use ($offreSelect) {
             return in_array($offre->codeUNSPSC, $offreSelect) ? 1 : 0;
         });
+        $listeCategories = $listeCategories->sortBy(function ($cat) use ($catSelect) {
+            return [
+                in_array($cat->numCategorie, $catSelect) ? 0 : 1,
+                (int)$cat->numCategorie
+            ];
+        });
 
-        $listeCategories = $listeCategories->sortByDesc(function ($cat) use ($catSelect) {
-            return in_array($cat->numCategorie, $catSelect) ? 1 : 0;
+        $listeRegions = $listeRegions->sortBy(function ($region) use ($regionSelect) {
+            return [
+                in_array($region, $regionSelect) ? 0 : 1,
+                $region->codeRegion
+            ];
+        });
+
+        $listeVilles = $listeVilles->sortBy(function ($ville) use ($villeSelect, $regionSelect) {
+            return [
+                in_array($ville->municipalite, $villeSelect) ? 0 : 1,
+                in_array($ville->codeRegion, $regionSelect) ? 0 : 1
+            ];
         });
 
         return view('Fiche.listeFournisseurs', [
@@ -98,12 +126,17 @@ class FournisseurController extends Controller
 
             'listeOffres' => $listeOffres,
             'listeCategories' => $listeCategories,
+            'listeVilles' => $listeVilles,
+            'listeRegions' => $listeRegions,
 
 
             'offreSelect' => $offreSelect,
-            'catSelect' => $catSelect
-            /*'regions' => $request->input('regions', []),
-            'villes' => $request->input('villes', []),*/
+            'catSelect' => $catSelect,
+            'regionSelect' => $regionSelect,
+            'villeSelect' => $villeSelect,
+
+            'nbrOffreSelect' => count($offreSelect),
+            'nbrCatSelect' => count($catSelect)
         ]);
     }
 }

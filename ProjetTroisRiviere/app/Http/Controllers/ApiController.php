@@ -9,7 +9,7 @@ class ApiController extends Controller
 {
     public function getData(int $neq)
     {
-        $sql = 'SELECT * FROM "32f6ec46-85fd-45e9-945b-965d9235840a" WHERE "NEQ" = \'' . $neq . '\'';
+        $sql = 'SELECT * FROM "19385b4e-5503-4330-9e59-f998f5918363" /*"32f6ec46-85fd-45e9-945b-965d9235840a"­ WHERE "NEQ" = \'' . $neq . '\'*/';
         
         try{
             $response = Http::withoutVerifying()->get(env('API_BASE_URL'), [
@@ -29,11 +29,135 @@ class ApiController extends Controller
                     'message' => $response->body()
                 ], $response->status());
             }
+            
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Une exception est survenue lors de la requête API',
                 'message' => $e->getMessage(),
             ], 500);
+        }
+    }
+    public function getRegion()
+    {
+        $sqlGetListeRegion = 'SELECT regadm FROM "19385b4e-5503-4330-9e59-f998f5918363"';
+        $ListeRegion=[];
+            
+        try{
+                $response = Http::withoutVerifying()->get(env('API_BASE_URL'), [
+                    'sql' => $sqlGetListeRegion,
+                ]);
+
+                if ($response->successful()) {
+                    
+                    $data = json_decode($response->body(), true);
+
+                    if (json_last_error() !== JSON_ERROR_NONE) {
+                        echo "Erreur de décodage JSON : " . json_last_error_msg();
+                        return;
+                    }
+
+                    if (isset($data['result']) && isset($data['result']['records'])) {
+                        $records = $data['result']['records'];
+                    } else {
+                        echo "Erreur : Les enregistrements ne sont pas disponibles.";
+                        return;
+                    }
+
+                    foreach($records as $element){
+                        if (isset($element['regadm'])) {
+                            $regions = $element['regadm'];
+
+                            if (preg_match('/(.+)\s\((\d+)\)/', $regions, $matches)) {
+                                $nomRegion = trim($matches[1]);
+                                $codeRegion = $matches[2];
+
+                            }
+
+                            if (!isset($ListeRegion[$codeRegion])) {
+                                $ListeRegion[$codeRegion] = $nomRegion;
+                            }
+                        }
+                    }
+                    
+                } else {
+                    return response()->json([
+                        'error' => 'Erreur lors de la requête API',
+                        'status' => $response->status(),
+                        'message' => $response->body()
+                    ], $response->status());
+                }
+
+        return $ListeRegion;
+
+        } catch (\Exception $e) {
+                return response()->json([
+                    'error' => 'Une exception est survenue lors de la requête API des regions',
+                    'message' => $e->getMessage(),
+                ], 500);
+        } 
+    }
+
+    public function getVille()
+    {
+        $sqlGetListeVille = 'SELECT munnom, regadm FROM "19385b4e-5503-4330-9e59-f998f5918363"';
+        $ListeVille=[];
+
+        try{
+                $response = Http::withoutVerifying()->get(env('API_BASE_URL'), [
+                    'sql' => $sqlGetListeVille,
+                ]);
+
+                if ($response->successful()) {
+                    
+                    $data = json_decode($response, true);
+
+                    if (json_last_error() !== JSON_ERROR_NONE) {
+                        echo "Erreur de décodage JSON : " . json_last_error_msg();
+                        return;
+                    }
+
+                    if (isset($data['result']) && isset($data['result']['records'])) {
+                        $records = $data['result']['records'];
+                    } else {
+                        echo "Erreur : Les enregistrements ne sont pas disponibles.";
+                        return;
+                    }
+
+                    foreach($records as $villes){
+                        $nomVille = '';
+                        $codeRegion = ''; 
+
+                        foreach ($villes as $cle => $valeur) {
+                            if($cle === 'munnom'){
+                                $nomVille = $valeur;
+                            } elseif ($cle === 'regadm'){
+                                if (preg_match('/(.+)\s\((\d+)\)/', $valeur, $matches)) {
+                                    $codeRegion = $matches[2];
+                                }
+                            }
+                        }
+
+                        $ListeVille[] = [
+                            'nomVille' => $nomVille,
+                            'region' => $codeRegion
+                        ];
+                    }
+                    
+                } else {
+                    return response()->json([
+                        'error' => 'Erreur lors de la requête API',
+                        'status' => $response->status(),
+                        'message' => $response->body()
+                    ], $response->status());
+                }
+
+        return $ListeVille;
+
+        } catch (\Exception $e) {
+                return response()->json([
+                    'error' => 'Une exception est survenue lors de la requête API des villes',
+                    'message' => $e->getMessage(),
+                ], 500);
         }
     }
 }

@@ -132,6 +132,161 @@ html, body {
   color: red;
   font-size: 0.8rem; 
   margin-top: 5px; 
+=======
+/*PAGE FILTRE*/
+.bloc{
+  border: groove, 2px, #afafaf;
+  margin: 0.5vh 0.25vw;
+  padding: 0.75vh 0.75vw;
+}
+
+.grid-filtre{
+  height: 25vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.container-filtre{
+  background-color:#eeeef0;
+  width: 24vw;
+  margin: 0 0.25vw;
+  border-radius: 5px;
+  padding: 3px;
+  border:groove, 2px, #afafaf;
 }
 
 
+.recherche-filtre{
+  height: 30%;
+}
+
+.liste-filtre{
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  overflow-x: initial;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.searchBar-filtre{
+  width: 100%;
+}
+
+.search-bar{
+  height: 10vh;
+  margin: 0.5vh 1.25vw 0 0;
+  display: flex;
+  flex-direction: row;
+}
+
+.status-bar{
+  display: flex;
+  flex-direction: row;
+}
+
+.unStatus{
+  align-self: center;
+  margin: 0 2vw;
+  padding: 2vw;
+  background-color:#eeeef0;
+}
+
+.sendBtn{
+  align-self:center;
+  margin: auto;
+  border-radius: 5px;
+  padding: 1vh 6.5vw;
+  background-color: rgb(183, 250, 250);
+  border-color: #afafaf;
+  font-weight: bold;
+}
+
+.sendBtn:hover, .extractBtn:hover{
+  background-color: #eeeef0;
+}
+
+
+.container-fournisseur{
+  display: flex;
+  flex-direction: row;
+  height: 35vh;
+}
+
+.extractBtn{
+  align-self:center;
+  margin: auto;
+  border-radius: 5px;
+  background-color: rgb(184, 253, 170);
+  border-color: #afafaf;
+  font-weight:500
+}
+
+.liste-fournisseur{
+  width: 80vw;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.les-fournisseurs{
+  height: 30vh;
+  overflow-y: scroll;
+  overflow-x: initial;
+}
+
+.un-fournisseur, .titre-fournisseur{
+  display: flex;
+  flex-direction:row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.titre-fournisseur{
+  padding-right: 16px;
+}
+
+.un-fournisseur{
+  border: solid black 0.5px;
+  border-radius: 25px;
+  margin-bottom: 1px;
+  background-color: #cbfdc3;
+}
+
+.info{
+  text-align: center;
+  border-right: #000000 solid 0.5px;
+}
+
+.info-titre{
+  border:none
+}
+
+.info-etat{
+  width: 5vw;
+}
+
+.info-nom{
+  width: 20vw;
+}
+
+.info-ville{
+  width: 18vw;
+}
+
+.info-offre{
+  width: 10vw;
+}
+
+.info-cat{
+  width: 10vw;
+}
+
+.info-fiche{
+  width: 10vw;
+}
+
+.info-select{
+  width: 7vw;
+  border: none;
+}
