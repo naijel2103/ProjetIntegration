@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Comptes;
+use App\Models\Modeles_courriels;
+use App\Mail\resetDeMotDePasse;
+use App\Mail\AccountCreated;
 
 class ProfilsController extends Controller
 {
@@ -64,15 +67,58 @@ class ProfilsController extends Controller
     {
 
         $reussi = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
-        if($reussi){
+        $compte = Comptes::where('email', $request->email)->first();
+        $role = $compte->role;
+        if($reussi && $role == 'aucun'){
+            
             return redirect()->route('fiche.demandeFiche') ->with('message', "Connexion réussie");
+        } elseif($reussi && $role == 'admin' ||$role == 'responsable')
+        {
+            return redirect()->route('acceuils.index'); 
         }
         else{
             return redirect()->route('profil.connexion')->withErrors(['Informations invalides']); 
         }
     }
 
+    public function gererModele()
+    {
+        $modeles = Modeles_courriels::all();
+        $refus = Modeles_courriels::where('idModele',1)->first();
+        $appro = Modeles_courriels::where('idModele',2)->first();
+        $accuse = Modeles_courriels::where('idModele',3)->first();
+   
+      return view('Profil.gererModele',compact("modeles","refus","appro","accuse"));
+    }
 
+    public function editGererModele(Request $request,Modeles_courriels $modele)
+    {
+      if($request->modele == "Refus")
+      {
+        $modele = Modeles_courriels::where('idModele',1)->first();
+        $modele->message = $request->texteEmail;
+        $modele->save();
+      }
+      if($request->modele == "Approbation")
+      {
+        $modele = Modeles_courriels::where('idModele',2)->first();
+        $modele->message = $request->texteEmail;
+        $modele->save();
+      }
+      if($request->modele == "Accusé de reception")
+      {
+        $modele = Modeles_courriels::where('idModele',3)->first();
+        $modele->message = $request->texteEmail;
+        $modele->save();
+      }
+
+
+      $refus = Modeles_courriels::where('idModele',1)->first();
+      $appro = Modeles_courriels::where('idModele',2)->first();
+      $accuse = Modeles_courriels::where('idModele',3)->first();
+      return view('Profil.gererModele',compact("refus","appro","accuse"));
+
+    }
 
 
     public function loginNEQ(Request $request)
@@ -90,24 +136,48 @@ class ProfilsController extends Controller
     {
         return view('Profil.creation');
     }
+
+
+    public function gererComptes()
+    {
+        $comptes = Comptes::all();
+        return view('Profil.gererComptes',compact("comptes"));
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function creer(Request $request)
     {
+     
         $compte = new Comptes();
-        $compte->neq = $request->neq;
         $compte->email = $request->email;
         $compte->nom = $request->nom;
         $compte->password = bcrypt($request->password);
         $compte->role = "aucun";
+        $compte->code = Str::random(60);
+        $compte->verifier = false;
         $compte->save();
-        
-            return redirect()->route('fiche.demandeFiche');
+        Mail::to($compte-> email)->send(new AccountCreated($compte));
+       
+            return redirect()->route('acceuils.index');
     }
 
     public function motdepasseView(){
         return view('Profil.motdepasse');
+    }
+
+    
+    public function confirmer(string $code){
+        $compte = Comptes::where('code', '=', $code)->first();
+        if($compte->code == $code && $compte->verifier == false){
+            $compte->verifier = true;
+            $compte->code = null;
+            $compte->save();
+            return redirect()->route('profil.connexionNEQ');
+        }else{
+            return redirect()->route('profil.confirmation')->withErrors(['error' => "Code invalide"]);
+        }
     }
 
          
@@ -119,17 +189,21 @@ class ProfilsController extends Controller
         if ($compte && $compte->verifier == 1) {
             $compte->code = Str::random(60);
             $compte->save();
-            Mail::to($compte->email )->send(new PasswordReset($compte));
-            return redirect()->route('login');
-        } else {
-            return redirect()->route('motdepasse')->withErrors(['error' => 'Adresse courriel invalide']);
+            Mail::to($compte->email )->send(new resetDeMotDePasse($compte));
+            return redirect()->route('profil.connexionNEQ');
+        } else if($compte->verifier == 0) {
+            return redirect()->route('Profil.motdepasse')->withErrors(['error' => 'Veulliez verifier votre comptre']);
+           
+        }else
+        {
+            return redirect()->route('Profil.motdepasse')->withErrors(['error' => 'Adresse courriel invalide']);
         }
     }
 
 
     public function reinitialiserPage(string $code)
     {
-        return view('Profil.reinitialiser', compact('code'));
+        return view('profil.reinitialiser', compact('code'));
 
     }
 
@@ -139,42 +213,74 @@ class ProfilsController extends Controller
             $compte->password = bcrypt($request->password);
             $compte->code = null;
             $compte->save();
-            return redirect()->route('login');
+            return redirect()->route('profil.connexionNEQ');
         }
     }
 
 
 
-
-
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function destroy(string $id)
     {
-        //
-    }
+        try{
+        $compte= Comptes::findOrFail($id);
+
+            if($compte->role =='admin')
+            {
+
+          
+        $adminCount = Comptes::where('role', 'admin')->count();
+
+        if ($adminCount <= 2) {
+            return redirect()->back()->with('error', 'Il doit y avoir au moins 2 administrateurs');
+        }else{
+            $compte->delete();
+            return redirect()->route('profil.gererComptes')->with('message', "Suppression de " . $compte->nom . " réussi!");
+        }
+        } else
+        {
+            $compte->delete();
+        }
+
+
+                  
+                 
+        }
+                   catch(\Throwable $e){
+                    //Gérer l'erreur
+       
+                    return redirect()->route('profil.gererComptes')->withErrors(['la suppression n\'a pas fonctionné']); 
+                  }
+                     return redirect()->route('profil.gererComptes');
+                }
+
 
     /**
      * Show the form for editing the specified resource.
      */
-   
+    public function edit(Comptes $compte)
+    {
+        return View('profil.edit', compact('compte'));
+    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Comptes $compte)
     {
-        //
+        try{
+            $compte->email = $request->email;
+            $compte->nom = $request->nom;
+            $compte->role = $request->role;
+            $compte->save();
+            
+            return redirect()->route('profil.gererComptes')->with('message', "Modification de " .$compte->nom . " réussi!");
+        }catch(\Throwable $e)
+        {
+        
+            return redirect()->route('profil.gererComptes')->with('message', "Modification de " . $compte->nom . "non");
+        }
+        return redirect()->route('profil.gererComptes');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+  
 }

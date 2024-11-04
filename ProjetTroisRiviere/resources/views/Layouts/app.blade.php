@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" style="text/css" href="\css\GabaritCss\GabaritCss.css">
+   
 <meta charset="UTF-8">
 </head>
 
@@ -19,14 +20,33 @@
   <div class="sticky-container"> 
     <div class="navbar contrast">
       {{-- <a href="#home" class="active"> --}}
+        
         <img src="{{ asset('images/LogoTrNoir.png') }}" id="imgLogo"/>
       {{-- </a> --}}
-      <div class="bottom-nav">                
+      <div class="bottom-nav">      
+     
         <a href="\" class="header-link-top">Acceuil</a>
-        <div class="separator"></div>    
+       
+      @role('aucun')
+      <div class="separator"></div>    
         <a href="\demandeFiche" class="header-link-top">Voir ma fiche</a>
+      @endauth
+        @role('responsable')
         <div class="separator"></div>   
-        <a href="\fiche" class="header-link-top">Voir les fiches (Responsable)</a>      
+        <a href="\fiche" class="header-link-top">Voir les fiches </a>      
+        <div class="separator"></div>   
+        <a href="\creation" class="header-link-top">Créer des comptes </a>    
+        <div class="separator"></div>   
+        <a href="\gererComptes" class="header-link-top">Gérer les comptes </a>   
+        @endrole
+        @role('admin')
+        <div class="separator"></div>   
+        <a href="\gererModele" class="header-link-top">Gerer les modeles de courriels </a>      
+        <div class="separator"></div>   
+        <a href="\creation" class="header-link-top">Créer des comptes </a>    
+        <div class="separator"></div>   
+        <a href="\gererComptes" class="header-link-top">Gérer les comptes </a>   
+        @endrole
   </div>
 
 

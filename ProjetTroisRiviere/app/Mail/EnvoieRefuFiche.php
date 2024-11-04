@@ -27,7 +27,7 @@ class EnvoieRefuFiche extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Envoie Refu Fiche',
+            subject: 'Refu de votre fiche',
         );
     }
 
@@ -37,7 +37,7 @@ class EnvoieRefuFiche extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'Mails.EnvoieRefuFiche',
         );
     }
 

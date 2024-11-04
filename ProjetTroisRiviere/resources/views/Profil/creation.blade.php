@@ -175,8 +175,10 @@
                         
 
                         <div class="text-center">
+
                             <button type="button" id="btnRetour" class="btn btn-danger btn-lg">Retour</button>
                             <button type="button" id="btnNextStep" class="btn btn-primary btn-lg">Suivant</button>
+
                         </div>
                     </div>
                     <div id="step3" class="form-step" style="display: none;">

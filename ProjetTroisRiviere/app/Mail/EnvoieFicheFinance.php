@@ -9,20 +9,19 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-
-class resetDeMotDePasse extends Mailable
+class EnvoieFicheFinance extends Mailable
 {
     use Queueable, SerializesModels;
-
-    public $compte;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($compte)
+    public $fournisseur;
+    public function __construct($fournisseur)
     {
-        $this->compte = $compte;
+        $this->fournisseur = $fournisseur;
     }
+    
 
     /**
      * Get the message envelope.
@@ -30,7 +29,7 @@ class resetDeMotDePasse extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'reinitialisation de mot de passe',
+            subject: 'Envoie d\'une fiche ',
         );
     }
 
@@ -40,7 +39,7 @@ class resetDeMotDePasse extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'Mails.resetMotDePasse',
+            view: 'Mails.EnvoieFicheFinance',
         );
     }
 

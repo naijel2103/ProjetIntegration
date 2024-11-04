@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string("nom");
             $table->string('email')->unique();
-            $table->string('neq')->unique()->default('aucun');;
             $table->string('password'); 
             $table->string('role')->default("aucun");
+            $table->string('code', 60)->nullable();
             $table->boolean('admin')->default(false);;
+            $table->boolean('verifier')->default(false);;
     
             $table->timestamps();
         });
