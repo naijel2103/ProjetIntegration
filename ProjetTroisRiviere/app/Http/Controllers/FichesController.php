@@ -14,6 +14,11 @@ use App\Mail\EnvoieRefuFiche;
 use App\Mail\EnvoieRefuFicheRaison;
 use App\Models\Parametres;
 use App\Models\Modeles_courriels;
+use App\Models\Contacts;
+use App\Models\Infotels;
+use App\Models\Liscences;
+use App\Models\SpecificationLiscences;
+use App\Models\CategorieLiscences;
 use App\Mail\EnvoieAccepteFiche;
 use App\Models\Demandesinscriptions;
 
@@ -107,8 +112,16 @@ class FichesController extends Controller
      */
     public function show(Fournisseurs $fournisseur)
     {
+        
+        $liscence  = Liscences::where('numLiscence', $fournisseur->numLiscence)->first();
+        $speLiscence = SpecificationLiscences::where('numLiscence', $fournisseur->numLiscence)->first();
+        $catLiscence  = CategorieLiscences::where('numCategorie',  $speLiscence->numCategorie)->first();
+        $contact = Contacts::where('fournisseur', $fournisseur->idFournisseur)->first();
+        $infotel = Infotels::where('fournisseur', $fournisseur->idFournisseur)->first();
         $demandeInscription = Demandesinscriptions::where('idFournisseur', $fournisseur->idFournisseur)->first();
-        return View('fiche.show',compact("fournisseur", "demandeInscription"));
+        return View('fiche.show',compact("fournisseur", "demandeInscription",
+                                        "contact","infotel","liscence","speLiscence","catLiscence"
+                                        ));
     }
 
 
