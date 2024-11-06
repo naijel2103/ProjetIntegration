@@ -111,3 +111,54 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const barRecherches = Array.from(document.getElementsByClassName('searchBar-filtre'));
+    const listeFiltres = document.querySelectorAll('.liste-filtre');
+    const listeOffres = listeFiltres[0].querySelectorAll('.uneOffre'); // pour step3
+    const listeCats = listeFiltres[1].querySelectorAll('.uneCategorie'); // pour step4
+
+    var textEntre;
+    var listeRegionSelect  = [];
+
+    function majListe(event, index){
+        textEntre = event.target.value.toLowerCase();
+        switch(index){
+            case 0:
+                listeOffres.forEach(offre => {
+                    const nomOffre = offre.textContent.trim().toLowerCase(); 
+                    const codeOffre = String(offre.querySelector('input[type="checkbox"]').value);
+
+                    if (nomOffre.includes(textEntre) || codeOffre.includes(textEntre) ) {
+                        offre.style.display = 'block';
+                    } else {
+                        offre.style.display = 'none'; 
+                    }
+                });
+                break;
+
+            case 1:
+                listeCats.forEach(categorie => {
+                    const nomCat = categorie.textContent.trim().toLowerCase(); 
+
+                    if (nomCat.includes(textEntre)) {
+                        categorie.style.display = 'block';
+                    } else {
+                        categorie.style.display = 'none'; 
+                    }
+                });
+                break;
+
+        }
+    }
+
+    barRecherches.forEach(input => {
+        input.addEventListener('input', (event) => {
+            var index = Array.prototype.indexOf.call(barRecherches, event.target);
+            majListe(event, index); 
+        });
+    });
+});
+
+
+
+

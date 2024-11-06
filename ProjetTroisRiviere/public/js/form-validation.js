@@ -312,6 +312,18 @@ document.getElementById('btnNextStep2').addEventListener('click', function() {
     }
 });
 
+document.getElementById('btnNextStep4').addEventListener('click', function() {
+    // Validation for step 3 (add your validation logic here if needed)
+    const isValid = true; // Placeholder for validation logic
+
+    if (isValid) {
+        document.getElementById('step4').style.display = 'none';
+        document.getElementById('step5').style.display = 'block';
+    } else {
+        // Handle invalid case (show error messages, etc.)
+    }
+});
+
 document.getElementById('btnRetour2').addEventListener('click', function() {
     document.getElementById('step3').style.display = 'none';
     document.getElementById('step2').style.display = 'block';
@@ -320,6 +332,11 @@ document.getElementById('btnRetour2').addEventListener('click', function() {
 document.getElementById('btnRetour3').addEventListener('click', function() {
     document.getElementById('step4').style.display = 'none';
     document.getElementById('step3').style.display = 'block';
+});
+
+document.getElementById('btnRetour5').addEventListener('click', function() {
+    document.getElementById('step5').style.display = 'none';
+    document.getElementById('step4').style.display = 'block';
 });
 
 
@@ -372,3 +389,134 @@ document.getElementById('btnNextStep2').addEventListener('click', function() {
     document.getElementById('step4').style.display = 'block';
 });
 
+// Function to format telephone number and automatically add hyphens
+function formatTelephoneNumber(input) {
+    let digits = input.value.replace(/\D/g, ''); // Remove non-digit characters
+
+    // Format to "000-000-0000"
+    if (digits.length > 10) {
+        digits = digits.slice(0, 10); // Limit to 10 digits
+    }
+
+    let formattedNumber = '';
+    if (digits.length > 0) {
+        formattedNumber += digits.slice(0, 3); // First 3 digits
+    }
+    if (digits.length > 3) {
+        formattedNumber += '-' + digits.slice(3, 6); // Next 3 digits
+    }
+    if (digits.length > 6) {
+        formattedNumber += '-' + digits.slice(6); // Remaining digits
+    }
+
+    input.value = formattedNumber; // Update the input value
+}
+
+// Event listener for telephone number input
+const telContactInput = document.getElementById('tel_contact');
+telContactInput.addEventListener('input', function () {
+    formatTelephoneNumber(telContactInput);
+});
+
+// Validation for Step 5
+document.getElementById('btnNextStep5').addEventListener('click', function () {
+    const errorMessages = document.querySelectorAll('.error');
+    errorMessages.forEach(error => error.style.display = 'none');
+
+    const inputs = document.querySelectorAll('.form-control');
+    inputs.forEach(input => {
+        input.style.borderColor = ''; // Reset border color
+        const existingCheckmark = input.parentNode.querySelector('.check-icon');
+        if (existingCheckmark) {
+            existingCheckmark.remove(); // Remove checkmark icon
+        }
+    });
+
+    const prenom = document.getElementById('prenom').value;
+    const nom = document.getElementById('nom').value;
+    const fonction = document.getElementById('fonction').value;
+    const emailContact = document.getElementById('email_contact').value;
+    const telContact = document.getElementById('tel_contact').value;
+
+    let isValidStep5 = true;
+
+    function addCheckmark(input, isValid) {
+        const existingCheckmark = input.parentNode.querySelector('.check-icon');
+        if (!existingCheckmark) {
+            const img = document.createElement('img');
+            img.src = isValid ? 'Images/checkVert.png' : 'Images/XIcon.png';
+            img.alt = '';
+            img.classList.add('icon', 'check-icon');
+            img.style.marginLeft = '10px';
+            input.parentNode.appendChild(img);
+        } else {
+            existingCheckmark.src = isValid ? 'Images/checkVert.png' : 'Images/XIcon.png';
+        }
+    }
+
+    // Validation for Prénom
+    if (!prenom) {
+        document.getElementById('prenom-error').textContent = 'Prénom est requis.';
+        document.getElementById('prenom-error').style.display = 'block';
+        document.getElementById('prenom').style.borderColor = 'red';
+        isValidStep5 = false;
+        addCheckmark(document.getElementById('prenom'), false);
+    } else {
+        document.getElementById('prenom').style.borderColor = 'green';
+        addCheckmark(document.getElementById('prenom'), true);
+    }
+
+    // Validation for Nom
+    if (!nom) {
+        document.getElementById('nom-error').textContent = 'Nom est requis.';
+        document.getElementById('nom-error').style.display = 'block';
+        document.getElementById('nom').style.borderColor = 'red';
+        isValidStep5 = false;
+        addCheckmark(document.getElementById('nom'), false);
+    } else {
+        document.getElementById('nom').style.borderColor = 'green';
+        addCheckmark(document.getElementById('nom'), true);
+    }
+
+    // Validation for Fonction
+    if (!fonction) {
+        document.getElementById('fonction-error').textContent = 'Fonction est requise.';
+        document.getElementById('fonction-error').style.display = 'block';
+        document.getElementById('fonction').style.borderColor = 'red';
+        isValidStep5 = false;
+        addCheckmark(document.getElementById('fonction'), false);
+    } else {
+        document.getElementById('fonction').style.borderColor = 'green';
+        addCheckmark(document.getElementById('fonction'), true);
+    }
+
+    // Validation for Email
+    if (!emailContact) {
+        document.getElementById('email_contact-error').textContent = 'Courriel est requis.';
+        document.getElementById('email_contact-error').style.display = 'block';
+        document.getElementById('email_contact').style.borderColor = 'red';
+        isValidStep5 = false;
+        addCheckmark(document.getElementById('email_contact'), false);
+    } else {
+        document.getElementById('email_contact').style.borderColor = 'green';
+        addCheckmark(document.getElementById('email_contact'), true);
+    }
+
+    // Validation for Phone
+    if (!telContact) {
+        document.getElementById('num_tel-error').textContent = 'Numéro de téléphone est requis.';
+        document.getElementById('num_tel-error').style.display = 'block';
+        document.getElementById('tel_contact').style.borderColor = 'red';
+        isValidStep5 = false;
+        addCheckmark(document.getElementById('tel_contact'), false);
+    } else {
+        document.getElementById('tel_contact').style.borderColor = 'green';
+        addCheckmark(document.getElementById('tel_contact'), true);
+    }
+
+    // If all validations pass, go to Step 6
+    if (isValidStep5) {
+        document.getElementById('step5').style.display = 'none';
+        document.getElementById('step6').style.display = 'block';
+    }
+});

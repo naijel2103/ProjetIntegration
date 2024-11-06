@@ -321,7 +321,7 @@ html, body {
 }
 
 .uneCategorie {
-  margin-bottom: 30px; /* Espace entre les lignes */
+  margin-bottom: 40px; /* Espace entre les lignes */
   display: flex; /* Utilisez flex pour gérer l'espace */
   align-items: center; /* Centrer verticalement */
 }
