@@ -1,0 +1,233 @@
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.5em;
+  margin-top: 20px;
+  color: #2c3e50;
+}
+
+
+.fournisseur-card {
+  background-color: white;
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+
+.fournisseur-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  gap: 20px; 
+  margin-top: 20px;
+}
+
+
+.info-box {
+  background-color: #ecf0f1; 
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-title {
+  font-weight: bold;
+  color: #34495e;
+  margin-bottom: 5px;
+}
+
+.info-content {
+  font-size: 1.1em;
+  color: #7f8c8d;
+}
+
+.info-box b {
+  color: #2980b9; 
+}
+
+.info-box:last-child {
+  margin-bottom: 0;
+}
+
+
+
+
+
+.identification {
+  background-color: #ecf0f1; 
+  border: 1px solid #3498db; 
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px; 
+}
+
+
+.identification .info-title {
+  font-weight: bold;
+  color: #34495e;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.identification .info-content {
+  font-size: 1.1em;
+  color: #2c3e50;
+}
+
+
+.identification .info-content div {
+  margin-bottom: 8px;
+}
+
+.identification .info-content b {
+  color: #2980b9; 
+}
+
+
+
+
+.adresse-contact {
+  background-color: #ecf0f1; 
+  border: 1px solid #3498db; 
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px; 
+}
+
+
+.adresse-contact .info-title {
+  font-weight: bold;
+  color: #34495e;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+
+.adresse-contact .info-content {
+  font-size: 1.1em;
+  color: #2c3e50;
+}
+
+.adresse-contact .info-content div {
+  margin-bottom: 8px;
+}
+
+.adresse-contact .info-content b {
+  color: #2980b9; 
+}
+
+
+.adresse-contact .info-content a {
+  color: #2980b9; 
+  text-decoration: none;
+}
+
+.adresse-contact .info-content a:hover {
+  text-decoration: underline;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px; 
+  margin-top: 30px; 
+}
+
+.btn {
+  padding: 12px 30px;
+  font-size: 1.1em;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+  display: inline-block;
+}
+
+
+#btnRetour {
+  background-color: #3498db; 
+  color: white;
+  border: none;
+}
+
+#btnRetour:hover {
+  background-color: #2980b9; 
+}
+
+
+#btnGererDemande {
+  background-color: #2ecc71; 
+  color: white;
+  border: none;
+}
+
+#btnGererDemande:hover {
+  background-color: #27ae60; 
+}
+
+
+#btnExporter {
+  background-color: #f39c12; 
+  color: white;
+  border: none;
+}
+
+#btnExporter:hover {
+  background-color: #e67e22; 
+}
+
+
+@media screen and (max-width: 600px) {
+  .button-container {
+    flex-direction: column; 
+    align-items: center;
+  }
+  
+  .btn {
+    width: 100%; 
+    max-width: 400px; 
+    margin-bottom: 10px; 
+  }
+}
+
+
+
+@media screen and (max-width: 768px) {
+  .fournisseur-info {
+    grid-template-columns: 1fr; 
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .info-title {
+    font-size: 0.9em;
+  }
+
+  .info-content {
+    font-size: 1em;
+  }
+}

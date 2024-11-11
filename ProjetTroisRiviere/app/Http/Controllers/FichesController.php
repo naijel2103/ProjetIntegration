@@ -12,7 +12,13 @@ use App\Models\Fournisseurs;
 use App\Mail\EnvoieFicheFinance;
 use App\Mail\EnvoieRefuFiche;
 use App\Mail\EnvoieRefuFicheRaison;
+use App\Models\Parametres;
 use App\Models\Modeles_courriels;
+use App\Models\Contacts;
+use App\Models\Infotels;
+use App\Models\Liscences;
+use App\Models\SpecificationLiscences;
+use App\Models\CategorieLiscences;
 use App\Mail\EnvoieAccepteFiche;
 use App\Models\Demandesinscriptions;
 
@@ -62,6 +68,8 @@ class FichesController extends Controller
                     $donneeCryptee = encrypt($request->raisonRefus);
                     $demandeInscription->raisonRefus =$donneeCryptee;
                     $estCochee = $request->has('envoyerRaison');
+                    
+                 
                     if($estCochee)
                     {
                         
@@ -91,7 +99,8 @@ class FichesController extends Controller
      */
     public function envoieFicheFinance(Fournisseurs $fournisseur)
     {
-        Mail::to('loick.michaud2103@gmail.com')->send(new EnvoieFicheFinance($fournisseur));
+        $finance = Parametres::where('id',1)->first();
+        Mail::to($finance->courrielFinance)->send(new EnvoieFicheFinance($fournisseur));
        
         return redirect()->route('acceuils.index');
 
@@ -104,8 +113,16 @@ class FichesController extends Controller
      */
     public function show(Fournisseurs $fournisseur)
     {
+        
+        $liscence  = Liscences::where('numLiscence', $fournisseur->numLiscence)->first();
+        $speLiscence = SpecificationLiscences::where('numLiscence', $fournisseur->numLiscence)->first();
+        $catLiscence  = CategorieLiscences::where('numCategorie',  $speLiscence->numCategorie)->first();
+        $contact = Contacts::where('fournisseur', $fournisseur->idFournisseur)->first();
+        $infotel = Infotels::where('fournisseur', $fournisseur->idFournisseur)->first();
         $demandeInscription = Demandesinscriptions::where('idFournisseur', $fournisseur->idFournisseur)->first();
-        return View('fiche.show',compact("fournisseur", "demandeInscription"));
+        return View('fiche.show',compact("fournisseur", "demandeInscription",
+                                        "contact","infotel","liscence","speLiscence","catLiscence"
+                                        ));
     }
 
     public function askCode(){

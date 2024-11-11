@@ -40,7 +40,7 @@
                     <script>
                         function othertype() {
                             var x = document.getElementById('statut').value;
-                            if(x=='Refuse') {
+                            if(x=='Refusé') {
                                 document.getElementById('refuse').style.display = "block";
                                 document.getElementById('raisonRefus').required = true;
                             } else {

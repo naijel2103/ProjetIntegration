@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Comptes;
 use App\Models\Modeles_courriels;
+use App\Models\Parametres;
 use App\Mail\resetDeMotDePasse;
 use App\Mail\AccountCreated;
 
@@ -30,7 +31,7 @@ class ProfilsController extends Controller
     {
 
         if (auth()->check()) {
-            return redirect()->route('profil');
+            return redirect('/');
         }
         else {
             return view('Profil.connexion');
@@ -53,7 +54,7 @@ class ProfilsController extends Controller
     {
  
         if (auth()->check()) {
-            return redirect()->route('profil');
+            return redirect('/');
         }
         else {
             return view('Profil.connexionNEQ');
@@ -142,6 +143,33 @@ class ProfilsController extends Controller
     {
         $comptes = Comptes::all();
         return view('Profil.gererComptes',compact("comptes"));
+    }
+
+    public function gererParametres()
+    {
+        $finance = Parametres::where('id',1)->first();
+        return view('Profil.gererParametres',compact("finance"));
+    }
+
+    public function editGererParametres(Request $request)
+    {
+    
+        $finance = Parametres::where('id',1)->first();
+        try{
+            $finance->courrielFinance = $request->emailFinance;
+            $finance->courrielAppro = $request->emailAppro;
+            $finance->delaiRevision = $request->delai;
+            $finance->tailleFichiersMax = $request->taille;
+            $finance->save();
+            
+            return redirect()->route('acceuils.index');
+        }catch(\Throwable $e)
+        {
+            Log::debug($e);
+            return redirect()->route('profil.gererParametres');
+        }
+        return redirect()->route('profil.gererParametres',compact("comptes","finance"));
+        
     }
 
     /**
