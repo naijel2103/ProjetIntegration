@@ -18,7 +18,7 @@
 <div class="fournisseur-card">
     <div class="fournisseur-info">
         
-        <!-- Informations fournisseur -->
+     
         <div class="info-box identification">
             <div class="info-title">Identification:</div>
             <div class="info-content">
@@ -30,6 +30,24 @@
                 </div>
                 <div>
                     <b>Email:</b> {{ $fournisseur->email }}
+                </div>
+                <div>
+                    <b>Statut:</b>      @if($fournisseur->statut == "En attente")
+                                        <div>
+                                        <img src="../Images/enAttente.png" alt="enAttente" id='imgStatut'>
+                                        En attente
+                                        </div>
+                                        @elseif($fournisseur->statut == "Accepte")
+                                        <div>
+                                        <img src="../Images/accepter.png" alt="accepter" id='imgStatut'>
+                                        Accepter
+                                        </div>
+                                         @else
+                                         <div>
+                                        <img src="../Images/refuse.png" alt="refuse" id='imgStatut'>
+                                        <p>Refuser</p>
+                                        </div>
+                                        @endif
                 </div>
             </div>
         </div>
@@ -67,7 +85,7 @@
             </div>
         </div>
 
-        <!-- Finances -->
+ 
         <div class="info-box finances">
             <div class="info-title">Finances:</div>
             <div class="info-content">
@@ -140,11 +158,15 @@
                 </div>
                 <div>
                   @if($liscences->statut == "Valide")
-                  <b>Statut de licence:</b> {{ $liscences->statut }} <img src="../Images/checkVert.png" alt="accepter" id='imgStatut'>
-           
+                  <b>Statut de licence:</b>
+                  <div>
+                   {{ $liscences->statut }} <img src="../Images/checkVert.png" alt="accepter" id='imgStatut'>
+                   </div>
                 @else
-                <b>Statut de licence:</b> {{ $liscences->statut }}<img src="Images/refuse.png" alt="refuse" id='imgStatut'>
-  
+                <b>Statut de licence:</b> 
+                <div>
+                {{ $liscences->statut }}<img src="Images/refuse.png" alt="refuse" id='imgStatut'>
+                </div>
                 @endif
                 </div>
                 <div>
