@@ -250,16 +250,12 @@ html, body {
   border:none
 }
 
-.info-etat{
-  width: 5vw;
-}
-
 .info-nom{
-  width: 20vw;
+  width: 24vw;
 }
 
 .info-ville{
-  width: 18vw;
+  width: 21vw;
 }
 
 .info-offre{
@@ -275,6 +271,6 @@ html, body {
 }
 
 .info-select{
-  width: 7vw;
+  width: 5vw;
   border: none;
 }

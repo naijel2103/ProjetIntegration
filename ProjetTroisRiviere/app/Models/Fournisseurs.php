@@ -60,4 +60,9 @@ class Fournisseurs extends Model
         return $this->hasOne(Demandesinscriptions::class, 'idFournisseur');
     }
 
+    public function listeAContacte()
+    {
+        return $this->belongsTo(ListeAContacte::class);
+    }
+    
 }

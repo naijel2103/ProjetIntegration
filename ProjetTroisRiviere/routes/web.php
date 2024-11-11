@@ -28,11 +28,14 @@ Route::get('/fournisseurs/{fournisseur}',
 Route::get('/gererDemande/{fournisseur}',
 [FichesController::class, 'gererDemande']) -> name('fiche.gererDemande');
 
-
 Route::patch('/gererDemande/{fournisseur}',
 [FichesController::class, 'reponseDemande'])->name('fiche.reponseDemande');
 
+Route::get('/listeAContacter', 
+[FichesController::class, 'askCode']);
 
+Route::get('/listeAContacter/{codeListe}', 
+[FichesController::class, 'listeAContacter']);
 
 Route::get('/connexion',
 [ProfilsController::class, 'connexion']) -> name('profil.connexion');

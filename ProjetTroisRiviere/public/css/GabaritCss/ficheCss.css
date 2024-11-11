@@ -28,5 +28,6 @@
 
 .content-box{
     border: solid 0.1px;
+    min-height: 25vh;
 }
 

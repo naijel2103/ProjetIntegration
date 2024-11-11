@@ -81,9 +81,6 @@
             <div class="container-fournisseur cols-2">
                 <div class="liste-fournisseur">
                     <div class="cols-7 titre-fournisseur">
-                        <div class="info info-etat info-titre">
-                            <h6>État</h6>
-                        </div>
                         <div  class="info info-nom info-titre">
                             <h6>Fournisseur</h6>
                         </div>
@@ -106,15 +103,12 @@
                     <div class="les-fournisseurs">
                         @foreach ($fournisseurs as $fournisseur)
                         <div class="cols-7 un-fournisseur">
-                            <div  class="info info-etat">
-                                {{ $fournisseur->statut }} 
-                            </div>
                             <div  class="info info-nom">
                                 {{ $fournisseur->nomFournisseur }} 
                             </div>
                             <div  class="info info-ville"  data-dans_ville="{{$fournisseur->dansVille}}" data-dans_region="{{$fournisseur->dansRegion}}" 
-                            data-ville_selected="{{$villeSelect ? 'true' : 'false' }}" data-region_selected="{{$regionSelect ? 'true' : 'false' }}">
-                            {{ $fournisseur->municipalite }}
+                                data-ville_selected="{{$villeSelect ? 'true' : 'false' }}" data-region_selected="{{$regionSelect ? 'true' : 'false' }}">
+                                {{ $fournisseur->municipalite }}
                             </div>
                             <div  class="info info-offre" data-nbr_offres={{$nbrOffreSelect}} data-nbr_offres_correspondant="{{$fournisseur->nbr_offres_correspondant}}">
                                 {{ empty($fournisseur->nbr_offres_correspondant) ? '0' : $fournisseur->nbr_offres_correspondant }} / {{$nbrOffreSelect}}
@@ -126,7 +120,7 @@
                                 <a href="">Fiche</a>
                             </div>
                             <div  class="info info-select">
-                                <input type="checkbox"></input>
+                                <input type="checkbox" name="foursSelect[]" value="{{$fournisseur->idFournisseur }}"></input>
                             </div>
                         </div>
                         @endforeach

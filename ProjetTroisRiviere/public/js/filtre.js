@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
             fournisseur.style.backgroundColor ="#fc897a";
         }
     });
-    
+
     listeFoursAvecTaux.sort((a, b) => b.tauxCoresp - a.tauxCoresp);
 
     listeDesFours.innerHTML = '';

@@ -108,29 +108,17 @@ class FichesController extends Controller
         return View('fiche.show',compact("fournisseur", "demandeInscription"));
     }
 
-
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+    public function askCode(){
+        return View('Fiche.askCodeListe');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function showListeAContacte(Request $requete){
+
+        $codeListe = $request->input('codeListe');
+
+        $listeAContacte = ListeAContacte::where('codeListe', $codeListe);
+        $fournisseurs = $listeAContacte->fournisseurs;
+        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }
