@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    function majListe(index){
+    function majListe(event, index){
         switch(index){
             case 0:
                 textEntre = event.target.value.toLowerCase();
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
     barRecherches.forEach(input => {
         input.addEventListener('input', (event) => {
             var index = Array.prototype.indexOf.call(barRecherches, event.target);
-            majListe(event, index); 
+            majListe(event, index);
         });
     });
 

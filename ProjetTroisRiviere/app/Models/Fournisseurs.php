@@ -64,5 +64,10 @@ class Fournisseurs extends Model
     {
         return $this->belongsTo(ListeAContacte::class);
     }
+
+    public function contacts()
+    {
+        return $this->hasMany(Contacts::class, 'idContact');
+    }
     
 }

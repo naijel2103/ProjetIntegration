@@ -32,10 +32,10 @@ Route::patch('/gererDemande/{fournisseur}',
 [FichesController::class, 'reponseDemande'])->name('fiche.reponseDemande');
 
 Route::get('/listeAContacter', 
-[FichesController::class, 'askCode']);
+[FichesController::class, 'askCode'])->name('askCodeListe');
 
 Route::get('/listeAContacter/{codeListe}', 
-[FichesController::class, 'listeAContacter']);
+[FichesController::class, 'showListeAContacte'])->name('showListeAContacte');
 
 Route::get('/connexion',
 [ProfilsController::class, 'connexion']) -> name('profil.connexion');

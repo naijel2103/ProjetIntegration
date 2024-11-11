@@ -11,6 +11,8 @@ class ListeAContacter extends Model
 
     public $timestamps = false;
 
+    protected $table = 'listeacontacter';
+
     protected $primaryKey = 'codeListe';
 
     protected $fillable = [

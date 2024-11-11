@@ -17,6 +17,7 @@ use App\Models\Modeles_courriels;
 use App\Models\Contacts;
 use App\Models\Infotels;
 use App\Models\Liscences;
+use App\Models\ListeAContacter;
 use App\Models\SpecificationLiscences;
 use App\Models\CategorieLiscences;
 use App\Mail\EnvoieAccepteFiche;
@@ -125,17 +126,41 @@ class FichesController extends Controller
                                         ));
     }
 
-    public function askCode(){
-        return View('Fiche.askCodeListe');
+    public function askCode(Request $request){
+        if ($request->isMethod('get') && $request->has('codeListe')) {
+            $codeListe = $request->input('codeListe');
+            return redirect()->route('showListeAContacte', ['codeListe' => $codeListe]);
+        }
+
+        return view('Fiche.askCodeListe');
     }
 
-    public function showListeAContacte(Request $requete){
+    public function showListeAContacte($codeListe){
 
-        $codeListe = $request->input('codeListe');
+        $listeAContacteExists = ListeAContacter::where('codeListe', $codeListe)->exists();
 
-        $listeAContacte = ListeAContacte::where('codeListe', $codeListe);
-        $fournisseurs = $listeAContacte->fournisseurs;
-        
+        if(!$listeAContacteExists ){
+            return redirect()->route('askCodeListe')->with('error', 'Le codeListe fourni n\'existe pas.');
+        }
+
+        $listeAContactes = ListeAContacter::where('codeListe', $codeListe)->get();
+        $listeFournisseurs = [];
+
+        foreach ($listeAContactes as $listeAContacte) {
+            $fournisseur = Fournisseurs::find($listeAContacte->fournisseur);
+
+            $listeFournisseurs[] = [
+                'fournisseur' => $fournisseur,
+                'contacts' => $fournisseur->contacts,
+                'infotels' => $fournisseur->infotels,
+                'contacte' => $listeAContacte->contacte,
+            ];
+        }
+
+        return view('Fiche.listeAContacter', [
+            'listeFournisseurs' => $listeFournisseurs,
+            'codeListe' => $codeListe
+        ]);
     }
 
 }
