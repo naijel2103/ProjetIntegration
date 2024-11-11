@@ -194,6 +194,7 @@
 
                         </div>
                     </div>
+
                     <div id="step3" class="form-step" style="display: none;">
                         <div class="col-10 offset-1">
                             <div class="text-center mb-4">
@@ -278,10 +279,10 @@
                                 <label for="prenom" class="col-sm-4 col-form-label text-end">Prénom (Obligatoire):</label>
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
-                                        <input type="text" name="prenom" id="prenom" class="form-control" required>
-                                        <img src="Images/XIcon.png" alt="" class="icon" id="prenom-icon" style="display: none; margin-left: 10px;">
+                                        <input type="text" name="prenom" id="prenom-step5" class="form-control" required>
+                                        <img src="Images/XIcon.png" alt="" class="icon" id="prenom-step5-icon" style="display: none; margin-left: 10px;">
                                     </div>
-                                    <span class="error" id="prenom-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                    <span class="error" id="prenom-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                             </div>
 
@@ -290,10 +291,10 @@
                                 <label for="nom" class="col-sm-4 col-form-label text-end">Nom (Obligatoire):</label>
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
-                                        <input type="text" name="nom" id="nom" class="form-control" required>
-                                        <img src="Images/XIcon.png" alt="" class="icon" id="nom-icon" style="display: none; margin-left: 10px;">
+                                        <input type="text" name="nom" id="nom-step5" class="form-control" required>
+                                        <img src="Images/XIcon.png" alt="" class="icon" id="nom-step5-icon" style="display: none; margin-left: 10px;">
                                     </div>
-                                    <span class="error" id="nom-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                    <span class="error" id="nom-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                             </div>
 
@@ -302,10 +303,10 @@
                                 <label for="fonction" class="col-sm-4 col-form-label text-end">Fonction (Obligatoire):</label>
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
-                                        <input type="text" name="fonction" id="fonction" class="form-control" required>
-                                        <img src="Images/XIcon.png" alt="" class="icon" id="fonction-icon" style="display: none; margin-left: 10px;">
+                                        <input type="text" name="fonction" id="fonction-step5" class="form-control" required>
+                                        <img src="Images/XIcon.png" alt="" class="icon" id="fonction-step5-icon" style="display: none; margin-left: 10px;">
                                     </div>
-                                    <span class="error" id="fonction-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                    <span class="error" id="fonction-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                             </div>
 
@@ -314,80 +315,45 @@
                                 <label for="email_contact" class="col-sm-4 col-form-label text-end">Courriel (Obligatoire):</label>
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
-                                        <input type="email" name="email_contact" id="email_contact" class="form-control" required>
-                                        <img src="Images/XIcon.png" alt="" class="icon" id="email_contact-icon" style="display: none; margin-left: 10px;">
+                                        <input type="email" name="email_contact" id="email_contact-step5" class="form-control" required>
+                                        <img src="Images/XIcon.png" alt="" class="icon" id="email_contact-step5-icon" style="display: none; margin-left: 10px;">
                                     </div>
-                                    <span class="error" id="email_contact-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                    <span class="error" id="email_contact-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                             </div>
 
                             <!-- Téléphone -->
-
                             <div class="form-group row mb-3 justify-content-end">
                                 <label for="tel_contact" class="col-sm-4 col-form-label text-end">Téléphone (Obligatoire):</label>
                                 <div class="col-sm-2">
-                                    <input type="text" name="num_tel_type_contact" id="num_tel_type_contact" class="form-control" placeholder="(Bureau, Maison etc.)" required>
-                                    <img src="Images/XIcon.png" alt="" class="icon" id="num_tel_type-icon" style="display: none; margin-left: 10px;">
-                                    <span class="error" id="num_tel_type-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                    <input type="text" name="num_tel_type_contact" id="num_tel_type-contact-step5" class="form-control" placeholder="(Bureau, Maison etc.)" required>
+                                    <img src="Images/XIcon.png" alt="" class="icon" id="num_tel_type-contact-step5-icon" style="display: none; margin-left: 10px;">
+                                    <span class="error" id="num_tel_type-contact-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" name="tel_contact" id="tel_contact" class="form-control form-control1" placeholder="Numéro de téléphone" required>
-                                    <img src="Images/XIcon.png" alt="" class="icon" id="num_tel-icon" style="display: none; margin-left: 10px;">
-                                    <span class="error" id="num_tel-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                    <input type="text" name="tel_contact" id="tel_contact-step5" class="form-control form-control1" placeholder="Numéro de téléphone" required>
+                                    <img src="Images/XIcon.png" alt="" class="icon" id="tel_contact-step5-icon" style="display: none; margin-left: 10px;">
+                                    <span class="error" id="tel_contact-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" name="poste" id="poste" class="form-control" placeholder="Poste">
-                                    <img src="Images/XIcon.png" alt="" class="icon" id="poste-icon" style="display: none; margin-left: 0px;">
-                                    <span class="error" id="poste-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                    <input type="text" name="poste" id="poste-step5" class="form-control" placeholder="Poste">
+                                    <img src="Images/XIcon.png" alt="" class="icon" id="poste-step5-icon" style="display: none; margin-left: 0px;">
+                                    <span class="error" id="poste-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                             </div>
-
-
                         </div>
 
                         <div class="text-center mt-2 mb-3">
                             <button type="button" id="btnRetour5" class="btn btn-danger btn-lg">Retour</button>
-                            <button type="button" id="btnNextStep5" class="btn btn-primary btn-lg">Suivant</button>
+                            <button type="button" id="submitStep5" class="btn btn-primary btn-lg">Soumettre</button>
                         </div>
                     </div>
-                    
-                    <div id="step6" class="step" style="display:none;">
-                                <h3>Confirmation des Informations</h3>
-                                <p>Veuillez vérifier vos informations et soumettre votre formulaire.</p>
 
-                                <!-- Informations récapitulatives (comme celles que l'utilisateur a entrées dans les étapes précédentes) -->
-                                <div>
-                                    <label for="companyName">Nom de l'entreprise :</label>
-                                    <span id="companyNameDisplay"></span>
-                                </div>
-
-                                <div>
-                                    <label for="email">Adresse e-mail :</label>
-                                    <span id="emailDisplay"></span>
-                                </div>
-
-                                <div>
-                                    <label for="password">Mot de passe :</label>
-                                    <span id="passwordDisplay"></span>
-                                </div>
-
-                                <div>
-                                    <label for="phoneNumber">Numéro de téléphone :</label>
-                                    <span id="phoneDisplay"></span>
-                                </div>
-
-                                <!-- Champ d'information supplémentaire -->
-                                <div>
-                                    <label for="additionalInfo">Informations supplémentaires :</label>
-                                    <textarea id="additionalInfo" class="form-control"></textarea>
-                                    <div id="additionalInfo-error" class="error"></div>
-                                </div>
-
-                                <!-- Boutons de navigation -->
-                                <button type="button" id="btnRetour6">Retour</button>
-                                <button type="button" id="btnSubmitForm6">Soumettre</button>
-                            </div>
-
+                    <!-- Step 6 (initialement masqué) -->
+                    <div id="step6" style="display: none;">
+                        <h3>Le formulaire a été envoyé avec succès !</h3>
+                        <p>Nous avons bien reçu vos informations.</p>
+                    </div>
                 </form>
             </div>
         </div>
