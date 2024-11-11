@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    function majListe(event, index){
+    function majListe(index){
         switch(index){
             case 0:
                 textEntre = event.target.value.toLowerCase();
@@ -175,16 +175,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (nbrOffre > 0){
-            tauxCoresp += (nbrOffreCoresp * 30)/nbrOffre;
-            if(((nbrOffreCoresp * 30)/nbrOffre)>=15){
+            tauxCoresp += (nbrOffreCoresp * 40)/nbrOffre;
+            if(((nbrOffreCoresp * 40)/nbrOffre)>=20){
                 fournisseur.getElementsByClassName('info-offre')[0].style.color = "#1bd115";
-            } else if(((nbrOffreCoresp * 30)/nbrOffre)> 0){
+            } else if(((nbrOffreCoresp * 40)/nbrOffre)> 0){
                 fournisseur.getElementsByClassName('info-offre')[0].style.color = "#ffc400";
             } else {
                 fournisseur.getElementsByClassName('info-offre')[0].style.color = "#db0000";
             }
         } else {
-            tauxCoresp +=30;
+            tauxCoresp +=40;
         }
 
         if (nbrCat > 0){

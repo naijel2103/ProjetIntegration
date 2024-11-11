@@ -72,23 +72,8 @@
             </div>
 
             <div class="cols-2 search-bar">
-                <div class="cols-4 status-bar">
-                    <div class="unStatus">
-                        <input type="checkbox" name="status" value="attente">En attente</input>
-                    </div>
-                    <div class="unStatus">
-                        <input type="checkbox" name="status" value="accepte">Acceptées</input>
-                    </div>
-                    <div class="unStatus">
-                        <input type="checkbox" name="status" value="refusees">Refusées</input>
-                    </div>
-                    <div class="unStatus">
-                        <input type="checkbox" name="status" value="revise">À reviser</input>
-                    </div>
-                </div>
 
                 <button type="submit" class="sendBtn">Rechercher</button>
-
             </div>
         </div>
 

@@ -54,4 +54,10 @@ class Fournisseurs extends Model
     {
         return $this->belongsTo(Liscences::class, 'numLiscence', 'numLiscence');
     }
+
+    public function demandeInscription()
+    {
+        return $this->hasOne(Demandesinscriptions::class, 'idFournisseur');
+    }
+
 }

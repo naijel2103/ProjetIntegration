@@ -182,18 +182,6 @@ html, body {
   flex-direction: row;
 }
 
-.status-bar{
-  display: flex;
-  flex-direction: row;
-}
-
-.unStatus{
-  align-self: center;
-  margin: 0 2vw;
-  padding: 2vw;
-  background-color:#eeeef0;
-}
-
 .sendBtn{
   align-self:center;
   margin: auto;

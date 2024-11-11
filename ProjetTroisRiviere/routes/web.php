@@ -13,7 +13,7 @@ Route::get('/',
 Route::get('/demandeFiche',
 [FichesController::class, 'demandeFiche']) -> name('fiche.demandeFiche');
 
-Route::get('/fiche',
+Route::get('/listeDemande',
 [FichesController::class, 'index']) -> name('fiche.index');
 
 Route::get('/envoieDemandeFiche',

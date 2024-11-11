@@ -2,3 +2,31 @@
 {
     height: 75px;
 }
+
+.top-box{
+    background-color:#eeeef0;
+    padding-bottom: 2vh;
+}
+
+.filtre-bar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.status-bar{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+.unStatus{
+    align-self: center;
+    margin: 0 1vw
+  }
+
+.content-box{
+    border: solid 0.1px;
+}
+

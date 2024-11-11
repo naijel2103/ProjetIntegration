@@ -25,8 +25,9 @@ class FichesController extends Controller
      */
     public function index()
     {
+        $fournisseurs = Fournisseurs::with('demandeInscription')
+            ->get();
 
-        $fournisseurs = Fournisseurs::all();
         return View("fiche.index",compact("fournisseurs"));
     }
 

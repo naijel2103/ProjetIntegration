@@ -25,5 +25,9 @@ class Demandesinscriptions extends Model
         'raisonRefus',
     ];
 
+    public function fournisseur()
+    {
+        return $this->belongsTo(Fournisseurs::class, 'idFournisseur');
+    }
 }
 

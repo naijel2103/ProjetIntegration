@@ -37,7 +37,7 @@ class FournisseurController extends Controller
         $regionSelect = $requete->input('regions',[]);
         $villeSelect = $requete->input('villes',[]);
 
-        $requeteBD = Fournisseurs::query();
+        $requeteBD = Fournisseurs::query()->where('statut', 'Accepte');
 
         $listeOffres = Offres::whereIn('codeUNSPSC', OffresFournisseurs::select('offre'))->distinct()->get();
         $listeCategories = CategorieLiscences::whereIn('numCategorie', SpecificationLiscences::select('numCategorie'))->distinct()->get();
