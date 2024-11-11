@@ -20,6 +20,7 @@ class Contacts extends Model
         'nom',
         'fonction',
         'email',
+        "telephone",
     ];
 
 

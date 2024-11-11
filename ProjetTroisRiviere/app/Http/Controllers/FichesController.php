@@ -17,6 +17,8 @@ use App\Models\Modeles_courriels;
 use App\Models\Contacts;
 use App\Models\Infotels;
 use App\Models\Liscences;
+use App\Models\Offres;
+use App\Models\OffresFournisseurs;
 use App\Models\SpecificationLiscences;
 use App\Models\CategorieLiscences;
 use App\Mail\EnvoieAccepteFiche;
@@ -112,15 +114,31 @@ class FichesController extends Controller
      */
     public function show(Fournisseurs $fournisseur)
     {
-        
-        $liscence  = Liscences::where('numLiscence', $fournisseur->numLiscence)->first();
-        $speLiscence = SpecificationLiscences::where('numLiscence', $fournisseur->numLiscence)->first();
-        $catLiscence  = CategorieLiscences::where('numCategorie',  $speLiscence->numCategorie)->first();
-        $contact = Contacts::where('fournisseur', $fournisseur->idFournisseur)->first();
-        $infotel = Infotels::where('fournisseur', $fournisseur->idFournisseur)->first();
+
+
+        $offreFournisseurs = OffresFournisseurs::where('fournisseur', $fournisseur->idFournisseur)->get();
+
+
+        $offres = collect();
+
+        foreach ($offreFournisseurs as $offreFournisseur) {
+            $offre = Offres::where('codeUNSPSC', $offreFournisseur->offre)->get();
+            $offres = $offres->merge($offre);
+            }
+
+
+        $liscences  = Liscences::where('numLiscence', $fournisseur->numLiscence)->first();
+        $speLiscences = SpecificationLiscences::where('numLiscence', $fournisseur->numLiscence)->get();
+        $catLiscences = CategorieLiscences::whereIn('numCategorie', $speLiscences->pluck('numCategorie')->toArray())->get();
+
+
+        $contacts = Contacts::where('fournisseur', $fournisseur->idFournisseur)->get();
+        $infotels = Infotels::where('fournisseur', $fournisseur->idFournisseur)->get();
+
+
         $demandeInscription = Demandesinscriptions::where('idFournisseur', $fournisseur->idFournisseur)->first();
         return View('fiche.show',compact("fournisseur", "demandeInscription",
-                                        "contact","infotel","liscence","speLiscence","catLiscence"
+                                        "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs"
                                         ));
     }
 
