@@ -42,6 +42,7 @@ function validateStep(inputs, validations, step) {
     });
     return isValid;
 }
+updateProgressBar(1);  // Étape 2
 
 // Step 1 validation
 document.getElementById('btnNext').addEventListener('click', function () {
@@ -114,21 +115,29 @@ document.getElementById('btnNextStep4').addEventListener('click', function () {
 document.getElementById('btnRetour').addEventListener('click', () => {
     document.getElementById('step2').style.display = 'none';
     document.getElementById('step1').style.display = 'block';
+    updateProgressBar(1);  // Étape 1
+
 });
 
 document.getElementById('btnRetour2').addEventListener('click', () => {
     document.getElementById('step3').style.display = 'none';
     document.getElementById('step2').style.display = 'block';
+    updateProgressBar(2);  // Étape 2
+
 });
 
 document.getElementById('btnRetour3').addEventListener('click', () => {
     document.getElementById('step4').style.display = 'none';
     document.getElementById('step3').style.display = 'block';
+    updateProgressBar(3);  // Étape 3
+
 });
 
 document.getElementById('btnRetour5').addEventListener('click', () => {
     document.getElementById('step5').style.display = 'none';
     document.getElementById('step4').style.display = 'block';
+    updateProgressBar(4);  // Étape 4
+
 });
 
 // Final form validation

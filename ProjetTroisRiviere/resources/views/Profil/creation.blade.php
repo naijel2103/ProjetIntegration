@@ -267,9 +267,14 @@
                                         @endforeach
                                     </div>
                                 </div>
+                                
                             </div>
                             <br>
                             <br>
+                            <div class="w-100">
+                                <label for="">Détails et spécifications</label>
+                                <textarea name="" id="" cols="133" rows="2" class="form-control w-100"></textarea>
+                            </div>
                         </div>
                         <div class="text-center mt-2 mb-3">
                             <button type="button" id="btnRetour3" class="btn btn-danger btn-lg">Retour</button>
