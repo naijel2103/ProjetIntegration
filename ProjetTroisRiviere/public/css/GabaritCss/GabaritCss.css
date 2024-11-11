@@ -332,3 +332,16 @@ html, body {
   text-overflow: ellipsis; /* Ajoute des "..." à la fin si le texte est trop long */
   flex-grow: 1; /* Permet au label de prendre tout l'espace disponible */
 }
+
+#progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+}
+
+#progress-bar {
+  height: 5px;
+  transition: width 0.5s ease;
+}

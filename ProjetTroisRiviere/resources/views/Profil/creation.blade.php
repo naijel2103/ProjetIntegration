@@ -5,7 +5,15 @@
     <link rel="stylesheet" style="text/css" href="\css\GabaritCss\GabaritCss.css">
 </head>
 <script src="{{ asset('js/filtre.js') }}"></script>
+
+
+
 <div class="text-center mb-3">
+    <!-- Barre de progression placée juste au-dessus du bouton -->
+    <div id="progress-container" style="width: 100%; height: 5px; background-color: #ddd; margin-bottom: 20px;">
+        <div id="progress-bar" style="height: 100%; width: 0%; background-color: #4CAF50;"></div>
+    </div>
+
     <button type="button" id="btnDirectStep3" class="btn btn-warning btn-lg">Aller à l'étape 3</button>
 </div>
 

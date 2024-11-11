@@ -60,6 +60,8 @@ document.getElementById('btnNext').addEventListener('click', function () {
     if (validateStep(step1Inputs, validations, 1)) {
         document.getElementById('step1').style.display = 'none';
         document.getElementById('step2').style.display = 'block';
+        updateProgressBar(2);  // Étape 2
+
     }
 });
 
@@ -83,6 +85,8 @@ document.getElementById('btnNextStep').addEventListener('click', function () {
     if (validateStep(step2Inputs, validations, 2)) {
         document.getElementById('step2').style.display = 'none';
         document.getElementById('step3').style.display = 'block';
+        updateProgressBar(3);  // Étape 2
+
     }
 });
 
@@ -91,6 +95,8 @@ document.getElementById('btnNextStep2').addEventListener('click', function () {
     if (true) {
         document.getElementById('step3').style.display = 'none';
         document.getElementById('step4').style.display = 'block';
+        updateProgressBar(4);  // Étape 2
+
     }
 });
 
@@ -99,6 +105,8 @@ document.getElementById('btnNextStep4').addEventListener('click', function () {
     if (true) {
         document.getElementById('step4').style.display = 'none';
         document.getElementById('step5').style.display = 'block';
+        updateProgressBar(5);  // Étape 2
+
     }
 });
 
@@ -191,5 +199,13 @@ document.getElementById('submitStep5').addEventListener('click', function () {
         // Si les validations sont correctes, passer à Step 6
         document.getElementById('step5').style.display = 'none';
         document.getElementById('step6').style.display = 'block';
+        updateProgressBar(6);  // Étape 2
+
     }
 });
+
+function updateProgressBar(step) {
+    const progressBar = document.getElementById('progress-bar');
+    const progress = (step / 6) * 100; // Calcul du pourcentage en fonction de l'étape
+    progressBar.style.width = `${progress}%`;
+}
