@@ -44,6 +44,52 @@ function validateStep(inputs, validations, step) {
 }
 updateProgressBar(1);  // Étape 2
 
+// Vous pouvez insérer ce bloc de code après vos autres gestionnaires d'événements ou à la fin de votre script.
+
+// Gestion de l'autofill des informations via l'API avec le NEQ
+document.getElementById('neq').addEventListener('blur', function () {
+    const neq = this.value.trim();
+
+    // Validation de base pour le NEQ
+    if (!/^\d{10}$/.test(neq)) {
+        document.getElementById('neq-error').style.display = 'block';
+        document.getElementById('neq-error').innerText = "Le NEQ doit contenir 10 chiffres.";
+        return;
+    } else {
+        document.getElementById('neq-error').style.display = 'none';
+    }
+
+    // Appel à l'API locale
+    fetch(`http://127.0.0.1:8000/api/data/${neq}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur lors de la récupération des données.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Autofill des champs
+            if (data && data.entreprise) {
+                document.getElementById('nom').value = data.entreprise.nom || '';
+                document.getElementById('siteInternet').value = data.entreprise.site_internet || '';
+                document.getElementById('numero_civique').value = data.entreprise.adresse.numero || '';
+                document.getElementById('rue').value = data.entreprise.adresse.rue || '';
+                document.getElementById('ville').value = data.entreprise.adresse.ville || '';
+                document.getElementById('province').value = data.entreprise.adresse.province || '';
+                document.getElementById('code_postal').value = data.entreprise.adresse.code_postal || '';
+            } else {
+                document.getElementById('neq-error').style.display = 'block';
+                document.getElementById('neq-error').innerText = "Aucune entreprise trouvée pour ce NEQ.";
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            document.getElementById('neq-error').style.display = 'block';
+            document.getElementById('neq-error').innerText = "Impossible de récupérer les informations.";
+        });
+});
+
+
 // Step 1 validation
 document.getElementById('btnNext').addEventListener('click', function () {
     const step1Inputs = ['nom', 'email', 'password', 'password_confirmation'].map(id => document.getElementById(id));
@@ -93,23 +139,37 @@ document.getElementById('btnNextStep').addEventListener('click', function () {
 
 // Step 3 validation
 document.getElementById('btnNextStep2').addEventListener('click', function () {
-    if (true) {
+    const detailsTextarea = document.getElementById('detailsTextarea');
+    const validations = {
+        detailsTextarea: value => !value.trim() && "Le champ 'Détails et spéfications' est requis."
+    };
+
+    const isValid = validateStep([detailsTextarea], validations, 3);
+
+    if (isValid) {
         document.getElementById('step3').style.display = 'none';
         document.getElementById('step4').style.display = 'block';
-        updateProgressBar(4);  // Étape 2
-
+        updateProgressBar(4); // Étape suivante
     }
 });
+
 
 // Step 4 validation
 document.getElementById('btnNextStep4').addEventListener('click', function () {
-    if (true) {
+    const specificationsTextarea = document.getElementById('specificationsTextarea');
+    const validations = {
+        specificationsTextarea: value => !value.trim() && "Le champ 'Détails et spécifications' est requis."
+    };
+
+    const isValid = validateStep([specificationsTextarea], validations, 4);
+
+    if (isValid) {
         document.getElementById('step4').style.display = 'none';
         document.getElementById('step5').style.display = 'block';
-        updateProgressBar(5);  // Étape 2
-
+        updateProgressBar(5); // Étape suivante
     }
 });
+
 
 // Back buttons for navigating between steps
 document.getElementById('btnRetour').addEventListener('click', () => {
@@ -205,13 +265,68 @@ document.getElementById('submitStep5').addEventListener('click', function () {
     };
 
     if (validateStep(step5Inputs, validations, 5)) {
-        // Si les validations sont correctes, passer à Step 6
-        document.getElementById('step5').style.display = 'none';
-        document.getElementById('step6').style.display = 'block';
-        updateProgressBar(6);  // Étape 2
+        // Collecte les données de toutes les étapes
+        const formData = new FormData();
 
+        // Étape 1
+        formData.append('nom', document.getElementById('nom').value);
+        formData.append('email', document.getElementById('email').value);
+        formData.append('password', document.getElementById('password').value);
+        formData.append('password_confirmation', document.getElementById('password_confirmation').value);
+
+        // Étape 2
+        formData.append('siteInternet', document.getElementById('siteInternet').value);
+        formData.append('numero_civique', document.getElementById('numero_civique').value);
+        formData.append('rue', document.getElementById('rue').value);
+        formData.append('ville', document.getElementById('ville').value);
+        formData.append('province', document.getElementById('province').value);
+        formData.append('code_postal', document.getElementById('code_postal').value);
+        formData.append('num_tel', document.getElementById('num_tel').value);
+
+        // Étape 3
+        formData.append('service', document.getElementById('service').value);
+        formData.append('unspc_code', document.getElementById('unspc_code').value);
+
+        // Étape 4
+        const selectedOffers = document.querySelectorAll('input[name="offers[]"]:checked');
+        selectedOffers.forEach(offer => {
+            formData.append('offers[]', offer.value);
+        });
+
+        formData.append('license_category', document.getElementById('license_category').value);
+
+        // Étape 5
+        formData.append('prenom-step5', document.getElementById('prenom-step5').value);
+        formData.append('nom-step5', document.getElementById('nom-step5').value);
+        formData.append('fonction-step5', document.getElementById('fonction-step5').value);
+        formData.append('email_contact-step5', document.getElementById('email_contact-step5').value);
+        formData.append('num_tel_type-contact-step5', document.getElementById('num_tel_type-contact-step5').value);
+        formData.append('tel_contact-step5', document.getElementById('tel_contact-step5').value);
+
+        // Envoi des données avec fetch (AJAX)
+        fetch('votre_script_backend.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Vérifie la réponse du serveur
+            if (data.success) {
+                // Si tout s'est bien passé, passer à l'étape 6
+                document.getElementById('step5').style.display = 'none';
+                document.getElementById('step6').style.display = 'block';
+                updateProgressBar(6);  // Étape 6
+            } else {
+                alert('Erreur lors de l\'enregistrement des données. Veuillez réessayer.');
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert('Une erreur est survenue. Veuillez réessayer plus tard.');
+        });
     }
 });
+
 
 function updateProgressBar(step) {
     const progressBar = document.getElementById('progress-bar');

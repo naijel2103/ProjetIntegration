@@ -125,8 +125,8 @@
                                     <span class="error" id="numero_civique-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" name="rue" id="rue" class="form-control form-control1" placeholder="Rue (Obligatoire)" required>
-                                    <img src="Images/XIcon.png" alt="" class="icon" id="rue-icon" style="display: none; margin-left: 10px;">
+                                    <input type="text" name="rue" id="rue" class="form-control" placeholder="Rue (Obligatoire)" required>
+                                    <img src="Images/XIcon.png" alt="" class="icon" id="rue-icon" style="display: none; margin-left: 0px;">
                                     <span class="error" id="rue-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                                 <div class="col-sm-2">
@@ -179,7 +179,7 @@
                                     <span class="error" id="num_tel_type-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" name="num_tel" id="num_tel" class="form-control form-control1" placeholder="Numéro de téléphone" required>
+                                    <input type="text" name="num_tel" id="num_tel" class="form-control" placeholder="Numéro de téléphone" required>
                                     <img src="Images/XIcon.png" alt="" class="icon" id="num_tel-icon" style="display: none; margin-left: 10px;">
                                     <span class="error" id="num_tel-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
@@ -232,8 +232,11 @@
                             <br>
                             <br>
                             <div class="w-100">
-                                <label for="">Détails et spécifications</label>
-                                <textarea name="" id="" cols="133" rows="2" class="form-control w-100"></textarea>
+                            <div class="form-group">
+                                <label for="detailsTextarea">Détails et spécifications</label>
+                                <textarea id="detailsTextarea" class="form-control" rows="4" placeholder="Entrez les détails..."></textarea>
+                                <span id="detailsTextarea-error" class="error-message" style="display:none; color: red;"></span>
+                            </div>
                             </div>
                         </div>
                         <div class="text-center mt-2 mb-3">
@@ -258,7 +261,7 @@
                                     <br>
                                     <div class="liste-filtre w-100" style="max-height: 150px; overflow-y: auto; margin-top: -25px;">
                                         @foreach ($listeCategories as $categorie)
-                                        <div class="uneCategorie form-check" style="margin-bottom: 30px; display: flex; align-items: center;">
+                                        <div class="uneCategorie form-check" style="margin-bottom: 150px; display: flex; align-items: center;">
                                             <input type="checkbox" name="categories[]" value="{{ $categorie->numCategorie }}" id="categorie-{{ $categorie->numCategorie }}" @if(in_array($categorie->numCategorie, $catSelect)) checked @endif>
                                             <label for="categorie-{{ $categorie->numCategorie }}" class="form-check-label" style="white-space: normal; overflow: hidden; text-overflow: ellipsis; flex-grow: 1;">
                                                 {{ $categorie->numCategorie }} {{ $categorie->nom }}
@@ -272,8 +275,12 @@
                             <br>
                             <br>
                             <div class="w-100">
-                                <label for="">Détails et spécifications</label>
-                                <textarea name="" id="" cols="133" rows="2" class="form-control w-100"></textarea>
+                            <div class="form-group">
+                                <label for="specificationsTextarea">Détails et spécifications</label>
+                                <textarea id="specificationsTextarea" class="form-control" rows="4" placeholder="Entrez les spécifications..."></textarea>
+                                <span id="specificationsTextarea-error" class="error-message" style="display:none; color: red;"></span>
+                            </div>
+
                             </div>
                         </div>
                         <div class="text-center mt-2 mb-3">
@@ -285,7 +292,7 @@
                     <div id="step5" class="form-step" style="display: none;">
                         <div class="col-10 offset-1">
                             <br>
-                            <h4 class="text-center mb-4">Contacts du fournisseur</h4>
+                            <h4 class="text-center mb-4">Personne ressource</h4>
 
                             <!-- Prénom -->
                             <div class="form-group row mb-3 justify-content-end">
@@ -344,7 +351,7 @@
                                     <span class="error" id="num_tel_type-contact-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" name="tel_contact" id="tel_contact-step5" class="form-control form-control1" placeholder="Numéro de téléphone" required>
+                                    <input type="text" name="tel_contact" id="tel_contact-step5" class="form-control" placeholder="Numéro de téléphone" required>
                                     <img src="Images/XIcon.png" alt="" class="icon" id="tel_contact-step5-icon" style="display: none; margin-left: 10px;">
                                     <span class="error" id="tel_contact-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
