@@ -90,13 +90,6 @@ Route::get('/comptes/edit/{compte}',
 Route::delete('/comptes/supprimer/{compte}',
 [ProfilsController::class, 'destroy'])->name('profil.destroy');
 
-
-
-
-
-
-
-
 Route::post('/creer',
 [ProfilsController::class, 'creer']) -> name('profil.creer');
 
@@ -117,5 +110,8 @@ Route::get('/api/data/{neq}',
 
 Route::get('/listeFournisseur', 
 [FournisseurController::class, 'getListe'])->name('getListeFournisseur');
+
+Route::post('/listeFournisseur', 
+[FournisseurController::class, 'createListe'])->name('createListeFournisseur');
 
 Route::get('/creation', [FournisseurController::class, 'showCreationForm'])->name('profil.creation');

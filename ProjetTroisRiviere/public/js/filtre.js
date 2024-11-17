@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
     const barRecherches = Array.from(document.getElementsByClassName('searchBar-filtre'));
     const listeFiltres = document.querySelectorAll('.liste-filtre');
     const listeOffres = listeFiltres[0].querySelectorAll('.uneOffre');
@@ -209,6 +211,60 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             fournisseur.style.backgroundColor ="#fc897a";
         }
+    });
+
+    document.getElementById('openPopupExtract').addEventListener('click', function () {
+        const selectedFournisseurs = Array.from(document.querySelectorAll('.fournisseur-checkbox:checked'))
+        .map(checkbox => checkbox.value);
+
+        if (selectedFournisseurs.length === 0) {
+            alert('Veuillez sélectionner au moins un fournisseur.');
+            return;
+        }
+
+        fetch(routeCreateListeFournisseur, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
+            },
+            body: JSON.stringify({ fournisseurs: selectedFournisseurs })
+            
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const popup = document.getElementById('popUpExtract');
+                popup.querySelector('p').textContent = `${data.codeListe}`;
+                popup.style.display = 'flex';
+            } else {
+                alert(data.message || 'Une erreur est survenue.');
+            }
+        })
+        .catch(error => console.error('Erreur:', error));
+    });
+
+    document.getElementById('closePopup').addEventListener('click', function () {
+        document.getElementById('popupModal').style.display = 'none';
+    });
+
+    window.addEventListener('click', function (event) {
+        const popup = document.getElementById('popUpExtract');
+        if (event.target === popup) {
+            popup.style.display = 'none';
+        }
+    });
+
+    document.getElementById("copyButton").addEventListener("click", function() {
+        var textToCopy = document.getElementById("textToCopy");
+    
+        navigator.clipboard.writeText(textToCopy.innerText)
+            .then(function() {
+                alert("Texte copié dans le presse-papier !");
+            })
+            .catch(function(err) {
+                console.error("Erreur lors de la copie: ", err);
+            });
     });
 
     listeFoursAvecTaux.sort((a, b) => b.tauxCoresp - a.tauxCoresp);

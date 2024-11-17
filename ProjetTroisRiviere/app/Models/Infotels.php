@@ -27,6 +27,7 @@ class Infotels extends Model
     {
         return $this->belongsTo(Fournisseurs::class, 'fournisseur', 'idFournisseur');
     }
+    
     public function contact()
     {
         return $this->belongsTo(Contacts::class, 'contact', 'idContact');

@@ -140,7 +140,7 @@ class FichesController extends Controller
         $listeAContacteExists = ListeAContacter::where('codeListe', $codeListe)->exists();
 
         if(!$listeAContacteExists ){
-            return redirect()->route('askCodeListe')->with('error', 'Le codeListe fourni n\'existe pas.');
+            return redirect()->route('askCodeListe')->with('error', '*Le code de la liste fourni n\'existe pas*');
         }
 
         $listeAContactes = ListeAContacter::where('codeListe', $codeListe)->get();
@@ -149,13 +149,22 @@ class FichesController extends Controller
         foreach ($listeAContactes as $listeAContacte) {
             $fournisseur = Fournisseurs::find($listeAContacte->fournisseur);
 
+            $contactsAvecInfotels = $fournisseur->contacts->map(function ($contact) {
+                return [
+                    'contact' => $contact,
+                    'infotels' => $contact->infotels,
+                ];
+            });
+
             $listeFournisseurs[] = [
                 'fournisseur' => $fournisseur,
-                'contacts' => $fournisseur->contacts,
+                'contacts' => $contactsAvecInfotels,
                 'infotels' => $fournisseur->infotels,
                 'contacte' => $listeAContacte->contacte,
             ];
         }
+
+        /*dd($listeFournisseurs);*/
 
         return view('Fiche.listeAContacter', [
             'listeFournisseurs' => $listeFournisseurs,

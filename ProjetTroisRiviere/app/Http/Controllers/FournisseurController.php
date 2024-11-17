@@ -9,6 +9,7 @@ use App\Models\OffresFournisseurs;
 use App\Models\CategorieLiscences;
 use App\Models\SpecificationLiscences;
 use App\Models\Liscences;
+use App\Models\ListeAContacter;
 
 use App\Http\Controllers\ApiController;
 
@@ -130,6 +131,35 @@ class FournisseurController extends Controller
             
             'nbrOffreSelect' => count($offreSelect),
             'nbrCatSelect' => count($catSelect)
+        ]);
+    }
+
+    public function createListe(Request $request){
+        $request->validate([
+            'fournisseurs' => 'required|array',
+            'fournisseurs.*' => 'exists:fournisseurs,idFournisseur',
+        ]);
+
+        $fournisseurs = $request->input('fournisseurs');
+
+        do {
+            $codeListe = rand(10000000, 99999999);
+
+            $exists = ListeAContacter::where('codeListe', $codeListe)->exists();
+        } while ($exists);
+
+        foreach ($fournisseurs as $fournisseur) {
+            ListeAContacter::create([
+                'fournisseur' => $fournisseur,
+                'contacte' => 0,
+                'codeListe' => $codeListe,
+            ]);
+        }
+
+
+        return response()->json([
+            'success' => true,
+            'codeListe' => $codeListe,
         ]);
     }
 }

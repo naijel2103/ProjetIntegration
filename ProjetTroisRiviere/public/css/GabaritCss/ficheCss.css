@@ -31,3 +31,36 @@
     min-height: 25vh;
 }
 
+.askbar{
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    padding-left: 25%;
+    padding-right: 25%;
+    padding-top: 5%;
+}
+
+.errorMessage{
+    text-align: center;
+}
+
+.codeTitle{
+    font-size: xx-large;
+    font-weight: bolder;
+    text-align: center;
+}
+
+#codeListe{
+    width:50%;
+    margin-left: 25%;
+    margin-bottom: 5px;
+}
+
+.askBtn{
+    width:20%;
+    margin-left: 40%;
+    border-radius: 5px;
+    background-color: rgb(183, 250, 250);
+    border-color: #afafaf;
+    font-weight:500
+}

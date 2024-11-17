@@ -13,9 +13,10 @@ class ListeAContacter extends Model
 
     protected $table = 'listeacontacter';
 
-    protected $primaryKey = 'codeListe';
+    public $incrementing = false;
 
     protected $fillable = [
+        'codeListe',
         'fournisseur',
         'contacte'
     ];

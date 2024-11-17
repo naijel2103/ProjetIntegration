@@ -1,5 +1,10 @@
 @extends('layouts.app')
 @section('contenu')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+<script>
+    var routeCreateListeFournisseur = "{{ route('createListeFournisseur') }}";
+</script>
 
 <script src="{{ asset('js/filtre.js') }}"></script>
 
@@ -120,14 +125,23 @@
                                 <a href="">Fiche</a>
                             </div>
                             <div  class="info info-select">
-                                <input type="checkbox" name="foursSelect[]" value="{{$fournisseur->idFournisseur }}"></input>
+                                <input type="checkbox" class="fournisseur-checkbox" name="foursSelect[]" value="{{$fournisseur->idFournisseur }}"></input>
                             </div>
                         </div>
                         @endforeach
                     </div>
                 </div>
-                <button class="extractBtn">Extraire la sélection</button>
+                <button type="button" id="openPopupExtract" class="extractBtn">Extraire la sélection</button>
             </div>
         </div>
     </form>
+
+    <div id="popUpExtract" class="popup-modal" style="display: none;">
+        <div class="popup-content">
+            <span id="closePopup" class="close">&times;</span>
+            <h3>Voici le code de la liste</h3>
+            <p id="textToCopy" class="codeCopy"></p>
+            <button id="copyButton">Copier le code</button>
+        </div>
+    </div>
 @endsection
