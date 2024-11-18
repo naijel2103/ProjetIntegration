@@ -29,6 +29,7 @@
                         <option disabled selected hidden></option>
                         <option value="Accusé de reception">Accusé de reception</option>
                         <option value="Approbation">Approuvé</option>
+                        <option value="Modification">Modification</option>
                         <option value="Refus">Refus</option>
                     </select>
                     <div id="Refus">
@@ -47,6 +48,9 @@
                             } else if(x=='Approbation'){
                                 const texteAppro = @json($appro->message);
                                 document.getElementById('texteEmail').value = texteAppro;
+                            } else if(x=='Modification'){
+                                const texteMod = @json($mod->message);
+                                document.getElementById('texteEmail').value = texteMod;
                             }else{
                                 const texteAccuse = @json($accuse->message);
                                 document.getElementById('texteEmail').value = texteAccuse;

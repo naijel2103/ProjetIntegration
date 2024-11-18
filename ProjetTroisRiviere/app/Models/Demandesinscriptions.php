@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Demandesinscriptions extends Model
 {
     use HasFactory;
-
+    public $incrementing = true;
     public $timestamps = false;
     protected $primaryKey = 'numDemande';
 

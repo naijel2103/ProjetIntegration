@@ -28,8 +28,9 @@
                     <select name="statut" id="statut" onclick="othertype()" value="Select" required>
                         <option disabled selected hidden></option>
                         <option value="En attente">En attente</option>
-                        <option value="Approuvé">Approuvé</option>
-                        <option value="Refusé">Refusé</option>
+                        <option value="Accepte">Accepte</option>
+                        <option value="A reviser">À reviser</option>
+                        <option value="Refusee">Refusee</option>
                     </select>
                     <div id="refuse">
                     <label for="raisonRefus">Entrez la raison du refus</label>
@@ -40,7 +41,7 @@
                     <script>
                         function othertype() {
                             var x = document.getElementById('statut').value;
-                            if(x=='Refusé') {
+                            if(x=='Refusee') {
                                 document.getElementById('refuse').style.display = "block";
                                 document.getElementById('raisonRefus').required = true;
                             } else {
