@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfilsController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\FournisseurController;
 
+
 Route::get('/',
 [AcceuilsController::class, 'index']) -> name('acceuils.index');
 
@@ -33,6 +34,11 @@ Route::patch('/gererDemande/{fournisseur}',
 [FichesController::class, 'reponseDemande'])->name('fiche.reponseDemande');
 
 
+Route::get('/api/data/{neq}', 
+[ApiController::class, 'getUser']);
+
+Route::get('/api/data/{neq}', 
+[ApiController::class, 'getData']);
 
 Route::get('/connexion',
 [ProfilsController::class, 'connexion']) -> name('profil.connexion');
@@ -102,8 +108,7 @@ Route::get('/reinitialiser/{code}',
 Route::post('/reinitialiser/{code}',
 [ProfilsController::class, 'reinitialiser']) -> name('profil.reinitialiser');
 
-Route::get('/api/data/{neq}', 
-[ApiController::class, 'getData']);
+
 
 Route::get('/listeFournisseur', 
 [FournisseurController::class, 'getListe'])->name('getListeFournisseur');

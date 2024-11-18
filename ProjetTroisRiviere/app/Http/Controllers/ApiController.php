@@ -4,12 +4,52 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Models\Fournisseurs;
 
 class ApiController extends Controller
 {
+    public function getUser(int $neq)
+    {
+        $sql = 'SELECT * FROM "19385b4e-5503-4330-9e59-f998f5918363" WHERE "NEQ" = \'' . $neq . '\'';
+    
+        try {
+            $response = Http::withoutVerifying()->get(env('API_BASE_URL'), [
+                'sql' => $sql,
+            ]);
+    
+            if ($response->successful()) {
+                $data = $response->json();
+                if (isset($data['result']['records']) && count($data['result']['records']) > 0) {
+                    // Extraction de la valeur "Nom de l'intervenant"
+                    $nomFournisseur = $data['result']['records'][0]['Nom de l\'intervenant'] ?? null;
+                    
+                    return response()->json([
+                        'nomFournisseur' => $nomFournisseur,
+                        'result' => $data['result']
+                    ]);
+                }
+                return response()->json(['error' => 'Aucun enregistrement trouvé.'], 404);
+            }
+    
+            return response()->json([
+                'error' => 'Erreur lors de la requête API',
+                'status' => $response->status(),
+                'message' => $response->body()
+            ], $response->status());
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Une exception est survenue lors de la requête API',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+    
+    
+    
+
     public function getData(int $neq)
     {
-        $sql = 'SELECT * FROM "19385b4e-5503-4330-9e59-f998f5918363" /*"32f6ec46-85fd-45e9-945b-965d9235840a"­ WHERE "NEQ" = \'' . $neq . '\'*/';
+        $sql = 'SELECT * FROM /*"19385b4e-5503-4330-9e59-f998f5918363"*/ "32f6ec46-85fd-45e9-945b-965d9235840a"­ WHERE "NEQ" = \'' . $neq . '\'';
         
         try{
             $response = Http::withoutVerifying()->get(env('API_BASE_URL'), [

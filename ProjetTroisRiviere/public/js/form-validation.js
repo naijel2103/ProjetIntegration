@@ -44,50 +44,31 @@ function validateStep(inputs, validations, step) {
 }
 updateProgressBar(1);  // Étape 2
 
-// Vous pouvez insérer ce bloc de code après vos autres gestionnaires d'événements ou à la fin de votre script.
-
-// Gestion de l'autofill des informations via l'API avec le NEQ
 document.getElementById('neq').addEventListener('blur', function () {
     const neq = this.value.trim();
+    if (!neq) return; // Ne rien faire si le champ est vide
 
-    // Validation de base pour le NEQ
-    if (!/^\d{10}$/.test(neq)) {
-        document.getElementById('neq-error').style.display = 'block';
-        document.getElementById('neq-error').innerText = "Le NEQ doit contenir 10 chiffres.";
-        return;
-    } else {
-        document.getElementById('neq-error').style.display = 'none';
-    }
-
-    // Appel à l'API locale
-    fetch(`http://127.0.0.1:8000/api/data/${neq}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erreur lors de la récupération des données.');
-            }
-            return response.json();
-        })
+    fetch(`/api/data/${neq}`)
+        .then(response => response.json())
         .then(data => {
-            // Autofill des champs
-            if (data && data.entreprise) {
-                document.getElementById('nom').value = data.entreprise.nom || '';
-                document.getElementById('siteInternet').value = data.entreprise.site_internet || '';
-                document.getElementById('numero_civique').value = data.entreprise.adresse.numero || '';
-                document.getElementById('rue').value = data.entreprise.adresse.rue || '';
-                document.getElementById('ville').value = data.entreprise.adresse.ville || '';
-                document.getElementById('province').value = data.entreprise.adresse.province || '';
-                document.getElementById('code_postal').value = data.entreprise.adresse.code_postal || '';
-            } else {
-                document.getElementById('neq-error').style.display = 'block';
-                document.getElementById('neq-error').innerText = "Aucune entreprise trouvée pour ce NEQ.";
+            if (data.error) {
+                console.error(data.error);
+                alert("Aucun utilisateur trouvé pour ce NEQ.");
+                return;
             }
+
+            // Autofill du champ 'nom' avec la valeur renvoyée par le contrôleur
+            document.getElementById('nom').value = data.nomFournisseur || '';
         })
         .catch(error => {
-            console.error('Erreur:', error);
-            document.getElementById('neq-error').style.display = 'block';
-            document.getElementById('neq-error').innerText = "Impossible de récupérer les informations.";
+            console.error('Erreur lors de la récupération des données:', error);
         });
 });
+
+
+
+
+
 
 
 // Step 1 validation
