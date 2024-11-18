@@ -47,6 +47,8 @@ updateProgressBar(1);  // Étape 2
 document.getElementById('neq').addEventListener('blur', function () {
     const neq = this.value.trim();
     if (!neq) return; // Ne rien faire si le champ est vide
+    let neqData = {}
+    const nameInput = document.getElementById('nom');
 
     fetch(`/api/data/${neq}`)
         .then(response => response.json())
@@ -57,8 +59,12 @@ document.getElementById('neq').addEventListener('blur', function () {
                 return;
             }
 
+            neqData = data.result.records[0];
+
+            console.log(neqData["Autre nom"]);
+
             // Autofill du champ 'nom' avec la valeur renvoyée par le contrôleur
-            document.getElementById('nom').value = data.nomFournisseur || '';
+            nameInput.value = neqData["Autre nom"] || '';
         })
         .catch(error => {
             console.error('Erreur lors de la récupération des données:', error);
