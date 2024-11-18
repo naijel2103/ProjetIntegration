@@ -37,6 +37,9 @@ Route::get('/listeAContacter',
 Route::get('/listeAContacter/{codeListe}', 
 [FichesController::class, 'showListeAContacte'])->name('showListeAContacte');
 
+Route::put('/listeAContacter/{codeListe}/{idFournisseur}/update-contacte', 
+[FichesController::class, 'fournisseurContacted'])->name('updateContacte');
+
 Route::get('/connexion',
 [ProfilsController::class, 'connexion']) -> name('profil.connexion');
 

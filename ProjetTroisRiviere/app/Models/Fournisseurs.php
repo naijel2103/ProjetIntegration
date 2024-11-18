@@ -67,7 +67,7 @@ class Fournisseurs extends Model
 
     public function contacts()
     {
-        return $this->hasMany(Contacts::class, 'idContact');
+        return $this->hasMany(Contacts::class, 'fournisseur', 'idFournisseur');
     }
     
     public function infotels()

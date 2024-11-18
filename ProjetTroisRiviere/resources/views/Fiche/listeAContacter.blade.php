@@ -30,37 +30,54 @@
                         </div>
                         @endforeach
                     </div>
-                    <div class="btnCards">
-                        <button type="button"class="btnUpCards" id="UpComs">⩟</button>
-                        <button type="button" class="btnDownCards" id="DownComs">⩡</button>
+                    <div class="btnComs">
+                        <button type="button"class="btnUpComs btn-carte">⩟</button>
+                        <button type="button" class="btnDownComs btn-carte">⩡</button>
                     </div>
                 </div>
 
                 <div class="infoContact">
                     <div class="listeContact">
                         @foreach( $fournisseur['contacts'] as $index => $infoContact)
-                        <div class="carteContact">
+                        <div class="carteContact" data-contact-id="{{ $infoContact['contact']->idContact }}" data-current-index="{{ $fournisseur->current_index ?? 0 }}">
                             <div>{{ $infoContact['contact']->prenom }} {{ $infoContact['contact']->nom }}, {{ $infoContact['contact']->fonction }}</div>
                             <div>{{ $infoContact['contact']->email }}</div>
                             <div class="infoComsContact">
                                 <div class="listeComsContact">
                                     @foreach( $infoContact['infotels'] as $index => $infoTel)
-                                    <div class="carteComContact">
+                                    <div class="carteComsContact" data-contact-id="{{ $infoContact['contact']->idContact }}">
                                         <div>{{ $infoTel->numTel }} #{{ $infoTel->postTel }}</div>
                                     </div>
                                     @endforeach
                                 </div>
                                 <div class="btnCards">
-                                    <button type="button"class="btnUpCards" id="UpComs">→</button>
-                                    <button type="button" class="btnDownCards" id="DownComs">←</button>
+                                    <button type="button" class="btnDownContactComs btn-carte" data-leContact-id="{{ $infoContact['contact']->idContact}}">←</button> 
+                                    <button type="button" class="btnUpContactComs btn-carte" data-leContact-id="{{ $infoContact['contact']->idContact }}">→</button>
                                 </div>
                             </div>
                         </div>
                         @endforeach
                     </div>
-                    <div class="btnCards">
-                        <button type="button"class="btnUpCards" id="UpComs">⩟</button>
-                        <button type="button" class="btnDownCards" id="DownComs">⩡</button>
+                    <div class="btnContact">
+                        <button type="button"class="btnUpContact btn-carte" id="UpComs">⩟</button>
+                        <button type="button" class="btnDownContact btn-carte" id="DownComs">⩡</button>
+                    </div>
+                </div>
+
+                <div class="infoContacte">
+                    <div>
+                    <form action="{{ route('updateContacte', ['codeListe' => $codeListe, 'idFournisseur' => $fournisseur['fournisseur']->idFournisseur]) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <input type="checkbox" name="contacte" value="" onchange="this.form.submit()" @if($fournisseur['contacte']) checked @endif></input>
+                        <p>
+                            @if($fournisseur['contacte'])
+                                Contacté
+                            @else
+                                Non contacté
+                            @endif
+                        </p>
+                    </form>
                     </div>
                 </div>
             </div>

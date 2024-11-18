@@ -15,6 +15,8 @@ class ListeAContacter extends Model
 
     public $incrementing = false;
 
+    public $primaryKey = null;
+
     protected $fillable = [
         'codeListe',
         'fournisseur',

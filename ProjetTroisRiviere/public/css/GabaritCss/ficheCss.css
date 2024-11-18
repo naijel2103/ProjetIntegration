@@ -64,3 +64,67 @@
     border-color: #afafaf;
     font-weight:500
 }
+
+/*PageListeAContacter*/
+
+.unFournisseur{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: #ffffff;
+    margin: 5px 10px;
+    border: black groove 2px;
+    padding: none;
+}
+
+.infoFournisseur{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 20vw;
+    border-right: 2px solid black ;
+}
+
+.infoComs{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-right: 2px solid black ;
+    width: 15vw;
+}
+
+.btnComs{
+    display: flex;
+    flex-direction: column;
+    padding: 2px;
+}
+
+.infoContact{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: #ffffff;
+    border-right: 2px solid black ;
+    width: 30vw;
+}
+
+.btnContact{
+    display: flex;
+    flex-direction: column;
+    padding: 2px;
+}
+
+.infoComsContact{
+    display: flex;
+    flex-direction: row;
+}
+
+.infoContacte{
+    justify-content: space-around;
+    background-color: #ffffff;
+    width: 10vw;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

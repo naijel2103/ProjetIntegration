@@ -148,7 +148,7 @@ class FichesController extends Controller
 
         foreach ($listeAContactes as $listeAContacte) {
             $fournisseur = Fournisseurs::find($listeAContacte->fournisseur);
-
+            
             $contactsAvecInfotels = $fournisseur->contacts->map(function ($contact) {
                 return [
                     'contact' => $contact,
@@ -164,12 +164,25 @@ class FichesController extends Controller
             ];
         }
 
-        /*dd($listeFournisseurs);*/
-
         return view('Fiche.listeAContacter', [
             'listeFournisseurs' => $listeFournisseurs,
             'codeListe' => $codeListe
         ]);
     }
 
+    public function fournisseurContacted(Request $request, $codeListe, $fournisseurId)
+    {
+        $listeAContacter = ListeAContacter::where('codeListe', $codeListe)
+        ->where('fournisseur', $fournisseurId)
+        ->firstOrFail();
+
+        $contacte = $request->has('contacte') ? 1 : 0;
+    
+
+        ListeAContacter::where('codeListe', $codeListe)
+        ->where('fournisseur', $fournisseurId)
+        ->update(['contacte' => $contacte]);
+        
+        return redirect()->back()->with('success', 'Le statut de contact a été mis à jour.');
+    }
 }
