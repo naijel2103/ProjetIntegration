@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
         navigator.clipboard.writeText(textToCopy.innerText)
             .then(function() {
-                alert("Texte copié dans le presse-papier !");
+                alert("Texte copié dans le presse-papier !\nAller dans la page Liste à contacter pour afficher votre liste");
             })
             .catch(function(err) {
                 console.error("Erreur lors de la copie: ", err);

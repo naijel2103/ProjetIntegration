@@ -58,78 +58,88 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const contactElements = fournisseurElement.querySelectorAll('[data-contact-id]');
 
-        const btnUpComs = document.querySelectorAll('.btnUpComs');
-        const btnDownComs = document.querySelectorAll('.btnDownComs');
-        const btnUpContact = document.querySelectorAll('.btnUpContact');
-        const btnDownContact = document.querySelectorAll('.btnDownContact');
-
         for(let typeCarte=0; typeCarte<3; typeCarte++){
             let attributeKey;
             let listeMod;
+            let cardExiste;
             switch(typeCarte){
                 case 0:
                     attributeKey='carteCom';
-                    listeAMod = fournisseurElement.querySelectorAll(`.${attributeKey}`);
+                    cardExiste = fournisseurElement.querySelectorAll(`.${attributeKey}`);
                 break;
     
                 case 1:
                     attributeKey='carteContact';
-                    listeAMod = fournisseurElement.querySelectorAll(`.${attributeKey}`);
+                    cardExiste = fournisseurElement.querySelectorAll(`.${attributeKey}`);
                 break;
     
                 case 2:
                     attributeKey='carteComsContact';
 
                     contactElements.forEach(contactCard => {
-                        const btnUpContactComs = contactCard.querySelector('.btnUpContactComs');
-                        const btnDownContactComs = contactCard.querySelector('.btnDownContactComs');
+                        cardExiste = contactCard.querySelector(`.${attributeKey}`);
+    
+                        if (cardExiste) {
+                            const btnUpContactComs = contactCard.querySelector('.btnUpContactComs');
+                            const btnDownContactComs = contactCard.querySelector('.btnDownContactComs');
+    
+                            listeAMod = contactCard.querySelectorAll(`.${attributeKey}`);
 
-                        listeAMod = contactCard.querySelectorAll(`.${attributeKey}`);
-
-                        listeAMod.forEach((carte) => {
-                            carte.style.display = 'none';
-                        });
-                        
-                        const totalCards = listeAMod.length;
-                
-                        if (totalCards === 0){
-                            if (btnUpContactComs) btnUpContactComs.style.display = 'none';
-                            if (btnDownContactComs) btnDownContactComs.style.display = 'none';
-                        } else {
-                            contactCard.setAttribute('data-current-index-'+ attributeKey , 0);
-                            listeAMod[0].style.display = 'block';
+                            listeAMod.forEach((carte) => {
+                                carte.style.display = 'none';
+                            });
+                            
+                            const totalCards = listeAMod.length;
+                    
+                            if (totalCards <= 1){
+                                if (btnUpContactComs) btnUpContactComs.style.display = 'none';
+                                if (btnDownContactComs) btnDownContactComs.style.display = 'none';
+                            } else {
+                                contactCard.setAttribute('data-current-index-'+ attributeKey , 0);
+                                listeAMod[0].style.display = 'block';
+                            }
                         }
                     });
                 break;;
             }
             
             if(typeCarte !=2){
-                listeAMod.forEach((carte) => {
-                    carte.style.display = 'none';
-                });
+                if(cardExiste.length > 0){
+                    
+                    const btnUpComs = document.querySelectorAll('.btnUpComs');
+                    const btnDownComs = document.querySelectorAll('.btnDownComs');
+                    const btnUpContact = document.querySelectorAll('.btnUpContact');
+                    const btnDownContact = document.querySelectorAll('.btnDownContact');
+
+                    listeAMod = fournisseurElement.querySelectorAll(`.${attributeKey}`);
+
+                    listeAMod.forEach((carte) => {
+                        carte.style.display = 'none';
+                    });
+                    
+                    const totalCards = listeAMod.length;
+            
+                    if (totalCards <= 1){
+                        switch(typeCarte){
+                            case 0:
+                                if(btnUpComs && btnDownComs){
+                                    btnUpComs.style.display='none';
+                                    btnDownComs.style.display='none';
+                                }
+                            break;
                 
-                const totalCards = listeAMod.length;
-        
-                if (totalCards === 0){
-                    switch(typeCarte){
-                        case 0:
-                            btnUpComs.style.display='none';
-                            btnDownComs.style.display='none';
-                        break;
-            
-                        case 1:
-                            btnUpContact.style.display='none';
-                            btnDownContact.style.display='none';
-                        break;
-            
-                        case 2:
-                            btnUpContactComs.style.display='none';
-                            btnDownContactComs.style.display='none';
-                        break;
+                            case 1:
+                                if(btnUpContact && btnDownContact){
+                                    btnUpContact.style.display='none';
+                                    btnDownContact.style.display='none';
+                                }
+                            break;
+                        }
+                    } else {
+                        fournisseurElement.setAttribute('data-current-index-'+ attributeKey , 0);
+
+                        listeAMod[0].style.display = 'block';
                     }
-                } else {
-                    fournisseurElement.setAttribute('data-current-index-'+ attributeKey , 0);
-                    listeAMod[0].style.display = 'block';
                 }
             }
         }

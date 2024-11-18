@@ -22,6 +22,7 @@
 
                 <div class="infoComs">
                     <div class="listeComs">
+                    @if($fournisseur['infotels']->isNotEmpty())
                         @foreach( $fournisseur['infotels'] as $index => $infoTel)
                         <div class="carteCom">
                             <div>{{ $infoTel->numTel }}</div>
@@ -34,34 +35,53 @@
                         <button type="button"class="btnUpComs btn-carte">⩟</button>
                         <button type="button" class="btnDownComs btn-carte">⩡</button>
                     </div>
+                    @else
+                        <div>
+                            <p>Aucun numéro de téléphone</p>      
+                        </div>
+                    @endif
                 </div>
 
                 <div class="infoContact">
                     <div class="listeContact">
+                    @if($fournisseur['contacts']->isNotEmpty())
                         @foreach( $fournisseur['contacts'] as $index => $infoContact)
                         <div class="carteContact" data-contact-id="{{ $infoContact['contact']->idContact }}" data-current-index="{{ $fournisseur->current_index ?? 0 }}">
                             <div>{{ $infoContact['contact']->prenom }} {{ $infoContact['contact']->nom }}, {{ $infoContact['contact']->fonction }}</div>
                             <div>{{ $infoContact['contact']->email }}</div>
                             <div class="infoComsContact">
-                                <div class="listeComsContact">
-                                    @foreach( $infoContact['infotels'] as $index => $infoTel)
-                                    <div class="carteComsContact" data-contact-id="{{ $infoContact['contact']->idContact }}">
-                                        <div>{{ $infoTel->numTel }} #{{ $infoTel->postTel }}</div>
+                                @if($infoContact['infotels']->isNotEmpty())
+                                    <div class="listeComsContact">
+                                        @foreach( $infoContact['infotels'] as $index => $infoTel)
+                                        <div class="carteComsContact" data-contact-id="{{ $infoContact['contact']->idContact }}">
+                                            <div>{{ $infoTel->numTel }} #{{ $infoTel->postTel }}</div>
+                                        </div>
+                                        @endforeach
                                     </div>
-                                    @endforeach
+                                    <div class="btnCards">
+                                        <button type="button" class="btnDownContactComs btn-carte" data-leContact-id="{{ $infoContact['contact']->idContact}}">←</button> 
+                                        <button type="button" class="btnUpContactComs btn-carte" data-leContact-id="{{ $infoContact['contact']->idContact }}">→</button>
+                                    </div>
+                                @else
+                                <div>
+                                    <p>Aucun téléphone</p>      
                                 </div>
-                                <div class="btnCards">
-                                    <button type="button" class="btnDownContactComs btn-carte" data-leContact-id="{{ $infoContact['contact']->idContact}}">←</button> 
-                                    <button type="button" class="btnUpContactComs btn-carte" data-leContact-id="{{ $infoContact['contact']->idContact }}">→</button>
-                                </div>
+                                @endif
                             </div>
                         </div>
                         @endforeach
+                    @else
+                        <div>
+                            <p>Aucun contact</p>      
+                        </div>
+                    @endif
                     </div>
+                    @if($fournisseur['contacts']->isNotEmpty())
                     <div class="btnContact">
                         <button type="button"class="btnUpContact btn-carte" id="UpComs">⩟</button>
                         <button type="button" class="btnDownContact btn-carte" id="DownComs">⩡</button>
                     </div>
+                    @endif
                 </div>
 
                 <div class="infoContacte">
