@@ -7,7 +7,7 @@
 
 <div class="button-container">
 
-<a href="{{ route('fiche.index') }}" class="btn btn-primary btn-lg" id="btnRetour">Modifer la fiche</a>
+<a href="{{ route('Fiche.modifer', [$fournisseur->idFournisseur]) }}" class="btn btn-primary btn-lg" id="btnRetour">Modifer la fiche</a>
 </div>
 
 @if (isset($fournisseur))
@@ -119,7 +119,11 @@
             <b>Courriel:</b> {{ $contact->email }}
         </div>
         <div>
-            <b>Téléphone:</b> {{ $contact->telephone }}
+        @foreach($infotelsContacts as $infotelsContact)
+        @if($contact->idContact == $infotelsContact->contact)
+            <b>Téléphone:</b> {{ $infotelsContact->numTel }}
+        @endif
+        @endforeach
         </div>
         </div>
         @endforeach

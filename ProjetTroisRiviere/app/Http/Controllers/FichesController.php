@@ -68,10 +68,18 @@ class FichesController extends Controller
         $contacts = Contacts::where('fournisseur', $fournisseur->idFournisseur)->get();
         $infotels = Infotels::where('fournisseur', $fournisseur->idFournisseur)->get();
 
+        $infotelsContacts = collect();
+
+        foreach ($contacts as $contact) {
+            $infotelsContact = Infotels::where('contact', $contact->idContact)->get();
+            $infotelsContacts = $infotelsContacts->merge($infotelsContact);
+        }
+        
+       
 
         $demandeInscription = Demandesinscriptions::where('idFournisseur', $fournisseur->idFournisseur)->first();
         return View('fiche.demandeFiche',compact("fournisseur", "demandeInscription",
-        "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs"));
+        "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs","infotelsContacts"));
     }
     public function envoieDemandeFiche(Fournisseurs $fournisseur)
     {
@@ -97,11 +105,11 @@ class FichesController extends Controller
 
         $contacts = Contacts::where('fournisseur', $fournisseur->idFournisseur)->get();
         $infotels = Infotels::where('fournisseur', $fournisseur->idFournisseur)->get();
-
-
+        $infotelsContacts = Infotels::where('contact', $contacts->idContact)->get();
+            dd($infotelsContacts);
         $demandeInscription = Demandesinscriptions::where('idFournisseur', $fournisseur->idFournisseur)->first();
         return View('fiche.demandeFiche',compact("fournisseur", "demandeInscription",
-        "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs"));
+        "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs","infotelsContacts"));
     }
    
 
@@ -140,6 +148,7 @@ class FichesController extends Controller
                         Mail::to($fournisseur->email )->send(new EnvoieRefuFiche());
                     }
                 }else if($request->statut == "Accepte"){
+
                     Mail::to($fournisseur->email )->send(new EnvoieAccepteFiche());
                     $demandeInscription->raisonRefus = null;
                 }
@@ -197,9 +206,21 @@ class FichesController extends Controller
         $infotels = Infotels::where('fournisseur', $fournisseur->idFournisseur)->get();
 
 
+
+        $infotelsContacts = collect();
+
+        foreach ($contacts as $contact) {
+            $infotelsContact = Infotels::where('contact', $contact->idContact)->get();
+            $infotelsContacts = $infotelsContacts->merge($infotelsContact);
+        }
+        
+       
+    
+
+
         $demandeInscription = Demandesinscriptions::where('idFournisseur', $fournisseur->idFournisseur)->first();
         return View('fiche.show',compact("fournisseur", "demandeInscription",
-                                        "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs"
+                                        "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs","infotelsContacts"
                                         ));
     }
 
@@ -209,15 +230,19 @@ class FichesController extends Controller
             return redirect()->route('showListeAContacte', ['codeListe' => $codeListe]);
         }
 
+    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    public function editFiche(Fournisseurs $fournisseur)
+    {
+        return view('fiche.edit',compact("fournisseur"));
+    }
+ 
     public function edit(string $id)
     {
         return view('Fiche.askCodeListe');
     }
 
+    
     public function showListeAContacte($codeListe){
 
         $listeAContacteExists = ListeAContacter::where('codeListe', $codeListe)->exists();

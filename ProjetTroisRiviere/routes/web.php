@@ -14,8 +14,8 @@ Route::get('/',
 Route::get('/demandeFiche',
 [FichesController::class, 'demandeFiche']) -> name('fiche.demandeFiche');
 
-Route::get('/fournisseur/edit/{compte}',
-[FichesController::class, 'edit'])->name('fiche.edit');
+Route::get('/fournisseur/edit/{fournisseur}',
+[FichesController::class, 'editFiche'])->name('Fiche.modifer');
 
 Route::get('/listeDemande',
 [FichesController::class, 'index']) -> name('fiche.index');

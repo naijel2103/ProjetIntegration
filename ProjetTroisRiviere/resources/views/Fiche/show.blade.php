@@ -123,7 +123,11 @@
             <b>Courriel:</b> {{ $contact->email }}
         </div>
         <div>
-            <b>Téléphone:</b> {{ $contact->telephone }}
+        @foreach($infotelsContacts as $infotelsContact)
+        @if($contact->idContact == $infotelsContact->contact)
+            <b>Téléphone:</b> {{ $infotelsContact->numTel }}
+        @endif
+            @endforeach
         </div>
         </div>
         @endforeach
