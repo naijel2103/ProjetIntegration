@@ -190,6 +190,87 @@
             </div>
         </div>
 
+      <div class="info-box">
+        <div class="info-title">Numéro de licence:</div>
+        <div class="info-content"><b>{{ $fournisseur->numLiscence }}</b></div>
+      </div>
+    
+      <div class="info-box">
+        <div class="info-title">Détail du service:</div>
+        <div class="info-content"><b>{{ $fournisseur->detailService }}</b></div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">Numéro TPS:</div>
+        <div class="info-content"><b>{{ $fournisseur->numTPS }}</b></div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">Numéro TVQ:</div>
+        <div class="info-content"><b>{{ $fournisseur->numTVQ }}</b></div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">Condition de paiement:</div>
+        <div class="info-content"><b>{{ $fournisseur->conditionPaiement }}</b></div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">Code de condition:</div>
+        <div class="info-content"><b>{{ $fournisseur->codeCondition }}</b></div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">Devise:</div>
+        <div class="info-content"><b>{{ $fournisseur->devise }}</b></div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">Mode de communication:</div>
+        <div class="info-content"><b>{{ $fournisseur->modCom }}</b></div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">Statut:</div>
+        <div class="info-content"><b>{{ $fournisseur->statut }}</b></div>
+      </div>
+
+      <div class="info-box">
+        <div class="info-title">Prénom:</div>
+        <div class="info-content"><b>{{ $contact->prenom }}</b></div>
+      </div>
+      <div class="info-box">
+      <div class="info-title">Nom:</div>
+        <div class="info-content"><b>{{ $contact->nom }}</b></div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">Fonction:</div>
+        <div class="info-content"><b>{{ $contact->fonction }}</b></div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">Statut:</div>
+        <div class="info-content"><b>{{ $liscence->statut }}</b></div>
+      </div>
+      <div class="info-box">
+      <div class="info-title">Type:</div>
+        <div class="info-content"><b>{{ $liscence->type }}</b></div>
+      </div>
+
+
+
+      <div class="info-box">
+        <div class="info-title">Numéro Catégorie:</div>
+        <div class="info-content"><b>{{ $catLiscence->numCategorie }}</b></div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">Nom Catégorie:</div>
+        <div class="info-content"><b>{{ $catLiscence->nom }}</b></div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">Classe:</div>
+        <div class="info-content"><b>{{ $catLiscence->classe }}</b></div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">Mode de communication:</div>
+        <div class="info-content"><b>{{ $fournisseur->modCom }}</b></div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">Statut:</div>
+        <div class="info-content"><b>{{ $fournisseur->statut }}</b></div>
+      </div>
     </div>
 </div>
 
