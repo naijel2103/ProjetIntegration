@@ -25,18 +25,17 @@
       {{-- </a> --}}
       <div class="bottom-nav">      
      
-        <a href="\" class="header-link-top">Acceuil</a>
        
-      @role('aucun')
-      <div class="separator"></div>    
+      @role('Fournisseur')
+    
         <a href="\demandeFiche" class="header-link-top">Voir ma fiche</a>
       @endauth
         @role('Responsable')
-        <div class="separator"></div>   
+         
         <a href="\fiche" class="header-link-top">Voir les fiches </a>       
         @endrole
         @role('Admin')
-        <div class="separator"></div>   
+      
         <a href="\gererModele" class="header-link-top">Gerer les modeles de courriels </a>      
         <div class="separator"></div>   
         <a href="\creation" class="header-link-top">Créer des comptes </a>    

@@ -68,18 +68,24 @@ class ProfilsController extends Controller
     {
 
         $reussi = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
+        if($reussi)
+        {
         $compte = Comptes::where('email', $request->email)->first();
         $role = $compte->role;
-        if($reussi && $role == 'aucun'){
-            
+        if( $role == 'Fournisseur'){
+          
             return redirect()->route('fiche.demandeFiche') ->with('message', "Connexion réussie");
-        } elseif($reussi && $role == 'admin' ||$role == 'responsable')
+        } elseif( $role == 'admin' ||$role == 'responsable')
         {
             return redirect()->route('acceuils.index'); 
         }
         else{
             return redirect()->route('profil.connexion')->withErrors(['Informations invalides']); 
         }
+        }else {
+            return redirect()->route('profil.connexion')->withErrors(['Informations invalides']); 
+        }
+        
     }
 
     public function gererModele()
@@ -88,8 +94,9 @@ class ProfilsController extends Controller
         $refus = Modeles_courriels::where('idModele',1)->first();
         $appro = Modeles_courriels::where('idModele',2)->first();
         $accuse = Modeles_courriels::where('idModele',3)->first();
+        $mod = Modeles_courriels::where('idModele',4)->first();
    
-      return view('Profil.gererModele',compact("modeles","refus","appro","accuse"));
+      return view('Profil.gererModele',compact("modeles","refus","appro","accuse","mod"));
     }
 
     public function editGererModele(Request $request,Modeles_courriels $modele)
@@ -112,12 +119,19 @@ class ProfilsController extends Controller
         $modele->message = $request->texteEmail;
         $modele->save();
       }
+      if($request->modele == "Modification")
+      {
+        $modele = Modeles_courriels::where('idModele',4)->first();
+        $modele->message = $request->texteEmail;
+        $modele->save();
+      }
 
 
       $refus = Modeles_courriels::where('idModele',1)->first();
       $appro = Modeles_courriels::where('idModele',2)->first();
       $accuse = Modeles_courriels::where('idModele',3)->first();
-      return view('Profil.gererModele',compact("refus","appro","accuse"));
+      $mod = Modeles_courriels::where('idModele',4)->first();
+      return view('Profil.gererModele',compact("refus","appro","accuse","mod"));
 
     }
 
@@ -125,10 +139,21 @@ class ProfilsController extends Controller
     public function loginNEQ(Request $request)
     {
         $reussi = Auth::attempt(['neq' => $request->neq, 'password' => $request->password]);
-        if($reussi){
+        if($reussi)
+        {
+        $compte = Comptes::where('email', $request->email)->first();
+        $role = $compte->role;
+        if( $role == 'Fournisseur'){
+          
             return redirect()->route('fiche.demandeFiche') ->with('message', "Connexion réussie");
+        } elseif( $role == 'admin' ||$role == 'responsable')
+        {
+            return redirect()->route('acceuils.index'); 
         }
         else{
+            return redirect()->route('profil.connexionNEQ')->withErrors(['Informations invalides']); 
+        }
+        }else {
             return redirect()->route('profil.connexionNEQ')->withErrors(['Informations invalides']); 
         }
     }

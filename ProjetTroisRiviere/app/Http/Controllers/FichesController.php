@@ -10,14 +10,18 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Fournisseurs;
 use App\Mail\EnvoieFicheFinance;
+use App\Mail\confirmationEnvoieFiche;
 use App\Mail\EnvoieRefuFiche;
 use App\Mail\EnvoieRefuFicheRaison;
 use App\Models\Parametres;
 use App\Models\Modeles_courriels;
 use App\Models\Contacts;
+use App\Models\Comptes;
 use App\Models\Infotels;
 use App\Models\Liscences;
 use App\Models\ListeAContacter;
+use App\Models\Offres;
+use App\Models\OffresFournisseurs;
 use App\Models\SpecificationLiscences;
 use App\Models\CategorieLiscences;
 use App\Mail\EnvoieAccepteFiche;
@@ -43,8 +47,63 @@ class FichesController extends Controller
      */
     public function demandeFiche()
     {
-        return View('Fiche.demandeFiche');
+         $compte = Comptes::Find(Auth::id());
+        $fournisseur = Fournisseurs::where('email', $compte->email)->first();
+        $offreFournisseurs = OffresFournisseurs::where('fournisseur', $fournisseur->idFournisseur)->get();
+
+
+        $offres = collect();
+
+        foreach ($offreFournisseurs as $offreFournisseur) {
+            $offre = Offres::where('codeUNSPSC', $offreFournisseur->offre)->get();
+            $offres = $offres->merge($offre);
+            }
+
+
+        $liscences  = Liscences::where('numLiscence', $fournisseur->numLiscence)->first();
+        $speLiscences = SpecificationLiscences::where('numLiscence', $fournisseur->numLiscence)->get();
+        $catLiscences = CategorieLiscences::whereIn('numCategorie', $speLiscences->pluck('numCategorie')->toArray())->get();
+
+
+        $contacts = Contacts::where('fournisseur', $fournisseur->idFournisseur)->get();
+        $infotels = Infotels::where('fournisseur', $fournisseur->idFournisseur)->get();
+
+
+        $demandeInscription = Demandesinscriptions::where('idFournisseur', $fournisseur->idFournisseur)->first();
+        return View('fiche.demandeFiche',compact("fournisseur", "demandeInscription",
+        "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs"));
     }
+    public function envoieDemandeFiche(Fournisseurs $fournisseur)
+    {
+        
+    
+        Mail::to($fournisseur->email )->send(new confirmationEnvoieFiche());
+
+        $offreFournisseurs = OffresFournisseurs::where('fournisseur', $fournisseur->idFournisseur)->get();
+
+
+        $offres = collect();
+
+        foreach ($offreFournisseurs as $offreFournisseur) {
+            $offre = Offres::where('codeUNSPSC', $offreFournisseur->offre)->get();
+            $offres = $offres->merge($offre);
+            }
+
+
+        $liscences  = Liscences::where('numLiscence', $fournisseur->numLiscence)->first();
+        $speLiscences = SpecificationLiscences::where('numLiscence', $fournisseur->numLiscence)->get();
+        $catLiscences = CategorieLiscences::whereIn('numCategorie', $speLiscences->pluck('numCategorie')->toArray())->get();
+
+
+        $contacts = Contacts::where('fournisseur', $fournisseur->idFournisseur)->get();
+        $infotels = Infotels::where('fournisseur', $fournisseur->idFournisseur)->get();
+
+
+        $demandeInscription = Demandesinscriptions::where('idFournisseur', $fournisseur->idFournisseur)->first();
+        return View('fiche.demandeFiche',compact("fournisseur", "demandeInscription",
+        "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs"));
+    }
+   
 
     public function gererDemande(Fournisseurs $fournisseur)
     {
@@ -63,7 +122,8 @@ class FichesController extends Controller
             if ($demandeInscription) {
                 $demandeInscription->dateChangementStatut = $dateFormatee;
                 $demandeInscription->statut = $request->statut;
-                if($request->statut == "Refuse")
+                $fournisseur->statut = $request->statut;
+                if($request->statut == "Refusee")
                 {
                     $raison = $request->raisonRefus;
                     $donneeCryptee = encrypt($request->raisonRefus);
@@ -79,11 +139,12 @@ class FichesController extends Controller
                     {
                         Mail::to($fournisseur->email )->send(new EnvoieRefuFiche());
                     }
-                }else if($request->statut == "Approuve"){
+                }else if($request->statut == "Accepte"){
                     Mail::to($fournisseur->email )->send(new EnvoieAccepteFiche());
                     $demandeInscription->raisonRefus = null;
                 }
                 $demandeInscription->save(); // Enregistrer les modifications
+                $fournisseur->save(); // Enregistrer les modifications
             }
             
             return redirect()->route('fiche.index')->with('message', "Modification de  réussi!");
@@ -114,15 +175,31 @@ class FichesController extends Controller
      */
     public function show(Fournisseurs $fournisseur)
     {
-        
-        $liscence  = Liscences::where('numLiscence', $fournisseur->numLiscence)->first();
-        $speLiscence = SpecificationLiscences::where('numLiscence', $fournisseur->numLiscence)->first();
-        $catLiscence  = CategorieLiscences::where('numCategorie',  $speLiscence->numCategorie)->first();
-        $contact = Contacts::where('fournisseur', $fournisseur->idFournisseur)->first();
-        $infotel = Infotels::where('fournisseur', $fournisseur->idFournisseur)->first();
+
+
+        $offreFournisseurs = OffresFournisseurs::where('fournisseur', $fournisseur->idFournisseur)->get();
+
+
+        $offres = collect();
+
+        foreach ($offreFournisseurs as $offreFournisseur) {
+            $offre = Offres::where('codeUNSPSC', $offreFournisseur->offre)->get();
+            $offres = $offres->merge($offre);
+            }
+
+
+        $liscences  = Liscences::where('numLiscence', $fournisseur->numLiscence)->first();
+        $speLiscences = SpecificationLiscences::where('numLiscence', $fournisseur->numLiscence)->get();
+        $catLiscences = CategorieLiscences::whereIn('numCategorie', $speLiscences->pluck('numCategorie')->toArray())->get();
+
+
+        $contacts = Contacts::where('fournisseur', $fournisseur->idFournisseur)->get();
+        $infotels = Infotels::where('fournisseur', $fournisseur->idFournisseur)->get();
+
+
         $demandeInscription = Demandesinscriptions::where('idFournisseur', $fournisseur->idFournisseur)->first();
         return View('fiche.show',compact("fournisseur", "demandeInscription",
-                                        "contact","infotel","liscence","speLiscence","catLiscence"
+                                        "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs"
                                         ));
     }
 
