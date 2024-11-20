@@ -234,6 +234,7 @@ document.getElementById('btnNextStep2').addEventListener('click', function () {
 
 document.getElementById('submitStep5').addEventListener('click', function () {
     const step5Inputs = ['prenom-step5', 'nom-step5', 'fonction-step5', 'email_contact-step5', 'num_tel_type-contact-step5', 'tel_contact-step5'].map(id => document.getElementById(id));
+
     const validations = {
         'prenom-step5': value => !value.trim() && "Le prénom est requis.",
         'nom-step5': value => !value.trim() && "Le nom est requis.",
@@ -270,18 +271,6 @@ document.getElementById('submitStep5').addEventListener('click', function () {
         formData.append('code_postal', document.getElementById('code_postal').value);
         formData.append('num_tel', document.getElementById('num_tel').value);
 
-        // Étape 3
-        formData.append('service', document.getElementById('service').value);
-        formData.append('unspc_code', document.getElementById('unspc_code').value);
-
-        // Étape 4
-        const selectedOffers = document.querySelectorAll('input[name="offers[]"]:checked');
-        selectedOffers.forEach(offer => {
-            formData.append('offers[]', offer.value);
-        });
-
-        formData.append('license_category', document.getElementById('license_category').value);
-
         // Étape 5
         formData.append('prenom-step5', document.getElementById('prenom-step5').value);
         formData.append('nom-step5', document.getElementById('nom-step5').value);
@@ -290,14 +279,19 @@ document.getElementById('submitStep5').addEventListener('click', function () {
         formData.append('num_tel_type-contact-step5', document.getElementById('num_tel_type-contact-step5').value);
         formData.append('tel_contact-step5', document.getElementById('tel_contact-step5').value);
 
-        // Envoi des données avec fetch (AJAX)
-        fetch('votre_script_backend.php', {
+
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        // Envoi des données avec fetch (AJAX) en JSON
+        fetch(routeCreateFournisseur, {
             method: 'POST',
-            body: formData
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken  // Assure-toi que csrfToken est défini quelque part dans ton code.
+            },
+            body: formData // Pas besoin de JSON.stringify
         })
         .then(response => response.json())
         .then(data => {
-            // Vérifie la réponse du serveur
             if (data.success) {
                 // Si tout s'est bien passé, passer à l'étape 6
                 document.getElementById('step5').style.display = 'none';
@@ -313,6 +307,9 @@ document.getElementById('submitStep5').addEventListener('click', function () {
         });
     }
 });
+
+
+
 
 
 function updateProgressBar(step) {

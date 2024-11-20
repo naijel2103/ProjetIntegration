@@ -1,6 +1,13 @@
 @extends('layouts.app')
 @section('titre', 'Création du compte')
 @section('contenu')
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+<script>
+    var routeCreateFournisseur = "{{ route('createFournisseur') }}";
+</script>
+
 <head>
     <link rel="stylesheet" style="text/css" href="\css\GabaritCss\GabaritCss.css">
 </head>

@@ -123,3 +123,6 @@ Route::post('/listeFournisseur',
 [FournisseurController::class, 'createListe'])->name('createListeFournisseur');
 
 Route::get('/creation', [FournisseurController::class, 'showCreationForm'])->name('profil.creation');
+
+Route::post('/createFournisseur', 
+[FournisseurController::class, 'createFournisseur'])->name('createFournisseur');

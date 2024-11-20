@@ -162,4 +162,75 @@ class FournisseurController extends Controller
             'codeListe' => $codeListe,
         ]);
     }
+
+
+
+
+    public function createFournisseur(Request $request)
+    {
+        // Validation des données envoyées
+    $request->validate([
+        'neq' => 'nullable|integer|unique:fournisseurs,neq',  // L'NEQ peut être nul, mais s'il est fourni, il doit être unique
+        'nomFournisseur' => 'nullable|string|max:64',  // Le nom peut être nul, sinon il doit être une chaîne de max 64 caractères
+        'numLiscence' => 'nullable|string|max:10|exists:liscences,numLiscence',  // Si présent, doit être valide et correspondre à un enregistrement dans la table 'liscences'
+        'email' => 'required|email|max:64|unique:fournisseurs,email',  // L'email est requis, unique et doit être valide
+        'mdp' => 'nullable|string|min:6',  // Le mot de passe est optionnel mais doit avoir au moins 6 caractères s'il est fourni
+        'numCivique' => 'required|string|max:8',  // Le numéro civique est requis et doit être une chaîne de max 8 caractères
+        'rue' => 'required|string|max:64',  // La rue est requise et doit être une chaîne de max 64 caractères
+        'bureau' => 'nullable|string|max:8',  // Le bureau est optionnel et peut avoir jusqu'à 8 caractères
+        'municipalite' => 'required|string|max:64',  // La municipalité est requise et doit être une chaîne de max 64 caractères
+        'province' => 'required|string|max:25',  // La province est requise et doit être une chaîne de max 25 caractères
+        'codePostal' => 'required|string|max:6',  // Le code postal est requis et doit être une chaîne de max 6 caractères
+        'region' => 'nullable|string|max:50',  // La région est optionnelle, mais si présente, elle ne doit pas dépasser 50 caractères
+        'codeRegion' => 'nullable|integer',  // Le code de région est optionnel, mais s'il est fourni, il doit être un entier
+        'siteWeb' => 'nullable|url|max:64',  // Le site web est optionnel, mais doit être une URL valide et ne pas dépasser 64 caractères
+        'detailService' => 'nullable|string|max:500',  // Les détails du service sont optionnels et peuvent avoir jusqu'à 500 caractères
+        'numTPS' => 'nullable|string|max:15',  // Le numéro TPS est optionnel et peut avoir jusqu'à 15 caractères
+        'numTVQ' => 'nullable|string|max:16',  // Le numéro TVQ est optionnel et peut avoir jusqu'à 16 caractères
+        'conditionPaiement' => 'nullable|string|max:128',  // Les conditions de paiement sont optionnelles et peuvent avoir jusqu'à 128 caractères
+        'codeCondition' => 'nullable|string|max:5',  // Le code de condition est optionnel et peut avoir jusqu'à 5 caractères
+        'devise' => 'nullable|string|max:3',  // La devise est optionnelle et peut avoir jusqu'à 3 caractères
+        'modCom' => 'nullable|string|max:25',  // Le mode de communication est optionnel et peut avoir jusqu'à 25 caractères
+        'statut' => 'nullable|string|max:25',  // Le statut est optionnel et peut avoir jusqu'à 25 caractères
+    ]);
+
+    try {
+        // Créer un nouveau fournisseur avec les données du formulaire
+        $fournisseur = new Fournisseur();
+        $fournisseur->neq = $request->input('neq', null);
+        $fournisseur->nomFournisseur = $request->input('nomFournisseur', null);
+        $fournisseur->numLiscence = $request->input('numLiscence', null);
+        $fournisseur->email = $request->input('email', null);
+        $fournisseur->mdp = bcrypt($request->input('mdp', null));  // Assurez-vous de hasher le mot de passe
+        $fournisseur->numCivique = $request->input('numCivique', null);
+        $fournisseur->rue = $request->input('rue', null);
+        $fournisseur->bureau = $request->input('bureau', null);
+        $fournisseur->municipalite = $request->input('municipalite', null);
+        $fournisseur->province = $request->input('province', null);
+        $fournisseur->codePostal = $request->input('codePostal', null);
+        $fournisseur->region = $request->input('region', null);
+        $fournisseur->codeRegion = $request->input('codeRegion', null);
+        $fournisseur->siteWeb = $request->input('siteWeb', null);
+        $fournisseur->detailService = $request->input('detailService', null);
+        $fournisseur->numTPS = $request->input('numTPS', null);
+        $fournisseur->numTVQ = $request->input('numTVQ', null);
+        $fournisseur->conditionPaiement = $request->input('conditionPaiement', null);
+        $fournisseur->codeCondition = $request->input('codeCondition', null);
+        $fournisseur->devise = $request->input('devise', null);
+        $fournisseur->modCom = $request->input('modCom', null);
+        $fournisseur->statut = $request->input('statut', null);
+
+        // Sauvegarder le fournisseur
+        $fournisseur->save();
+
+        // Réponse JSON
+        return response()->json(['success' => true]);
+
+    } catch (\Exception $e) {
+        // Log l'exception et retourne un message d'erreur
+        \Log::error('Erreur lors de la création du fournisseur: ' . $e->getMessage());
+        return response()->json(['success' => false, 'message' => 'Erreur serveur.'], 500);
+    }
+    }
 }
+
