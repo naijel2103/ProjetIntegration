@@ -31,7 +31,7 @@
         <a href="\demandeFiche" class="header-link-top">Voir ma fiche</a>
       @endauth
         @role('Responsable')
-        <div class="separator"></div>   
+         
         <a href="\fiche" class="header-link-top">Voir les fiches </a>       
         @endrole
         @role('Admin')
