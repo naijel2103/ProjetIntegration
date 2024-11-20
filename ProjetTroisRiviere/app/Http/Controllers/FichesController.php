@@ -212,6 +212,13 @@ class FichesController extends Controller
         return view('Fiche.askCodeListe');
     }
 
+    public function edit(string $id)
+    {
+        $compte = Comptes::Find(Auth::id());
+        $fournisseur = Fournisseurs::where('email', $compte->email)->first();
+        return View('fiche.edit', compact('fournisseur'));
+    }
+
     public function showListeAContacte($codeListe){
 
         $listeAContacteExists = ListeAContacter::where('codeListe', $codeListe)->exists();
