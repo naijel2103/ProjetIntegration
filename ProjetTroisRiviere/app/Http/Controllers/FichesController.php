@@ -208,7 +208,9 @@ class FichesController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $compte = Comptes::Find(Auth::id());
+        $fournisseur = Fournisseurs::where('email', $compte->email)->first();
+        return View('fiche.edit', compact('fournisseur'));
     }
 
     /**

@@ -7,7 +7,7 @@
 
 <div class="button-container">
 
-
+<a href="{{ route('fiche.index') }}" class="btn btn-primary btn-lg" id="btnRetour">Modifer la fiche</a>
 </div>
 
 @if (isset($fournisseur))

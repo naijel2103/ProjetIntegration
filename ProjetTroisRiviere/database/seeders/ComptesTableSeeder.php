@@ -21,11 +21,31 @@ class ComptesTableSeeder extends Seeder
                 'nom' => 'Michaud',
                 'email' => 'test@gmail.com',
                 'password' => Hash::make('test'),
-                'role' => 'admin',
+                'role' => 'Admin',
                 'code' => 'aucun',
                 'admin' => true,
                 'verifier' => true,
-              ]
+              ],
+              [
+                'id' =>2,
+                'nom' => 'Arthur',
+                'email' => 'arthur@gmail.com',
+                'password' => Hash::make('arthur'),
+                'role' => 'Fournisseur',
+                'code' => 'aucun',
+                'admin' => false,
+                'verifier' => true,
+              ],
+              [
+                'id' =>3,
+                'nom' => 'Julien',
+                'email' => 'julien@gmail.com',
+                'password' => Hash::make('julien'),
+                'role' => 'Responsable',
+                'code' => 'aucun',
+                'admin' => true,
+                'verifier' => true,
+              ],
             
             ]);
     }
