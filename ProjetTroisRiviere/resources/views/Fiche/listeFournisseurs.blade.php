@@ -122,7 +122,7 @@
                                 {{ empty($fournisseur->nbr_categories_correspondant) ? '0' : $fournisseur->nbr_categories_correspondant }} / {{$nbrCatSelect}}
                             </div>
                             <div  class="info info-fiche">
-                                <a href="">Fiche</a>
+                                <a href="{{ route('fiche.show', [$fournisseur]) }}">Fiche</a>
                             </div>
                             <div  class="info info-select">
                                 <input type="checkbox" class="fournisseur-checkbox" name="foursSelect[]" value="{{$fournisseur->idFournisseur }}"></input>

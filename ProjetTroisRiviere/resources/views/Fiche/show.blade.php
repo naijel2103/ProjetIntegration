@@ -9,7 +9,7 @@
     <a href="{{ route('fiche.index') }}" class="btn btn-primary btn-lg" id="btnRetour">Retour</a>
     <a href="{{ route('fiche.gererDemande', [$fournisseur]) }}" class="btn btn-success btn-lg" id="btnGererDemande">Gérer la demande</a>
   
-    @if ( $demandeInscription->statut == "Approuvé" )
+    @if ( $fournisseur->statut == "Accepte" )
         <a href="{{ route('fiche.envoieFicheFinance', [$fournisseur]) }}" class="btn btn-warning btn-lg" id="btnExporter">Exporter vers les Finances</a>
     @endif
 </div>
@@ -66,7 +66,7 @@
 
       <div class="info-box">
         <div class="info-title">Numéro de licence:</div>
-        <div class="info-content"><b>{{ $fournisseur->numliscence }}</b></div>
+        <div class="info-content"><b>{{ $fournisseur->numLiscence }}</b></div>
       </div>
     
       <div class="info-box">
@@ -103,38 +103,38 @@
       </div>
 
       <div class="info-box">
-        <div class="info-title">prenom:</div>
+        <div class="info-title">Prénom:</div>
         <div class="info-content"><b>{{ $contact->prenom }}</b></div>
       </div>
       <div class="info-box">
-      <div class="info-title">nom:</div>
+      <div class="info-title">Nom:</div>
         <div class="info-content"><b>{{ $contact->nom }}</b></div>
       </div>
       <div class="info-box">
-        <div class="info-title">fonction:</div>
+        <div class="info-title">Fonction:</div>
         <div class="info-content"><b>{{ $contact->fonction }}</b></div>
       </div>
       <div class="info-box">
-        <div class="info-title">statut:</div>
+        <div class="info-title">Statut:</div>
         <div class="info-content"><b>{{ $liscence->statut }}</b></div>
       </div>
       <div class="info-box">
-      <div class="info-title">type:</div>
+      <div class="info-title">Type:</div>
         <div class="info-content"><b>{{ $liscence->type }}</b></div>
       </div>
 
 
 
       <div class="info-box">
-        <div class="info-title">numCategorie:</div>
+        <div class="info-title">Numéro Catégorie:</div>
         <div class="info-content"><b>{{ $catLiscence->numCategorie }}</b></div>
       </div>
       <div class="info-box">
-        <div class="info-title">nom:</div>
+        <div class="info-title">Nom Catégorie:</div>
         <div class="info-content"><b>{{ $catLiscence->nom }}</b></div>
       </div>
       <div class="info-box">
-        <div class="info-title">classe:</div>
+        <div class="info-title">Classe:</div>
         <div class="info-content"><b>{{ $catLiscence->classe }}</b></div>
       </div>
       <div class="info-box">

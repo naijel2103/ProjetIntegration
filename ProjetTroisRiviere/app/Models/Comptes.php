@@ -18,7 +18,6 @@ class Comptes extends Authenticatable
         'code',
         'admin',
         'verifier'
-  
     ];
 
     protected $hidden = [
