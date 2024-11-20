@@ -9,6 +9,7 @@ use App\Models\OffresFournisseurs;
 use App\Models\CategorieLiscences;
 use App\Models\SpecificationLiscences;
 use App\Models\Liscences;
+use App\Models\ListeAContacter;
 
 use App\Http\Controllers\ApiController;
 
@@ -37,13 +38,12 @@ class FournisseurController extends Controller
         $regionSelect = $requete->input('regions',[]);
         $villeSelect = $requete->input('villes',[]);
 
-        $requeteBD = Fournisseurs::query();
+        $requeteBD = Fournisseurs::query()->where('statut', 'Accepte');
 
         $listeOffres = Offres::whereIn('codeUNSPSC', OffresFournisseurs::select('offre'))->distinct()->get();
         $listeCategories = CategorieLiscences::whereIn('numCategorie', SpecificationLiscences::select('numCategorie'))->distinct()->get();
         $listeRegions = Fournisseurs::select('region','codeRegion')->distinct()->get();
         $listeVilles = Fournisseurs::select('codeRegion','municipalite')->distinct()->get();
-
 
         if ($requete->has('offres') || $requete->has('categories')) {
             $requeteBD->where(function($sousRequete) use ($requete, $offreSelect, $catSelect) {
@@ -81,21 +81,15 @@ class FournisseurController extends Controller
                 ]);
             }
         }
-    
-        /*if ($requete->has('regions')) {
-            $requeteBD->where(function($sousRequete) use ($requete, $regionSelect) {
-                $sousRequete->whereIn('codeRegion', $regionSelect);
-            });
-        }
-
-        if ($requete->has('villes')) {
-            $requeteBD->where(function($sousRequete) use ($requete, $villeSelect) {
-                $sousRequete->whereIn('municipalite', $villeSelect);
-            });
-        }*/
         
 
         $fournisseurs = $requeteBD->get();
+
+        $fournisseurs->transform(function($fournisseur) use ($regionSelect, $villeSelect) {
+            $fournisseur->dansRegion = in_array($fournisseur->codeRegion, $regionSelect) ? 1 : 0;
+            $fournisseur->dansVille = in_array($fournisseur->municipalite, $villeSelect) ? 1 : 0;
+            return $fournisseur;
+        });
 
         $listeOffres = $listeOffres->sortByDesc(function ($offre) use ($offreSelect) {
             return in_array($offre->codeUNSPSC, $offreSelect) ? 1 : 0;
@@ -134,9 +128,38 @@ class FournisseurController extends Controller
             'catSelect' => $catSelect,
             'regionSelect' => $regionSelect,
             'villeSelect' => $villeSelect,
-
+            
             'nbrOffreSelect' => count($offreSelect),
             'nbrCatSelect' => count($catSelect)
+        ]);
+    }
+
+    public function createListe(Request $request){
+        $request->validate([
+            'fournisseurs' => 'required|array',
+            'fournisseurs.*' => 'exists:fournisseurs,idFournisseur',
+        ]);
+
+        $fournisseurs = $request->input('fournisseurs');
+
+        do {
+            $codeListe = rand(10000000, 99999999);
+
+            $exists = ListeAContacter::where('codeListe', $codeListe)->exists();
+        } while ($exists);
+
+        foreach ($fournisseurs as $fournisseur) {
+            ListeAContacter::create([
+                'fournisseur' => $fournisseur,
+                'contacte' => 0,
+                'codeListe' => $codeListe,
+            ]);
+        }
+
+
+        return response()->json([
+            'success' => true,
+            'codeListe' => $codeListe,
         ]);
     }
 }

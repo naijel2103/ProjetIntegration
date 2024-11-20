@@ -19,6 +19,7 @@ use App\Models\Contacts;
 use App\Models\Comptes;
 use App\Models\Infotels;
 use App\Models\Liscences;
+use App\Models\ListeAContacter;
 use App\Models\Offres;
 use App\Models\OffresFournisseurs;
 use App\Models\SpecificationLiscences;
@@ -35,8 +36,9 @@ class FichesController extends Controller
      */
     public function index()
     {
+        $fournisseurs = Fournisseurs::with('demandeInscription')
+            ->get();
 
-        $fournisseurs = Fournisseurs::all();
         return View("fiche.index",compact("fournisseurs"));
     }
 
@@ -201,6 +203,11 @@ class FichesController extends Controller
                                         ));
     }
 
+    public function askCode(Request $request){
+        if ($request->isMethod('get') && $request->has('codeListe')) {
+            $codeListe = $request->input('codeListe');
+            return redirect()->route('showListeAContacte', ['codeListe' => $codeListe]);
+        }
 
 
     /**
@@ -208,24 +215,57 @@ class FichesController extends Controller
      */
     public function edit(string $id)
     {
-        $compte = Comptes::Find(Auth::id());
-        $fournisseur = Fournisseurs::where('email', $compte->email)->first();
-        return View('fiche.edit', compact('fournisseur'));
+        return view('Fiche.askCodeListe');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function showListeAContacte($codeListe){
+
+        $listeAContacteExists = ListeAContacter::where('codeListe', $codeListe)->exists();
+
+        if(!$listeAContacteExists ){
+            return redirect()->route('askCodeListe')->with('error', '*Le code de la liste fourni n\'existe pas*');
+        }
+
+        $listeAContactes = ListeAContacter::where('codeListe', $codeListe)->get();
+        $listeFournisseurs = [];
+
+        foreach ($listeAContactes as $listeAContacte) {
+            $fournisseur = Fournisseurs::find($listeAContacte->fournisseur);
+            
+            $contactsAvecInfotels = $fournisseur->contacts->map(function ($contact) {
+                return [
+                    'contact' => $contact,
+                    'infotels' => $contact->infotels,
+                ];
+            });
+
+            $listeFournisseurs[] = [
+                'fournisseur' => $fournisseur,
+                'contacts' => $contactsAvecInfotels,
+                'infotels' => $fournisseur->infotels,
+                'contacte' => $listeAContacte->contacte,
+            ];
+        }
+
+        return view('Fiche.listeAContacter', [
+            'listeFournisseurs' => $listeFournisseurs,
+            'codeListe' => $codeListe
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function fournisseurContacted(Request $request, $codeListe, $fournisseurId)
     {
-        //
+        $listeAContacter = ListeAContacter::where('codeListe', $codeListe)
+        ->where('fournisseur', $fournisseurId)
+        ->firstOrFail();
+
+        $contacte = $request->has('contacte') ? 1 : 0;
+    
+
+        ListeAContacter::where('codeListe', $codeListe)
+        ->where('fournisseur', $fournisseurId)
+        ->update(['contacte' => $contacte]);
+        
+        return redirect()->back()->with('success', 'Le statut de contact a été mis à jour.');
     }
 }

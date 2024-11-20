@@ -54,4 +54,24 @@ class Fournisseurs extends Model
     {
         return $this->belongsTo(Liscences::class, 'numLiscence', 'numLiscence');
     }
+
+    public function demandeInscription()
+    {
+        return $this->hasOne(Demandesinscriptions::class, 'idFournisseur');
+    }
+
+    public function listeAContacte()
+    {
+        return $this->belongsTo(ListeAContacte::class);
+    }
+
+    public function contacts()
+    {
+        return $this->hasMany(Contacts::class, 'fournisseur', 'idFournisseur');
+    }
+    
+    public function infotels()
+    {
+        return $this->hasMany(Infotels::class, 'fournisseur');
+    }
 }

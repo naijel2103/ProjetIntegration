@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfilsController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\FournisseurController;
 
+
 Route::get('/',
 [AcceuilsController::class, 'index']) -> name('acceuils.index');
 
@@ -16,7 +17,7 @@ Route::get('/demandeFiche',
 Route::get('/fournisseur/edit/{compte}',
 [FichesController::class, 'edit'])->name('fiche.edit');
 
-Route::get('/fiche',
+Route::get('/listeDemande',
 [FichesController::class, 'index']) -> name('fiche.index');
 
 Route::get('/envoieDemandeFiche/{fournisseur}',
@@ -31,11 +32,22 @@ Route::get('/fournisseurs/{fournisseur}',
 Route::get('/gererDemande/{fournisseur}',
 [FichesController::class, 'gererDemande']) -> name('fiche.gererDemande');
 
-
 Route::patch('/gererDemande/{fournisseur}',
 [FichesController::class, 'reponseDemande'])->name('fiche.reponseDemande');
 
+Route::get('/listeAContacter', 
+[FichesController::class, 'askCode'])->name('askCodeListe');
 
+Route::get('/listeAContacter/{codeListe}', 
+[FichesController::class, 'showListeAContacte'])->name('showListeAContacte');
+
+Route::put('/listeAContacter/{codeListe}/{idFournisseur}/update-contacte', 
+[FichesController::class, 'fournisseurContacted'])->name('updateContacte');
+Route::get('/api/data/{neq}', 
+[ApiController::class, 'getUser']);
+
+Route::get('/api/data/{neq}', 
+[ApiController::class, 'getData']);
 
 Route::get('/connexion',
 [ProfilsController::class, 'connexion']) -> name('profil.connexion');
@@ -90,13 +102,6 @@ Route::get('/comptes/edit/{compte}',
 Route::delete('/comptes/supprimer/{compte}',
 [ProfilsController::class, 'destroy'])->name('profil.destroy');
 
-
-
-
-
-
-
-
 Route::post('/creer',
 [ProfilsController::class, 'creer']) -> name('profil.creer');
 
@@ -112,10 +117,12 @@ Route::get('/reinitialiser/{code}',
 Route::post('/reinitialiser/{code}',
 [ProfilsController::class, 'reinitialiser']) -> name('profil.reinitialiser');
 
-Route::get('/api/data/{neq}', 
-[ApiController::class, 'getData']);
+
 
 Route::get('/listeFournisseur', 
 [FournisseurController::class, 'getListe'])->name('getListeFournisseur');
+
+Route::post('/listeFournisseur', 
+[FournisseurController::class, 'createListe'])->name('createListeFournisseur');
 
 Route::get('/creation', [FournisseurController::class, 'showCreationForm'])->name('profil.creation');

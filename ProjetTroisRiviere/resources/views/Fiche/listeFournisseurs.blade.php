@@ -1,5 +1,10 @@
 @extends('layouts.app')
 @section('contenu')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+<script>
+    var routeCreateListeFournisseur = "{{ route('createListeFournisseur') }}";
+</script>
 
 <script src="{{ asset('js/filtre.js') }}"></script>
 
@@ -72,23 +77,8 @@
             </div>
 
             <div class="cols-2 search-bar">
-                <div class="cols-4 status-bar">
-                    <div class="unStatus">
-                        <input type="checkbox" name="status" value="attente">En attente</input>
-                    </div>
-                    <div class="unStatus">
-                        <input type="checkbox" name="status" value="accepte">Acceptées</input>
-                    </div>
-                    <div class="unStatus">
-                        <input type="checkbox" name="status" value="refusees">Refusées</input>
-                    </div>
-                    <div class="unStatus">
-                        <input type="checkbox" name="status" value="revise">À reviser</input>
-                    </div>
-                </div>
 
                 <button type="submit" class="sendBtn">Rechercher</button>
-
             </div>
         </div>
 
@@ -96,9 +86,6 @@
             <div class="container-fournisseur cols-2">
                 <div class="liste-fournisseur">
                     <div class="cols-7 titre-fournisseur">
-                        <div class="info info-etat info-titre">
-                            <h6>État</h6>
-                        </div>
                         <div  class="info info-nom info-titre">
                             <h6>Fournisseur</h6>
                         </div>
@@ -121,33 +108,40 @@
                     <div class="les-fournisseurs">
                         @foreach ($fournisseurs as $fournisseur)
                         <div class="cols-7 un-fournisseur">
-                            <div  class="info info-etat">
-                                {{ $fournisseur->statut }} 
-                            </div>
                             <div  class="info info-nom">
                                 {{ $fournisseur->nomFournisseur }} 
                             </div>
-                            <div  class="info info-ville">
+                            <div  class="info info-ville"  data-dans_ville="{{$fournisseur->dansVille}}" data-dans_region="{{$fournisseur->dansRegion}}" 
+                                data-ville_selected="{{$villeSelect ? 'true' : 'false' }}" data-region_selected="{{$regionSelect ? 'true' : 'false' }}">
                                 {{ $fournisseur->municipalite }}
                             </div>
-                            <div  class="info info-offre">
-                            {{ empty($fournisseur->nbr_offres_correspondant) ? '0' : $fournisseur->nbr_offres_correspondant }} / {{$nbrOffreSelect}}
+                            <div  class="info info-offre" data-nbr_offres={{$nbrOffreSelect}} data-nbr_offres_correspondant="{{$fournisseur->nbr_offres_correspondant}}">
+                                {{ empty($fournisseur->nbr_offres_correspondant) ? '0' : $fournisseur->nbr_offres_correspondant }} / {{$nbrOffreSelect}}
                             </div>
-                            <div class="info info-cat">
-                            {{ empty($fournisseur->nbr_categories_correspondant) ? '0' : $fournisseur->nbr_categories_correspondant }} / {{$nbrCatSelect}}
+                            <div class="info info-cat" data-nbr_cats={{$nbrCatSelect}} data-nbr_cats_correspondant="{{$fournisseur->nbr_categories_correspondant}}">
+                                {{ empty($fournisseur->nbr_categories_correspondant) ? '0' : $fournisseur->nbr_categories_correspondant }} / {{$nbrCatSelect}}
                             </div>
                             <div  class="info info-fiche">
                                 <a href="">Fiche</a>
                             </div>
                             <div  class="info info-select">
-                                <input type="checkbox"></input>
+                                <input type="checkbox" class="fournisseur-checkbox" name="foursSelect[]" value="{{$fournisseur->idFournisseur }}"></input>
                             </div>
                         </div>
                         @endforeach
                     </div>
                 </div>
-                <button class="extractBtn">Extraire la sélection</button>
+                <button type="button" id="openPopupExtract" class="extractBtn">Extraire la sélection</button>
             </div>
         </div>
     </form>
+
+    <div id="popUpExtract" class="popup-modal" style="display: none;">
+        <div class="popup-content">
+            <span id="closePopup" class="close">&times;</span>
+            <h3>Voici le code de la liste</h3>
+            <p id="textToCopy" class="codeCopy"></p>
+            <button id="copyButton">Copier le code</button>
+        </div>
+    </div>
 @endsection

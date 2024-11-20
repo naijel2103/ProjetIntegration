@@ -25,6 +25,7 @@
       {{-- </a> --}}
       <div class="bottom-nav">      
      
+        <a href="\" class="header-link-top">Accueil</a>
        
       @role('Fournisseur')
     

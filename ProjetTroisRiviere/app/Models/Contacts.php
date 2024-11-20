@@ -29,5 +29,8 @@ class Contacts extends Model
         return $this->belongsTo(Fournisseurs::class, 'fournisseur', 'idFournisseur');
     }
 
-    
+    public function infotels()
+    {
+        return $this->hasMany(Infotels::class, 'fournisseur');
+    }
 }
