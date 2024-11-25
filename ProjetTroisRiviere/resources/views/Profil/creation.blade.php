@@ -32,7 +32,7 @@
         document.getElementById('step4').style.display = 'none';
         
         // Afficher l'étape 3
-        document.getElementById('step3').style.display = 'block';
+        document.getElementById('step5').style.display = 'block';
     });
 </script>
 

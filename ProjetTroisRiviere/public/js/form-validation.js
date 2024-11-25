@@ -1,3 +1,5 @@
+document.addEventListener('DOMContentLoaded', function() {
+
 function togglePasswordVisibility(inputId) {
     const inputField = document.getElementById(inputId);
     const inputType = inputField.type === 'password' ? 'text' : 'password';
@@ -253,6 +255,8 @@ document.getElementById('submitStep5').addEventListener('click', function () {
     };
 
     if (validateStep(step5Inputs, validations, 5)) {
+        
+        
         // Collecte les données de toutes les étapes
         const formData = new FormData();
 
@@ -279,18 +283,23 @@ document.getElementById('submitStep5').addEventListener('click', function () {
         formData.append('num_tel_type-contact-step5', document.getElementById('num_tel_type-contact-step5').value);
         formData.append('tel_contact-step5', document.getElementById('tel_contact-step5').value);
 
-
+        
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        
         // Envoi des données avec fetch (AJAX) en JSON
         fetch(routeCreateFournisseur, {
             method: 'POST',
             headers: {
+                'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': csrfToken  // Assure-toi que csrfToken est défini quelque part dans ton code.
             },
-            body: formData // Pas besoin de JSON.stringify
+            body: JSON.stringify({ formData })
         })
-        .then(response => response.json())
+       .then(response => {
+            console.log(response);  // Ajoute cette ligne pour inspecter la réponse
+            return response.json();
+        })
         .then(data => {
             if (data.success) {
                 // Si tout s'est bien passé, passer à l'étape 6
@@ -317,3 +326,4 @@ function updateProgressBar(step) {
     const progress = (step / 6) * 100; // Calcul du pourcentage en fonction de l'étape
     progressBar.style.width = `${progress}%`;
 }
+});
