@@ -14,7 +14,7 @@
 <div class="fournisseur-card">
     <div class="fournisseur-info">
         
-     
+
         <div class="info-box identification">
             <div class="info-title">Identification:</div>
             <div class="info-content">
