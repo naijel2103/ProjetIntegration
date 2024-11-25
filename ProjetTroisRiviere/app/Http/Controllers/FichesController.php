@@ -47,7 +47,7 @@ class FichesController extends Controller
      */
     public function demandeFiche()
     {
-         $compte = Comptes::Find(Auth::id());
+        $compte = Comptes::Find(Auth::id());
         $fournisseur = Fournisseurs::where('email', $compte->email)->first();
         $offreFournisseurs = OffresFournisseurs::where('fournisseur', $fournisseur->idFournisseur)->get();
 
@@ -73,6 +73,23 @@ class FichesController extends Controller
         return View('fiche.demandeFiche',compact("fournisseur", "demandeInscription",
         "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs"));
     }
+
+    public function desactivateFiche(){
+        $compte = Comptes::Find(Auth::id());
+        $fournisseur = Fournisseurs::where('email', $compte->email)->first();
+        $statut = $fournisseur->statut;
+        if($statut == "Acceptee"){
+            Fournisseurs::where('email', $compte->email)->first()
+                ->update(['statut' => 'Desactivee']);
+            return redirect()->back()->with('success', 'Le  fournisseur a bien été désactivé');
+        } else {
+            Fournisseurs::where('email', $compte->email)->first()
+                ->update(['statut' => 'Acceptee']);
+            return redirect()->back()->with('success', 'Le  fournisseur a bien été réactivé');
+        }
+
+    }
+
     public function envoieDemandeFiche(Fournisseurs $fournisseur)
     {
         
@@ -268,5 +285,12 @@ class FichesController extends Controller
         ->update(['contacte' => $contacte]);
         
         return redirect()->back()->with('success', 'Le statut de contact a été mis à jour.');
+    }
+
+    public function deleteListe($codeListe){
+        $listeAContacter = ListeAContacter::where('codeListe', $codeListe);
+        $listeAContacter->delete();
+
+        return redirect()->route('askCodeListe')->with('success', '* La liste a été supprimé avec succès *');
     }
 }

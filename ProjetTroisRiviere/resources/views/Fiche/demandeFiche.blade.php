@@ -1,3 +1,4 @@
+<script src="{{ asset('js/desactivation-btn.js') }}"></script>
 
 <link rel="stylesheet" style="text/css" href="\..\css\FicheFournisseurCss\ficheCss.css">
 @extends('layouts.app')
@@ -8,9 +9,21 @@
 <div class="button-container">
 
 <a href="{{ route('fiche.index') }}" class="btn btn-primary btn-lg" id="btnRetour">Modifer la fiche</a>
-</div>
+
 
 @if (isset($fournisseur))
+    <form method="POST" action="{{ route('desactivateFiche') }}">
+        <button type="submit" id="descativationBtn">
+        if($fournisseur->statut == "Desactivee")
+            Réactiver le compte
+        @elseif($fournisseur->statut == "Acceptee")
+            Désactiver le compte
+        @endif
+        </button>
+    </form>
+</div>
+
+
 <div class="fournisseur-card">
     <div class="fournisseur-info">
         
@@ -28,21 +41,26 @@
                     <b>Email:</b> {{ $fournisseur->email }}
                 </div>
                 <div>
-                    <b>Statut:</b>     @if($fournisseur->statut == "En attente" || $fournisseur->statut == "A reviser")
-                                        <div>
-                                        <img src="../Images/enAttente.png" alt="enAttente" id='imgStatut'>
-                                        {{ $fournisseur->statut }}
-                                        </div>
-                                        @elseif($fournisseur->statut == "Accepte")
-                                        <div>
-                                        <img src="../Images/accepter.png" alt="accepter" id='imgStatut'>
-                                        {{ $fournisseur->statut }}
-                                        </div>
-                                         @else
-                                         <div>
-                                        <img src="../Images/refuse.png" alt="refuse" id='imgStatut'>
-                                        {{ $fournisseur->statut }}
-                                        </div>
+                    <b>Statut:</b>     @if($fournisseur->statut == "Refusee")
+                                            <div>
+                                                <img src="../Images/refuse.png" alt="refusee" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
+                                        @elseif($fournisseur->statut == "Acceptee")
+                                            <div>
+                                                <img src="../Images/accepter.png" alt="acceptee" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
+                                        @elseif($fournisseur->statut == "Desactivee")
+                                            <div>
+                                                <img src="../Images/desactivee.png" alt="desactivee" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
+                                        @else
+                                            <div>
+                                                <img src="../Images/enAttente.png" alt="enAttente" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
                                         @endif
                 </div>
             </div>

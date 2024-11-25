@@ -13,15 +13,15 @@
       <label>Afficher les statuts:</label>
         <div class="unStatus">
           <input type="checkbox" name="status" value="attente" checked></input>
-          <th>En attente</th>
+          <th>En attentes</th>
         </div>
         <div class="unStatus">
           <input type="checkbox" name="status" value="refusees" checked></input>
           <th>Refusées</th>
         </div>
         <div class="unStatus">
-          <input type="checkbox" name="status" value="revise" checked></input>
-          <th>À reviser</th>
+          <input type="checkbox" name="status" value="desactivee" checked></input>
+          <th>Désactivées</th>
         </div>
       </div>
 
@@ -52,35 +52,35 @@
 
     <tbody>
     @if(count($fournisseurs))
-    <?php $ctr = 0; ?>
-        @foreach($fournisseurs as $fournisseur)
-        <?php $ctr++;  ?>
-      <tr class="uneDemande">
-        <td>
-          @if($fournisseur->statut == "En attente")
-          <img src="Images/enAttente.png" alt="enAttente" id='imgStatut'>
-          <p>En attente</p>
-          @elseif($fournisseur->statut == "A revise")
-          <img src="Images/enAttente.png" alt="enAttente" id='imgStatut'>
-          <p>À reviser</p>
-          @else
-          <img src="Images/refuse.png" alt="refuse" id='imgStatut'>
-          <p>Refusée</p>
-          @endif
-        </td>
+      <?php $ctr = 0; ?>
+      @foreach($fournisseurs as $fournisseur)
+        @if($fournisseur->statut != "Acceptee")
+          <?php $ctr++;  ?>
+          <tr class="uneDemande">
+            <td>
+              @if($fournisseur->statut == "En attente")
+              <img src="Images/enAttente.png" alt="enAttente" id='imgStatut'>
+              <p>En attente</p>
+              @elseif($fournisseur->statut == "Desactivee")
+              <img src="Images/desactivee.png" alt="desactivee" id='imgStatut'>
+              <p>À reviser</p>
+              @elseif($fournisseur->statut == "Refusee")
+              <img src="Images/refuse.png" alt="refusee" id='imgStatut'>
+              <p>Refusée</p>
+              @endif
+            </td>
 
-        <td>{{ $fournisseur->nomFournisseur }}</td>
-        <td>{{  $fournisseur->demandeInscription ? $fournisseur->demandeInscription->dateDemande : 'Aucune demande' }}</td>
-        <td>{{ $fournisseur->demandeInscription ? $fournisseur->demandeInscription->dateDerniereMod: 'Aucune demande' }}</td>
-        <td>{{ $fournisseur->demandeInscription ? $fournisseur->demandeInscription->dateChangementStatut: 'Aucune demande' }}</td>
-        <td><a href="{{ route('fiche.show', [$fournisseur]) }}"><button type="submit" id="boutonFiche">Ouvrir</button></a></td>
-        <td>
-        <form >
-      </tr>
-    </tbody>
-  
-
-    @endforeach
+            <td>{{ $fournisseur->nomFournisseur }}</td>
+            <td>{{  $fournisseur->demandeInscription ? $fournisseur->demandeInscription->dateDemande : 'Aucune demande' }}</td>
+            <td>{{ $fournisseur->demandeInscription ? $fournisseur->demandeInscription->dateDerniereMod: 'Aucune demande' }}</td>
+            <td>{{ $fournisseur->demandeInscription ? $fournisseur->demandeInscription->dateChangementStatut: 'Aucune demande' }}</td>
+            <td><a href="{{ route('fiche.show', [$fournisseur]) }}"><button type="submit" id="boutonFiche">Ouvrir</button></a></td>
+            <td>
+            <form >
+          </tr>
+        @endif
+        @endforeach
+        </tbody>
     @else
       <h2>Aucun comptes a affiché</h2>
     @endif

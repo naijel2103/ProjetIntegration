@@ -32,21 +32,26 @@
                     <b>Email:</b> {{ $fournisseur->email }}
                 </div>
                 <div>
-                    <b>Statut:</b>      @if($fournisseur->statut == "En attente" || $fournisseur->statut == "A reviser")
-                                        <div>
-                                        <img src="../Images/enAttente.png" alt="enAttente" id='imgStatut'>
-                                        {{ $fournisseur->statut }}
-                                        </div>
-                                        @elseif($fournisseur->statut == "Accepte")
-                                        <div>
-                                        <img src="../Images/accepter.png" alt="accepter" id='imgStatut'>
-                                        {{ $fournisseur->statut }}
-                                        </div>
-                                         @else
-                                         <div>
-                                        <img src="../Images/refuse.png" alt="refuse" id='imgStatut'>
-                                        {{ $fournisseur->statut }}
-                                        </div>
+                    <b>Statut:</b>      @if($fournisseur->statut == "Refusee")
+                                            <div>
+                                                <img src="../Images/refuse.png" alt="refusee" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
+                                        @elseif($fournisseur->statut == "Acceptee")
+                                            <div>
+                                                <img src="../Images/accepter.png" alt="acceptee" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
+                                        @elseif($fournisseur->statut == "Desactivee")
+                                            <div>
+                                                <img src="../Images/desactivee.png" alt="desactivee" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
+                                        @else
+                                            <div>
+                                                <img src="../Images/enAttente.png" alt="enAttente" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
                                         @endif
                 </div>
             </div>
