@@ -295,10 +295,12 @@ document.getElementById('submitStep5').addEventListener('click', function () {
                 'X-CSRF-TOKEN': csrfToken  // Assure-toi que csrfToken est défini quelque part dans ton code.
             },
             body: JSON.stringify({ formData })
+
         })
+        
        .then(response => {
-            console.log(response);  // Ajoute cette ligne pour inspecter la réponse
-            return response.json();
+        console.log([...formData.entries()]);
+        return response.json();
         })
         .then(data => {
             if (data.success) {
