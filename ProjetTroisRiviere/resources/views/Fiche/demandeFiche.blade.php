@@ -8,8 +8,7 @@
 
 <div class="button-container">
 
-<a href="{{ route('fiche.index') }}" class="btn btn-primary btn-lg" id="btnRetour">Modifer la fiche</a>
-
+<a href="{{ route('Fiche.modifer', [$fournisseur->idFournisseur]) }}" class="btn btn-primary btn-lg" id="btnRetour">Modifer la fiche</a>
 
 @if (isset($fournisseur))
     <form method="POST" action="{{ route('desactivateFiche') }}">
@@ -27,7 +26,7 @@
 <div class="fournisseur-card">
     <div class="fournisseur-info">
         
-     
+
         <div class="info-box identification">
             <div class="info-title">Identification:</div>
             <div class="info-content">
@@ -137,7 +136,11 @@
             <b>Courriel:</b> {{ $contact->email }}
         </div>
         <div>
-            <b>Téléphone:</b> {{ $contact->telephone }}
+        @foreach($infotelsContacts as $infotelsContact)
+        @if($contact->idContact == $infotelsContact->contact)
+            <b>Téléphone:</b> {{ $infotelsContact->numTel }}
+        @endif
+        @endforeach
         </div>
         </div>
         @endforeach

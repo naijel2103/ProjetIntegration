@@ -17,8 +17,8 @@ Route::get('/demandeFiche',
 Route::post('/demandeFiche',
 [FichesController::class, 'desactivateFiche']) -> name('fiche.desactivateFiche');
 
-Route::get('/fournisseur/edit/{compte}',
-[FichesController::class, 'edit'])->name('fiche.edit');
+Route::get('/fournisseur/edit/{fournisseur}',
+[FichesController::class, 'editFiche'])->name('Fiche.modifer');
 
 Route::get('/listeDemande',
 [FichesController::class, 'index']) -> name('fiche.index');

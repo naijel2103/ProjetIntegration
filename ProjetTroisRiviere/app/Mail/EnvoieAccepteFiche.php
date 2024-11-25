@@ -13,12 +13,13 @@ class EnvoieAccepteFiche extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $message;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($message)
     {
-        //
+        $this->message = $message;
     }
 
     /**
