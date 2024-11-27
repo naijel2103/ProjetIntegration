@@ -29,7 +29,6 @@
                         <option disabled selected hidden></option>
                         <option value="En attente">En attente</option>
                         <option value="Accepte">Accepte</option>
-                        <option value="A reviser">À reviser</option>
                         <option value="Refusee">Refusee</option>
                     </select>
                     <div id="refuse">

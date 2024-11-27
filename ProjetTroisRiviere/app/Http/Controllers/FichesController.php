@@ -158,15 +158,17 @@ class FichesController extends Controller
                  
                     if($estCochee)
                     {
-                        
-                        Mail::to($fournisseur->email )->send(new EnvoieRefuFicheRaison($raison));
+                        $modele = Modeles_courriels::where('idModele',1)->first();
+                        Mail::to($fournisseur->email )->send(new EnvoieRefuFicheRaison($raison,$modele));
                     }else
                     {
-                        Mail::to($fournisseur->email )->send(new EnvoieRefuFiche());
+                        $modele = Modeles_courriels::where('idModele',1)->first();
+                        Mail::to($fournisseur->email )->send(new EnvoieRefuFiche($modele));
                     }
                 }else if($request->statut == "Accepte"){
 
-                    Mail::to($fournisseur->email )->send(new EnvoieAccepteFiche());
+                    $modele = Modeles_courriels::where('idModele',2)->first();
+                    Mail::to($fournisseur->email )->send(new EnvoieAccepteFiche($modele));
                     $demandeInscription->raisonRefus = null;
                 }
                 $demandeInscription->save(); // Enregistrer les modifications
