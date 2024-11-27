@@ -9,7 +9,7 @@
     <a href="{{ route('fiche.index') }}" class="btn btn-primary btn-lg" id="btnRetour">Retour</a>
     <a href="{{ route('fiche.gererDemande', [$fournisseur]) }}" class="btn btn-success btn-lg" id="btnGererDemande">Gérer la demande</a>
   
-    @if ( $demandeInscription->statut == "Accepte" )
+    @if ( $fournisseur->statut == "Acceptee" )
         <a href="{{ route('fiche.envoieFicheFinance', [$fournisseur]) }}" class="btn btn-warning btn-lg" id="btnExporter">Exporter vers les Finances</a>
     @endif
 </div>
@@ -32,21 +32,26 @@
                     <b>Email:</b> {{ $fournisseur->email }}
                 </div>
                 <div>
-                    <b>Statut:</b>      @if($fournisseur->statut == "En attente" || $fournisseur->statut == "A reviser")
-                                        <div>
-                                        <img src="../Images/enAttente.png" alt="enAttente" id='imgStatut'>
-                                        {{ $fournisseur->statut }}
-                                        </div>
-                                        @elseif($fournisseur->statut == "Accepte")
-                                        <div>
-                                        <img src="../Images/accepter.png" alt="accepter" id='imgStatut'>
-                                        {{ $fournisseur->statut }}
-                                        </div>
-                                         @else
-                                         <div>
-                                        <img src="../Images/refuse.png" alt="refuse" id='imgStatut'>
-                                        {{ $fournisseur->statut }}
-                                        </div>
+                    <b>Statut:</b>      @if($fournisseur->statut == "Refusee")
+                                            <div>
+                                                <img src="../Images/refuse.png" alt="refusee" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
+                                        @elseif($fournisseur->statut == "Acceptee")
+                                            <div>
+                                                <img src="../Images/accepter.png" alt="acceptee" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
+                                        @elseif($fournisseur->statut == "Desactivee")
+                                            <div>
+                                                <img src="../Images/desactivee.png" alt="desactivee" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
+                                        @else
+                                            <div>
+                                                <img src="../Images/enAttente.png" alt="enAttente" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
                                         @endif
                 </div>
             </div>
@@ -123,7 +128,11 @@
             <b>Courriel:</b> {{ $contact->email }}
         </div>
         <div>
-            <b>Téléphone:</b> {{ $contact->telephone }}
+        @foreach($infotelsContacts as $infotelsContact)
+        @if($contact->idContact == $infotelsContact->contact)
+            <b>Téléphone:</b> {{ $infotelsContact->numTel }}
+        @endif
+            @endforeach
         </div>
         </div>
         @endforeach
@@ -189,7 +198,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 

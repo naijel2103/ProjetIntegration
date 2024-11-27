@@ -1,3 +1,5 @@
+<script src="{{ asset('js/desactivation-btn.js') }}"></script>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <link rel="stylesheet" style="text/css" href="\..\css\FicheFournisseurCss\ficheCss.css">
 @extends('layouts.app')
@@ -5,16 +7,29 @@
 
 <h1>Page du fournisseur {{ $fournisseur->nomFournisseur }}</h1>
 
+<form method="POST" action="{{ route('fiche.desactivateFiche') }}"> 
+@csrf
+@method('PUT')
 <div class="button-container">
 
-
-</div>
+<a href="{{ route('Fiche.modifer', [$fournisseur->idFournisseur]) }}" class="btn btn-primary btn-lg" id="btnRetour">Modifer la fiche</a>
 
 @if (isset($fournisseur))
+    
+        <button type="submit" id="descativationBtn" class="btn btn-danger btn-lg">
+        @if($fournisseur->statut == "Desactivee")
+            Réactiver le compte
+        @elseif($fournisseur->statut == "Acceptee")
+            Désactiver le compte
+        @endif
+        </button>
+</div>
+</form>
+
 <div class="fournisseur-card">
     <div class="fournisseur-info">
         
-     
+
         <div class="info-box identification">
             <div class="info-title">Identification:</div>
             <div class="info-content">
@@ -28,21 +43,26 @@
                     <b>Email:</b> {{ $fournisseur->email }}
                 </div>
                 <div>
-                    <b>Statut:</b>     @if($fournisseur->statut == "En attente" || $fournisseur->statut == "A reviser")
-                                        <div>
-                                        <img src="../Images/enAttente.png" alt="enAttente" id='imgStatut'>
-                                        {{ $fournisseur->statut }}
-                                        </div>
-                                        @elseif($fournisseur->statut == "Accepte")
-                                        <div>
-                                        <img src="../Images/accepter.png" alt="accepter" id='imgStatut'>
-                                        {{ $fournisseur->statut }}
-                                        </div>
-                                         @else
-                                         <div>
-                                        <img src="../Images/refuse.png" alt="refuse" id='imgStatut'>
-                                        {{ $fournisseur->statut }}
-                                        </div>
+                    <b>Statut:</b>     @if($fournisseur->statut == "Refusee")
+                                            <div>
+                                                <img src="../Images/refuse.png" alt="refusee" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
+                                        @elseif($fournisseur->statut == "Acceptee")
+                                            <div>
+                                                <img src="../Images/accepter.png" alt="acceptee" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
+                                        @elseif($fournisseur->statut == "Desactivee")
+                                            <div>
+                                                <img src="../Images/desactivee.png" alt="desactivee" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
+                                        @else
+                                            <div>
+                                                <img src="../Images/enAttente.png" alt="enAttente" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
                                         @endif
                 </div>
             </div>
@@ -119,7 +139,11 @@
             <b>Courriel:</b> {{ $contact->email }}
         </div>
         <div>
-            <b>Téléphone:</b> {{ $contact->telephone }}
+        @foreach($infotelsContacts as $infotelsContact)
+        @if($contact->idContact == $infotelsContact->contact)
+            <b>Téléphone:</b> {{ $infotelsContact->numTel }}
+        @endif
+        @endforeach
         </div>
         </div>
         @endforeach

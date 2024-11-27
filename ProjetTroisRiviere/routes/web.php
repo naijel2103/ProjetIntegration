@@ -14,6 +14,12 @@ Route::get('/',
 Route::get('/demandeFiche',
 [FichesController::class, 'demandeFiche']) -> name('fiche.demandeFiche');
 
+Route::put('/demandeFiche',
+[FichesController::class, 'desactivateFiche']) -> name('fiche.desactivateFiche');
+
+Route::get('/fournisseur/edit/{fournisseur}',
+[FichesController::class, 'editFiche'])->name('Fiche.modifer');
+
 Route::get('/listeDemande',
 [FichesController::class, 'index']) -> name('fiche.index');
 
@@ -32,6 +38,8 @@ Route::get('/gererDemande/{fournisseur}',
 Route::patch('/gererDemande/{fournisseur}',
 [FichesController::class, 'reponseDemande'])->name('fiche.reponseDemande');
 
+
+
 Route::get('/listeAContacter', 
 [FichesController::class, 'askCode'])->name('askCodeListe');
 
@@ -40,6 +48,11 @@ Route::get('/listeAContacter/{codeListe}',
 
 Route::put('/listeAContacter/{codeListe}/{idFournisseur}/update-contacte', 
 [FichesController::class, 'fournisseurContacted'])->name('updateContacte');
+
+Route::delete('/listeAContacter/{codeListe}',
+[FichesController::class, 'deleteListe']) -> name('deleteListe');
+
+
 Route::get('/api/data/{neq}', 
 [ApiController::class, 'getUser']);
 

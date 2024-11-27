@@ -32,8 +32,13 @@
         <a href="\demandeFiche" class="header-link-top">Voir ma fiche</a>
       @endauth
         @role('Responsable')
-         
-        <a href="\fiche" class="header-link-top">Voir les fiches </a>       
+        <div class="separator"></div>   
+        <a href="\listeFournisseur" class="header-link-top">Fiches fournisseur</a>      
+        <div class="separator"></div>   
+        <a href="\listeAContacter" class="header-link-top">Listes à contacter</a>
+        <div class="separator"></div>   
+        <a href="\listeDemande" class="header-link-top">Demandes fournisseur</a>
+        
         @endrole
         @role('Admin')
       
