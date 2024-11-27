@@ -9,7 +9,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Comptes extends Authenticatable
 {
-    use HasFactory, HasApiTokens, Notifiable;
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'nom',
