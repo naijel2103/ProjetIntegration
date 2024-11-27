@@ -103,14 +103,14 @@ document.getElementById('btnNext').addEventListener('click', function () {
 
 // Step 2 validation
 document.getElementById('btnNextStep').addEventListener('click', function () {
-    const step2Inputs = ['siteInternet', 'numero_civique', 'rue', 'ville', 'province', 'code_postal', 'num_tel'].map(id => document.getElementById(id));
+    const step2Inputs = ['siteInternet', 'numero_civique', 'rue', 'ville', 'province', 'codePostal', 'num_tel'].map(id => document.getElementById(id));
     const validations = {
         siteInternet: value => !value && "Le site internet est requis.",
         numero_civique: value => !/^\d+$/.test(value) && "Le numéro civique doit être un nombre.",
         rue: value => !value.trim() && "La rue est requise.",
         ville: value => !value.trim() && "La ville est requise.",
         province: value => !value.trim() && "La province est requise.",
-        code_postal: value => !/^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$/.test(value) && "Le code postal doit être valide.",
+        codePostal: value => !/^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$/.test(value) && "Le code postal doit être valide.",
         num_tel: value => {
             if (!value) return "Le numéro de téléphone est requis.";
             if (!/^\d{3}-\d{3}-\d{4}$/.test(value)) return "Le numéro de téléphone doit être au format 000-000-0000.";

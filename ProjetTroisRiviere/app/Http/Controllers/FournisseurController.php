@@ -194,7 +194,7 @@ class FournisseurController extends Controller
             $fournisseur->codeCondition = $request->input('codeCondition', null);
             $fournisseur->devise = $request->input('devise', null);
             $fournisseur->modCom = $request->input('modCom', null);
-            $fournisseur->statut = $request->input('statut', null);
+            $fournisseur->statut = $request->input('statut', 'En attente');
     
             // Sauvegarder le fournisseur
             $fournisseur->save();
