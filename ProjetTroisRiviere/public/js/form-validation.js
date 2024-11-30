@@ -103,15 +103,15 @@ document.getElementById('btnNext').addEventListener('click', function () {
 
 // Step 2 validation
 document.getElementById('btnNextStep').addEventListener('click', function () {
-    const step2Inputs = ['siteInternet', 'numero_civique', 'rue', 'ville', 'province', 'codePostal', 'num_tel'].map(id => document.getElementById(id));
+    const step2Inputs = ['siteInternet', 'numero_civique', 'rue', 'ville', 'province', 'codePostal', 'num_telstep2'].map(id => document.getElementById(id));
     const validations = {
         siteInternet: value => !value && "Le site internet est requis.",
         numero_civique: value => !/^\d+$/.test(value) && "Le numéro civique doit être un nombre.",
         rue: value => !value.trim() && "La rue est requise.",
         ville: value => !value.trim() && "La ville est requise.",
         province: value => !value.trim() && "La province est requise.",
-        codePostal: value => !/^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$/.test(value) && "Le code postal doit être valide.",
-        num_tel: value => {
+        codePostal: value => !/^[A-Za-z]\d[A-Za-z]\d[A-Za-z]\d$/.test(value) && "Le code postal doit être valide.",
+        num_telstep2: value => {
             if (!value) return "Le numéro de téléphone est requis.";
             if (!/^\d{3}-\d{3}-\d{4}$/.test(value)) return "Le numéro de téléphone doit être au format 000-000-0000.";
             return '';
@@ -199,7 +199,7 @@ document.getElementById('account-form').addEventListener('submit', function (eve
 });
 
 // Format telephone number
-document.getElementById('num_tel').addEventListener('input', function () {
+document.getElementById('num_telstep2').addEventListener('input', function () {
     let input = this;
     input.value = input.value.replace(/\D/g, '').slice(0, 10); // Keep only the first 10 digits
     if (input.value.length > 6) {
@@ -271,7 +271,7 @@ document.getElementById('submitStep5').addEventListener('click', function () {
         formData.append('ville', document.getElementById('ville').value);
         formData.append('province', document.getElementById('province').value);
         formData.append('codePostal', document.getElementById('codePostal').value);
-        formData.append('num_tel', document.getElementById('num_tel').value);
+        formData.append('num_telstep2', document.getElementById('num_telstep2').value);
     
         // Étape 5
         formData.append('prenom-step5', document.getElementById('prenom-step5').value);
