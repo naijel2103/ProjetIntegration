@@ -6,7 +6,6 @@
 <h1>Page du fournisseur {{ $fournisseur->nomFournisseur }}</h1>
 
 <div class="button-container">
-    <a href="{{ route('fiche.index') }}" class="btn btn-primary btn-lg" id="btnRetour">Retour</a>
     <a href="{{ route('fiche.gererDemande', [$fournisseur]) }}" class="btn btn-success btn-lg" id="btnGererDemande">Gérer la demande</a>
   
     @if ( $fournisseur->statut == "Acceptee" )

@@ -20,7 +20,6 @@
                   <label for="role" id="inputLabel">Role de l'usager</label>
                   <select id="inputAdmin" name="role">
                      <option value="<?php echo $compte->role; ?>" selected>Veuillez choisir un role</option>
-                     <option value="Fournisseur">Fournisseur</option>
                      <option value="Commis">Commis</option>
                      <option value="Responsable">Responsable</option>
                      <option value="Admin">Administrateur</option>
