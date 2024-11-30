@@ -236,6 +236,8 @@ class FichesController extends Controller
 
 
         $demandeInscription = Demandesinscriptions::where('idFournisseur', $fournisseur->idFournisseur)->first();
+
+
         return View('fiche.show',compact("fournisseur", "demandeInscription",
                                         "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs","infotelsContacts"
                                         ));
