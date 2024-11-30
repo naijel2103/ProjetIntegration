@@ -63,7 +63,7 @@
               <p>En attente</p>
               @elseif($fournisseur->statut == "Desactivee")
               <img src="Images/desactivee.png" alt="desactivee" id='imgStatut'>
-              <p>À reviser</p>
+              <p>Désactivée</p>
               @elseif($fournisseur->statut == "Refusee")
               <img src="Images/refuse.png" alt="refusee" id='imgStatut'>
               <p>Refusée</p>

@@ -10,7 +10,8 @@ use App\Models\CategorieLiscences;
 use App\Models\SpecificationLiscences;
 use App\Models\Liscences;
 use App\Models\ListeAContacter;
-
+use App\Http\Requests\FournisseurRequest;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\ApiController;
 
 
@@ -162,4 +163,54 @@ class FournisseurController extends Controller
             'codeListe' => $codeListe,
         ]);
     }
+
+
+
+
+    public function createFournisseur(FournisseurRequest $request)
+    {
+        Log::debug('ALLO');
+
+        Log::debug('validated');
+
+    try {
+        // Créer un nouveau fournisseur avec les données du formulaire
+        $fournisseur = new Fournisseur();
+        $fournisseur->neq = $request->input('neq', null);
+        $fournisseur->nomFournisseur = $request->input('nomFournisseur', null);
+        $fournisseur->numLiscence = $request->input('numLiscence', null);
+        $fournisseur->email = $request->input('email', null);
+        $fournisseur->mdp = bcrypt($request->input('mdp', null));  // Assurez-vous de hasher le mot de passe
+        $fournisseur->numCivique = $request->input('numCivique', null);
+        $fournisseur->rue = $request->input('rue', null);
+        $fournisseur->bureau = $request->input('bureau', null);
+        $fournisseur->municipalite = $request->input('municipalite', null);
+        $fournisseur->province = $request->input('province', null);
+        $fournisseur->codePostal = $request->input('codePostal', null);
+        $fournisseur->region = $request->input('region', null);
+        $fournisseur->codeRegion = $request->input('codeRegion', null);
+        $fournisseur->siteWeb = $request->input('siteWeb', null);
+        $fournisseur->detailService = $request->input('detailService', null);
+        $fournisseur->numTPS = $request->input('numTPS', null);
+        $fournisseur->numTVQ = $request->input('numTVQ', null);
+        $fournisseur->conditionPaiement = $request->input('conditionPaiement', null);
+        $fournisseur->codeCondition = $request->input('codeCondition', null);
+        $fournisseur->devise = $request->input('devise', null);
+        $fournisseur->modCom = $request->input('modCom', null);
+        $fournisseur->statut = $request->input('statut', null);
+
+        // Sauvegarder le fournisseur
+        $fournisseur->save();
+
+        // Réponse JSON
+        Log::info('Tentative de création du fournisseur');
+        return response()->json(['success' => true]);
+
+    } catch (\Exception $e) {
+        // Log l'exception et retourne un message d'erreur
+        Log::error('Erreur lors de la création du fournisseur: ' . $e->getMessage());
+        return response()->json(['success' => false, 'message' => 'Erreur serveur.'], 500);
+    }
+    }
 }
+

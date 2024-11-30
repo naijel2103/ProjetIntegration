@@ -1,4 +1,5 @@
 <script src="{{ asset('js/desactivation-btn.js') }}"></script>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <link rel="stylesheet" style="text/css" href="\..\css\FicheFournisseurCss\ficheCss.css">
 @extends('layouts.app')
@@ -6,22 +7,24 @@
 
 <h1>Page du fournisseur {{ $fournisseur->nomFournisseur }}</h1>
 
+<form method="POST" action="{{ route('fiche.desactivateFiche') }}"> 
+@csrf
+@method('PUT')
 <div class="button-container">
 
 <a href="{{ route('Fiche.modifer', [$fournisseur->idFournisseur]) }}" class="btn btn-primary btn-lg" id="btnRetour">Modifer la fiche</a>
 
 @if (isset($fournisseur))
-    <form method="POST" action="{{ route('desactivateFiche') }}">
-        <button type="submit" id="descativationBtn">
-        if($fournisseur->statut == "Desactivee")
+    
+        <button type="submit" id="descativationBtn" class="btn btn-danger btn-lg">
+        @if($fournisseur->statut == "Desactivee")
             Réactiver le compte
         @elseif($fournisseur->statut == "Acceptee")
             Désactiver le compte
         @endif
         </button>
-    </form>
 </div>
-
+</form>
 
 <div class="fournisseur-card">
     <div class="fournisseur-info">
