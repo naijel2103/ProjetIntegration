@@ -103,15 +103,15 @@ document.getElementById('btnNext').addEventListener('click', function () {
 
 // Step 2 validation
 document.getElementById('btnNextStep').addEventListener('click', function () {
-    const step2Inputs = ['siteInternet', 'numero_civique', 'rue', 'ville', 'province', 'code_postal', 'num_tel'].map(id => document.getElementById(id));
+    const step2Inputs = ['siteInternet', 'numero_civique', 'rue', 'ville', 'province', 'codePostal', 'num_telstep2'].map(id => document.getElementById(id));
     const validations = {
         siteInternet: value => !value && "Le site internet est requis.",
         numero_civique: value => !/^\d+$/.test(value) && "Le numéro civique doit être un nombre.",
         rue: value => !value.trim() && "La rue est requise.",
         ville: value => !value.trim() && "La ville est requise.",
         province: value => !value.trim() && "La province est requise.",
-        code_postal: value => !/^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$/.test(value) && "Le code postal doit être valide.",
-        num_tel: value => {
+        codePostal: value => !/^[A-Za-z]\d[A-Za-z]\d[A-Za-z]\d$/.test(value) && "Le code postal doit être valide.",
+        num_telstep2: value => {
             if (!value) return "Le numéro de téléphone est requis.";
             if (!/^\d{3}-\d{3}-\d{4}$/.test(value)) return "Le numéro de téléphone doit être au format 000-000-0000.";
             return '';
@@ -199,7 +199,7 @@ document.getElementById('account-form').addEventListener('submit', function (eve
 });
 
 // Format telephone number
-document.getElementById('num_tel').addEventListener('input', function () {
+document.getElementById('num_telstep2').addEventListener('input', function () {
     let input = this;
     input.value = input.value.replace(/\D/g, '').slice(0, 10); // Keep only the first 10 digits
     if (input.value.length > 6) {
@@ -255,26 +255,24 @@ document.getElementById('submitStep5').addEventListener('click', function () {
     };
 
     if (validateStep(step5Inputs, validations, 5)) {
-        
-        
         // Collecte les données de toutes les étapes
         const formData = new FormData();
-
+    
         // Étape 1
         formData.append('nom', document.getElementById('nom').value);
         formData.append('email', document.getElementById('email').value);
         formData.append('password', document.getElementById('password').value);
         formData.append('password_confirmation', document.getElementById('password_confirmation').value);
-
+    
         // Étape 2
         formData.append('siteInternet', document.getElementById('siteInternet').value);
         formData.append('numero_civique', document.getElementById('numero_civique').value);
         formData.append('rue', document.getElementById('rue').value);
         formData.append('ville', document.getElementById('ville').value);
         formData.append('province', document.getElementById('province').value);
-        formData.append('code_postal', document.getElementById('code_postal').value);
-        formData.append('num_tel', document.getElementById('num_tel').value);
-
+        formData.append('codePostal', document.getElementById('codePostal').value);
+        formData.append('num_telstep2', document.getElementById('num_telstep2').value);
+    
         // Étape 5
         formData.append('prenom-step5', document.getElementById('prenom-step5').value);
         formData.append('nom-step5', document.getElementById('nom-step5').value);
@@ -282,8 +280,13 @@ document.getElementById('submitStep5').addEventListener('click', function () {
         formData.append('email_contact-step5', document.getElementById('email_contact-step5').value);
         formData.append('num_tel_type-contact-step5', document.getElementById('num_tel_type-contact-step5').value);
         formData.append('tel_contact-step5', document.getElementById('tel_contact-step5').value);
-
-        
+    
+        // Création de l'objet JSON à envoyer
+        const jsonData = {};
+        formData.forEach((value, key) => {
+            jsonData[key] = value;
+        });
+    
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         
         // Envoi des données avec fetch (AJAX) en JSON
@@ -292,15 +295,12 @@ document.getElementById('submitStep5').addEventListener('click', function () {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken  // Assure-toi que csrfToken est défini quelque part dans ton code.
+                'X-CSRF-TOKEN': csrfToken
             },
-            body: JSON.stringify({ formData })
-
+            body: JSON.stringify(jsonData) // Sérialisation en JSON
         })
-        
-       .then(response => {
-        console.log([...formData.entries()]);
-        return response.json();
+        .then(response => {
+            return response.json();
         })
         .then(data => {
             if (data.success) {
@@ -317,6 +317,7 @@ document.getElementById('submitStep5').addEventListener('click', function () {
             alert('Une erreur est survenue. Veuillez réessayer plus tard.');
         });
     }
+    
 });
 
 

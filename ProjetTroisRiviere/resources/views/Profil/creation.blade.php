@@ -168,13 +168,13 @@
                             </div>
 
                             <div class="form-group row mb-3 justify-content-end">
-                                <label for="code_postal" class="col-sm-4 col-form-label text-end">Code Postal (Obligatoire):</label>
+                                <label for="codePostal" class="col-sm-4 col-form-label text-end">Code Postal (Obligatoire):</label>
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
-                                        <input type="text" name="code_postal" id="code_postal" class="form-control" required>
+                                        <input type="text" name="codePostal" id="codePostal" class="form-control" required>
                                         <img src="Images/XIcon.png" alt="" class="icon" id="code_postal-icon" style="display: none; margin-left: 10px;">
                                     </div>
-                                    <span class="error" id="code_postal-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                    <span class="error" id="codePostal-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                             </div>
 
@@ -186,9 +186,9 @@
                                     <span class="error" id="num_tel_type-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" name="num_tel" id="num_tel" class="form-control" placeholder="Numéro de téléphone" required>
-                                    <img src="Images/XIcon.png" alt="" class="icon" id="num_tel-icon" style="display: none; margin-left: 10px;">
-                                    <span class="error" id="num_tel-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                    <input type="text" name="num_telstep2" id="num_telstep2" class="form-control" placeholder="Numéro de téléphone" required>
+                                    <img src="Images/XIcon.png" alt="" class="icon" id="num_telstep2-icon" style="display: none; margin-left: 10px;">
+                                    <span class="error" id="num_telstep2-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                                 <div class="col-sm-2">
                                     <input type="text" name="poste" id="poste" class="form-control" placeholder="Poste">
