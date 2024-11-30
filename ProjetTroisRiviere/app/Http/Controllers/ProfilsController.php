@@ -370,7 +370,7 @@ class ProfilsController extends Controller
             return redirect()->back()->with('error', 'Il doit y avoir au moins 2 administrateurs');
         }else{
             $compte->role = $request->role;
-            return redirect()->route('profil.gererComptes')->with('message', "Suppression de " . $compte->nom . " réussi!");
+            return redirect()->route('profil.gererComptes');
         }
         } else
         {

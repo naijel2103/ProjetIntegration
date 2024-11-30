@@ -173,7 +173,7 @@ class FichesController extends Controller
                         $modele = Modeles_courriels::where('idModele',1)->first();
                         Mail::to($fournisseur->email )->send(new EnvoieRefuFiche());
                     }
-                }else if($request->statut == "Accepte"){
+                }else if($request->statut == "Acceptee"){
                     $modele = Modeles_courriels::where('idModele',2)->first();
                     Mail::to($fournisseur->email )->send(new EnvoieAccepteFiche($modele));
                     $demandeInscription->raisonRefus = null;
