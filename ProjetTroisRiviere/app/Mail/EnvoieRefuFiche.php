@@ -17,7 +17,7 @@ class EnvoieRefuFiche extends Mailable
      * Create a new message instance.
      */
     public $modele;
-    public function __construct()
+    public function __construct($modele)
     {
         $this->modele = $modele;
     }
