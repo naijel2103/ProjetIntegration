@@ -64,6 +64,8 @@ Route::get('/connexion',
 
 Route::get('/deconnexion',
 [ProfilsController::class, 'deconnexion']) -> name('profil.deconnexion');
+Route::get('/deconnexionFournisseur',
+[ProfilsController::class, 'deconnexionFournisseur']) -> name('profil.deconnexionFournisseur');
 
 Route::post('/loginNEQ',
 [ProfilsController::class, 'loginNEQ']) -> name('profil.loginNEQ');

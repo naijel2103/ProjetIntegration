@@ -40,9 +40,6 @@
       <nav id="menu" class="menu">
         <a href="\" class="header-link-top">Accueil</a>
 
-        @role('Fournisseur')
-        <a href="\demandeFiche" class="header-link-top">Voir ma fiche</a>
-        @endrole
 
         @role('Commis')
         <a href="\listeFournisseur" class="header-link-top">Fiches fournisseur</a>
@@ -66,15 +63,22 @@
         <a href="\listeDemande" class="header-link-top">Demandes fournisseur</a>
         @endrole
 
+
+
         @auth
         <a href="{{ route('profil.deconnexion') }}">
-          <button type="submit" id="boutonDeconnexion">Déconnexion</button>
+          <button type="submit" id="boutonConnexion">Déconnexion</button>
         </a>
-        @else
-        <a href="{{ route('profil.connexionNEQ') }}">
-          <button type="submit" id="boutonConnexion">Connexion / S'inscrire</button>
-        </a>
-        @endauth
+        @elseif(Auth::guard('fournisseurs')->check())  <!-- Pour le fournisseur -->
+        <a href="\demandeFiche" class="header-link-top">Voir ma fiche</a>
+    <a href="{{ route('profil.deconnexionFournisseur') }}">
+        <button type="submit" id="boutonConnexion">Déconnexion</button>
+    </a>
+    @else
+    <a href="{{ route('profil.connexionNEQ') }}">
+        <button type="submit" id="boutonConnexion">Connexion / S'inscrire</button>
+    </a>
+      @endauth
       </nav>
     </div>
   </div>

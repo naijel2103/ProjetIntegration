@@ -48,7 +48,17 @@ class ProfilsController extends Controller
         Auth::logout();
         return redirect('/')->with('message', "Déconnexion réussie");
     }
+    public function deconnexionFournisseur(Request $request)
+    {
+        Auth::guard('fournisseurs')->logout();
 
+        // Optionnel: Supprimer toutes les sessions de l'utilisateur
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        // Rediriger après la déconnexion
+        return redirect()->route('profil.connexionNEQ');
+    }
 
     
 
