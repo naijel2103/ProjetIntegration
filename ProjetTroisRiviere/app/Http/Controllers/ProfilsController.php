@@ -277,11 +277,11 @@ class ProfilsController extends Controller
         try{
         $compte= Comptes::findOrFail($id);
 
-            if($compte->role =='admin')
+            if($compte->role =='Admin')
             {
 
           
-        $adminCount = Comptes::where('role', 'admin')->count();
+        $adminCount = Comptes::where('role', 'Admin')->count();
 
         if ($adminCount <= 2) {
             return redirect()->back()->with('error', 'Il doit y avoir au moins 2 administrateurs');
@@ -323,7 +323,23 @@ class ProfilsController extends Controller
         try{
             $compte->email = $request->email;
             $compte->nom = $request->nom;
+            if($compte->role =='Admin')
+            {
+
+          
+        $adminCount = Comptes::where('role', 'Admin')->count();
+
+        if ($adminCount <= 2) {
+            return redirect()->back()->with('error', 'Il doit y avoir au moins 2 administrateurs');
+        }else{
             $compte->role = $request->role;
+            return redirect()->route('profil.gererComptes')->with('message', "Suppression de " . $compte->nom . " réussi!");
+        }
+        } else
+        {
+            $compte->role = $request->role;
+        }
+
             $compte->save();
             
             return redirect()->route('profil.gererComptes')->with('message', "Modification de " .$compte->nom . " réussi!");
