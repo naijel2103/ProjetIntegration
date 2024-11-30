@@ -58,7 +58,7 @@
 
         @role('Admin')
         <a href="\gererModele" class="header-link-top">Gérer les modèles de courriels</a>
-        <a href="\creation" class="header-link-top">Créer des comptes</a>
+        <a href="\creationCompte" class="header-link-top">Créer des comptes</a>
         <a href="\gererComptes" class="header-link-top">Gérer les comptes</a>
         <a href="\gererParametres" class="header-link-top">Gérer les paramètres</a>
         <a href="\listeFournisseur" class="header-link-top">Fiches fournisseur</a>

@@ -115,6 +115,12 @@ Route::delete('/comptes/supprimer/{compte}',
 Route::post('/creer',
 [ProfilsController::class, 'creer']) -> name('profil.creer');
 
+Route::get('/creationCompte',
+[ProfilsController::class, 'creationCompte']) -> name('profil.creationCompte');
+
+Route::post('/creerCompte',
+[ProfilsController::class, 'creerCompte']) -> name('profil.creerCompte');
+
 Route::get('/motdepasse',
 [ProfilsController::class, 'motdepasseView']) -> name('motdepasse');
 

@@ -26,7 +26,7 @@ use App\Models\SpecificationLiscences;
 use App\Models\CategorieLiscences;
 use App\Mail\EnvoieAccepteFiche;
 use App\Models\Demandesinscriptions;
-
+use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 
 class FichesController extends Controller
@@ -48,7 +48,15 @@ class FichesController extends Controller
     public function demandeFiche()
     {
         $compte = Comptes::Find(Auth::id());
-        $fournisseur = Fournisseurs::where('email', $compte->email)->first();
+      
+
+        $idFournisseur = Session::get('idFournisseur');
+
+        if ($idFournisseur) {
+            $fournisseur = Fournisseurs::find($idFournisseur);
+
+        }
+  
         $offreFournisseurs = OffresFournisseurs::where('fournisseur', $fournisseur->idFournisseur)->get();
 
 
