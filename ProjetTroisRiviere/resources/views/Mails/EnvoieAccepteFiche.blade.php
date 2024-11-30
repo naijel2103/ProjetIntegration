@@ -5,7 +5,7 @@
 </head>
 <body>
     <p>
-        
+        $modele->message
  
 
     </p>
