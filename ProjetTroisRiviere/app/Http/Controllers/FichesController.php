@@ -171,11 +171,57 @@ class FichesController extends Controller
                 }
                 $demandeInscription->save(); // Enregistrer les modifications
                 $fournisseur->save(); // Enregistrer les modifications
+
+            } else if($demandeInscription == null) {
+                $fournisseur->statut = $request->statut;
+
+                if($request->statut == "Refusee")
+                {
+                    $raison = $request->raisonRefus;
+                    $donneeCryptee = encrypt($request->raisonRefus);
+                    $estCochee = $request->has('envoyerRaison');
+                 
+                    if($estCochee)
+                    {
+                        
+                        Mail::to($fournisseur->email )->send(new EnvoieRefuFicheRaison($raison));
+                    }else
+                    {
+                        Mail::to($fournisseur->email )->send(new EnvoieRefuFiche());
+                    }
+
+                    Demandesinscriptions::create([  
+                        'idFournisseur'=> $fournisseur->idFournisseur,
+                        'dateDemande' => $dateFormatee,
+                        'dateDerniereMod' => $dateFormatee,
+                        'dateChangementStatut' => $dateFormatee,
+                        'statut' => $request->statut,
+                        'raisonRefus' => $donneeCryptee
+                    ]);
+
+                }else{
+                    
+                    if($request->statut == "Accepte"){
+                        Mail::to($fournisseur->email )->send(new EnvoieAccepteFiche());
+                    }
+                    
+                    Demandesinscriptions::create([
+                        'idFournisseur'=> $fournisseur->idFournisseur,
+                        'dateDemande' => $dateFormatee,
+                        'dateDerniereMod' => $dateFormatee,
+                        'dateChangementStatut' => $dateFormatee,
+                        'statut' => $request->statut,
+                        'raisonRefus' => null
+                    ]);
+                }
+                
+                $fournisseur->save();
             }
             
             return redirect()->route('fiche.index')->with('message', "Modification de  réussi!");
         }catch(\Throwable $e)
         {
+            dd($e);
             Log::debug($e);
             return redirect()->route('fiche.gererDemande',compact("fournisseur"))->with('message', "Modification pas effectue");
         }
