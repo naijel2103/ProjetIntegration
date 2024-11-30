@@ -24,6 +24,68 @@ html, body {
   text-decoration: none;
 }
 
+.sticky-container {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 1000;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 10px 20px;
+}
+
+/* Barre de navigation */
+.navbar {
+  display: flex;
+  flex-direction: column; /* Place les éléments verticalement */
+  gap: 15px; /* Espacement entre les lignes */
+  align-items: flex-start;
+}
+
+/* Ligne horizontale */
+.line {
+  display: flex; /* Dispose les liens horizontalement */
+  gap: 15px; /* Espacement horizontal entre les liens */
+}
+
+/* Navigation des liens */
+.bottom-nav {
+  display: flex;
+  align-items: center; /* Aligne verticalement les liens et boutons */
+  gap: 15px;
+}
+
+/* Liens de navigation */
+.header-link-top {
+  text-decoration: none;
+  color: #343a40;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+/* Séparateurs */
+.separator {
+  width: 1px;
+  height: 20px;
+  background-color: #ccc;
+}
+
+#boutonConnexion,
+#boutonDeonnexion {
+  background-color: #007bff; /* Couleur bleue */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#boutonConnexion:hover,
+#boutonDeonnexion:hover {
+  background-color: #0056b3; /* Couleur foncée au survol */
+}
+
+
 .sticky-container .navbar .bottom-nav {
   display: flex;
   justify-content: flex-end;
@@ -318,3 +380,160 @@ html, body {
   border-color: #afafaf;
   font-weight:500
 }
+
+@media (max-width: 768px) {
+  .navbar {
+    align-items: center; /* Centre les éléments */
+  }
+
+  .line {
+    flex-direction: column; /* Place les liens verticalement */
+    align-items: center; /* Centre les liens */
+  }
+
+  #imgLogo {
+    max-width: 150px; /* Réduit la taille du logo */
+  }
+}
+
+/* Pour les très petits écrans (téléphones) */
+@media (max-width: 480px) {
+  .navbar {
+    gap: 10px; /* Réduit l'espacement entre les sections */
+  }
+
+  .header-link-top {
+    font-size: 14px; /* Réduit la taille du texte des liens */
+  }
+
+  #boutonConnexion, #boutonDeconnexion {
+    font-size: 12px; /* Réduit la taille des boutons */
+    padding: 5px 8px;
+  }
+}
+
+
+
+
+.sticky-container {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 1000;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 10px 20px;
+}
+
+
+/* Logo */
+#imgLogo {
+  max-width: 150px;
+  height: auto;
+}
+
+/* Hamburger button */
+.hamburger {
+  display: none; /* Cacher par défaut */
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.hamburger .bar {
+  width: 100%;
+  height: 3px;
+  background-color: #343a40;
+  border-radius: 5px;
+}
+
+/* Menu */
+.menu {
+  display: flex; /* Affiche les éléments horizontalement */
+  gap: 15px; /* Espace entre les liens */
+}
+
+/* Responsive - Small screen */
+@media (max-width: 768px) {
+  /* Afficher le hamburger */
+  .hamburger {
+    display: flex;
+  }
+
+  /* Menu caché sur mobile */
+  .menu {
+    display: none; /* Cache le menu par défaut */
+    position: absolute;
+    top: 60px; /* Placer le menu sous le header */
+    right: 20px;
+    flex-direction: column;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 8px;
+    z-index: 1000;
+  }
+
+  /* Afficher le menu lorsque la classe 'show' est ajoutée */
+  .menu.show {
+    display: flex;
+  }
+}
+
+/* Décalage du contenu principal sous le header */
+main {
+  margin-top: 70px; /* Décalage de la hauteur du header */
+  padding: 20px;
+}
+
+/* Contenu */
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+
+
+/* Style de la page pour occuper toute la hauteur de l'écran */
+html, body {
+  height: 100%; /* Assurez-vous que la page prend toute la hauteur de l'écran */
+  margin: 0; /* Enlevez les marges par défaut */
+}
+
+body {
+  display: flex;
+  flex-direction: column; /* Empêche le footer de flotter au-dessus du contenu */
+}
+
+.main-content {
+  flex: 1; /* Prend toute la place disponible */
+}
+
+/* Style du footer */
+.site-footer {
+  background-color: #f8f9fa;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+}
+
+
+
