@@ -190,10 +190,7 @@ class FichesController extends Controller
         $finance = Parametres::where('id',1)->first();
         Mail::to($finance->courrielFinance)->send(new EnvoieFicheFinance($fournisseur));
        
-        return redirect()->route('acceuils.index');
-
-       
-        
+        return redirect()->route('getListeFournisseur');
     }
 
     /**

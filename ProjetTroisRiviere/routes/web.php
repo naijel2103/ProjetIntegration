@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AcceuilsController;
 use App\Http\Controllers\FichesController;
 use App\Http\Controllers\ProfilsController;
 use App\Http\Controllers\ApiController;
@@ -9,7 +8,7 @@ use App\Http\Controllers\FournisseurController;
 
 
 Route::get('/',
-[AcceuilsController::class, 'index']) -> name('acceuils.index');
+[ProfilsController::class, 'connexion']) -> name('profil.connexion');
 
 Route::get('/demandeFiche',
 [FichesController::class, 'demandeFiche']) -> name('fiche.demandeFiche');

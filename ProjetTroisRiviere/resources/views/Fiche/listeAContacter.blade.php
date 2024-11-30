@@ -112,7 +112,7 @@
 
     <div id="popUpDelete" class="popup-modal" style="display: none;">
         <div class="popup-content">
-        <p>Êtes-vous sûr de vouloir supprimer cette liste?</p>
+        <p class="warningText">Êtes-vous sûr de vouloir supprimer cette liste?</p>
         <div class="popup-btns">
             <form method="POST" action="{{ route('deleteListe', ['codeListe' => $codeListe]) }}">
             @csrf

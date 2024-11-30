@@ -29,16 +29,12 @@ class ProfilsController extends Controller
      */
     public function connexion()
     {
-
         if (auth()->check()) {
             return redirect('/');
         }
         else {
             return view('Profil.connexion');
         }
-
-        
-        
     }
 
     public function deconnexion()
@@ -75,9 +71,9 @@ class ProfilsController extends Controller
         if( $role == 'Fournisseur'){
           
             return redirect()->route('fiche.demandeFiche') ->with('message', "Connexion réussie");
-        } elseif( $role == 'admin' ||$role == 'responsable')
+        } elseif( $role == 'Admin' ||$role == 'Responsable')
         {
-            return redirect()->route('acceuils.index'); 
+            return redirect()->route('getListeFournisseur');
         }
         else{
             return redirect()->route('profil.connexion')->withErrors(['Informations invalides']); 
@@ -148,7 +144,7 @@ class ProfilsController extends Controller
             return redirect()->route('fiche.demandeFiche') ->with('message', "Connexion réussie");
         } elseif( $role == 'admin' ||$role == 'responsable')
         {
-            return redirect()->route('acceuils.index'); 
+            return redirect()->route('getListeFournisseur');
         }
         else{
             return redirect()->route('profil.connexionNEQ')->withErrors(['Informations invalides']); 
@@ -175,7 +171,7 @@ class ProfilsController extends Controller
         $finance = Parametres::where('id',1)->first();
         return view('Profil.gererParametres',compact("finance"));
     }
-
+    
     public function editGererParametres(Request $request)
     {
     
@@ -187,7 +183,7 @@ class ProfilsController extends Controller
             $finance->tailleFichiersMax = $request->taille;
             $finance->save();
             
-            return redirect()->route('acceuils.index');
+            return redirect()->route('getListeFournisseur');
         }catch(\Throwable $e)
         {
             Log::debug($e);
@@ -213,7 +209,7 @@ class ProfilsController extends Controller
         $compte->save();
         Mail::to($compte-> email)->send(new AccountCreated($compte));
        
-            return redirect()->route('acceuils.index');
+        return redirect()->route('getListeFournisseur');
     }
 
     public function motdepasseView(){
