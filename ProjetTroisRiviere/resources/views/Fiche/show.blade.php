@@ -7,11 +7,13 @@
 
 <div class="button-container">
     <a href="{{ route('fiche.index') }}" class="btn btn-primary btn-lg" id="btnRetour">Retour</a>
+    @role('Responsable')
     <a href="{{ route('fiche.gererDemande', [$fournisseur]) }}" class="btn btn-success btn-lg" id="btnGererDemande">Gérer la demande</a>
   
     @if ( $fournisseur->statut == "Acceptee" )
         <a href="{{ route('fiche.envoieFicheFinance', [$fournisseur]) }}" class="btn btn-warning btn-lg" id="btnExporter">Exporter vers les Finances</a>
     @endif
+    @endrole
 </div>
 
 @if (isset($fournisseur))
@@ -163,7 +165,10 @@
             <div class="info-title">Licence:</div>
             <div class="info-content">
                 <div>
-                    <b>Numéro de licence:</b> {{ $fournisseur->numliscence }}
+                    <b>Numéro de licence:</b> 
+                    <div>
+                    {{ $liscences->numLiscence }}
+                    </div>
                 </div>
                 <div>
                   @if($liscences->statut == "Valide")

@@ -39,6 +39,10 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+        ], 
+         'fournisseurs' => [
+            'driver' => 'session',
+            'provider' => 'fournisseurs',
         ],
     ],
 
@@ -63,6 +67,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\Comptes::class),
+        ],
+        'fournisseurs' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Fournisseurs::class,
         ],
 
         // 'users' => [

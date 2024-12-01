@@ -176,6 +176,11 @@
     justify-content: space-around;
 }
 
+.warningText{
+    font-size: x-large;
+    font-weight: bolder;
+}
+
 .popup-btns{
     display: flex;
     flex-direction: row;

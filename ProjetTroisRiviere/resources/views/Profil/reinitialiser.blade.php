@@ -20,8 +20,4 @@
         
     </div>
 </form>
-
-
-
-
 @endsection

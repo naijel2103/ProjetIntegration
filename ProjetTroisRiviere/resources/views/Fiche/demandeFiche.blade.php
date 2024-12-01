@@ -12,7 +12,7 @@
 @method('PUT')
 <div class="button-container">
 
-<a href="{{ route('Fiche.modifer', [$fournisseur->idFournisseur]) }}" class="btn btn-primary btn-lg" id="btnRetour">Modifer la fiche</a>
+<a href="{{ route('fiche.edit', [$fournisseur->idFournisseur]) }}" class="btn btn-primary btn-lg" id="btnRetour">Modifer la fiche</a>
 
 @if (isset($fournisseur))
     
@@ -124,28 +124,30 @@
         </div>
 
        
-      <div class="info-box contacts">
+        <div class="info-box contacts">
     <div class="info-title">Contacts:</div>
-    <div class="info-content">
-    @foreach($contacts as $contact)
-        <div class="contact-item">
-        <div>
-            <b>Nom:</b> {{ $contact->prenom }} {{ $contact->nom }}
-        </div>
-        <div>
-            <b>Fonction:</b> {{ $contact->fonction }}
-        </div>
-        <div >
-            <b>Courriel:</b> {{ $contact->email }}
-        </div>
-        <div>
-        @foreach($infotelsContacts as $infotelsContact)
-        @if($contact->idContact == $infotelsContact->contact)
-            <b>Téléphone:</b> {{ $infotelsContact->numTel }}
-        @endif
-        @endforeach
-        </div>
-        </div>
+    <div class="info-content"> <!-- Classe scrollable -->
+        @foreach($contacts as $contact)
+            <div class="contact-item">
+                <div>
+                    <b>Nom:</b> {{ $contact->prenom }} {{ $contact->nom }}
+                </div>
+                <div>
+                    <b>Fonction:</b> {{ $contact->fonction }}
+                </div>
+                <div>
+                    <b>Courriel:</b> {{ $contact->email }}
+                </div>
+                <div class='contact-item'> <!-- Liste des téléphones -->
+                    @foreach($infotelsContacts as $infotelsContact)
+                        @if($contact->idContact == $infotelsContact->contact)
+                            <div>
+                                <b>Téléphone:</b> {{ $infotelsContact->numTel }}
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+            </div>
         @endforeach
     </div>
 </div>
@@ -172,9 +174,12 @@
 
         <div class="info-box licence">
             <div class="info-title">Licence:</div>
-            <div class="info-content">
+            <div class="info-content3">
                 <div>
-                    <b>Numéro de licence:</b> {{ $fournisseur->numliscence }}
+                    <b>Numéro de licence:</b> 
+                    <div>
+                    {{ $liscences->numLiscence }}
+                    </div>
                 </div>
                 <div>
                   @if($liscences->statut == "Valide")

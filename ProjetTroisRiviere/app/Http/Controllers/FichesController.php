@@ -26,7 +26,7 @@ use App\Models\SpecificationLiscences;
 use App\Models\CategorieLiscences;
 use App\Mail\EnvoieAccepteFiche;
 use App\Models\Demandesinscriptions;
-
+use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 
 class FichesController extends Controller
@@ -48,7 +48,15 @@ class FichesController extends Controller
     public function demandeFiche()
     {
         $compte = Comptes::Find(Auth::id());
-        $fournisseur = Fournisseurs::where('email', $compte->email)->first();
+      
+
+        $idFournisseur = Session::get('idFournisseur');
+
+        if ($idFournisseur) {
+            $fournisseur = Fournisseurs::find($idFournisseur);
+
+        }
+  
         $offreFournisseurs = OffresFournisseurs::where('fournisseur', $fournisseur->idFournisseur)->get();
 
 
@@ -158,24 +166,74 @@ class FichesController extends Controller
                  
                     if($estCochee)
                     {
-                        
-                        Mail::to($fournisseur->email )->send(new EnvoieRefuFicheRaison($raison));
+                        $modele = Modeles_courriels::where('idModele',1)->first();
+                        Mail::to($fournisseur->email )->send(new EnvoieRefuFicheRaison($raison,$modele));
                     }else
                     {
-                        Mail::to($fournisseur->email )->send(new EnvoieRefuFiche());
+                        $modele = Modeles_courriels::where('idModele',1)->first();
+                        Mail::to($fournisseur->email )->send(new EnvoieRefuFiche($modele));
                     }
-                }else if($request->statut == "Accepte"){
+                }else if($request->statut == "Acceptee"){
 
-                    Mail::to($fournisseur->email )->send(new EnvoieAccepteFiche());
+                    $modele = Modeles_courriels::where('idModele',2)->first();
+                    Mail::to($fournisseur->email )->send(new EnvoieAccepteFiche($modele));
                     $demandeInscription->raisonRefus = null;
                 }
                 $demandeInscription->save(); // Enregistrer les modifications
                 $fournisseur->save(); // Enregistrer les modifications
+
+            } else if($demandeInscription == null) {
+                $fournisseur->statut = $request->statut;
+
+                if($request->statut == "Refusee")
+                {
+                    $raison = $request->raisonRefus;
+                    $donneeCryptee = encrypt($request->raisonRefus);
+                    $estCochee = $request->has('envoyerRaison');
+                 
+                    if($estCochee)
+                    {
+                        $modele = Modeles_courriels::where('idModele',1)->first();
+                        Mail::to($fournisseur->email )->send(new EnvoieRefuFicheRaison($raison));
+                    }else
+                    {
+                        $modele = Modeles_courriels::where('idModele',1)->first();
+                        Mail::to($fournisseur->email )->send(new EnvoieRefuFiche());
+                    }
+
+                    Demandesinscriptions::create([  
+                        'idFournisseur'=> $fournisseur->idFournisseur,
+                        'dateDemande' => $dateFormatee,
+                        'dateDerniereMod' => $dateFormatee,
+                        'dateChangementStatut' => $dateFormatee,
+                        'statut' => $request->statut,
+                        'raisonRefus' => $donneeCryptee
+                    ]);
+
+                }else{
+                    
+                    if($request->statut == "Acceptee"){
+                        $modele = Modeles_courriels::where('idModele',2)->first();
+                        Mail::to($fournisseur->email )->send(new EnvoieAccepteFiche());
+                    }
+                    
+                    Demandesinscriptions::create([
+                        'idFournisseur'=> $fournisseur->idFournisseur,
+                        'dateDemande' => $dateFormatee,
+                        'dateDerniereMod' => $dateFormatee,
+                        'dateChangementStatut' => $dateFormatee,
+                        'statut' => $request->statut,
+                        'raisonRefus' => null
+                    ]);
+                }
+                
+                $fournisseur->save();
             }
             
             return redirect()->route('fiche.index')->with('message', "Modification de  réussi!");
         }catch(\Throwable $e)
         {
+            dd($e);
             Log::debug($e);
             return redirect()->route('fiche.gererDemande',compact("fournisseur"))->with('message', "Modification pas effectue");
         }
@@ -190,10 +248,7 @@ class FichesController extends Controller
         $finance = Parametres::where('id',1)->first();
         Mail::to($finance->courrielFinance)->send(new EnvoieFicheFinance($fournisseur));
        
-        return redirect()->route('acceuils.index');
-
-       
-        
+        return redirect()->route('getListeFournisseur');
     }
 
     /**
@@ -236,6 +291,8 @@ class FichesController extends Controller
 
 
         $demandeInscription = Demandesinscriptions::where('idFournisseur', $fournisseur->idFournisseur)->first();
+
+
         return View('fiche.show',compact("fournisseur", "demandeInscription",
                                         "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs","infotelsContacts"
                                         ));
@@ -256,10 +313,7 @@ class FichesController extends Controller
         return View('fiche.edit', compact('fournisseur'));
     }
 
-    public function editFiche(Fournisseurs $fournisseur)
-    {
-        return view('fiche.edit',compact("fournisseur"));
-    }
+   
     
     public function showListeAContacte($codeListe){
 

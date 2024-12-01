@@ -21,7 +21,7 @@ h1 {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+
 }
 
 
@@ -423,4 +423,24 @@ h1 {
   .info-content {
     font-size: 1em;
   }
+}
+
+
+.info-content {
+  max-height: 300px; /* Hauteur maximale de la liste */
+  overflow-y: auto;  /* Barre de défilement verticale */
+  overflow-x: hidden; /* Pas de défilement horizontal */
+  border: 1px solid #ccc; /* Optionnel : bordure pour une meilleure visibilité */
+  padding: 10px; /* Espacement interne */
+  background-color: #f9f9f9; /* Couleur de fond */
+}
+
+.contact-item {
+  margin-bottom: 15px; /* Espacement entre les éléments */
+  padding-bottom: 10px; /* Espacement interne de l'élément */
+  border-bottom: 1px solid #ddd; /* Ligne de séparation entre les contacts */
+}
+
+.contact-item:last-child {
+  border-bottom: none; /* Retirer la ligne de séparation pour le dernier élément */
 }

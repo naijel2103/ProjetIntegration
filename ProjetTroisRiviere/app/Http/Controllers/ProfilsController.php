@@ -6,9 +6,11 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Comptes;
+use App\Models\Fournisseurs;
 use App\Models\Modeles_courriels;
 use App\Models\Parametres;
 use App\Mail\resetDeMotDePasse;
@@ -29,24 +31,44 @@ class ProfilsController extends Controller
      */
     public function connexion()
     {
-
         if (auth()->check()) {
-            return redirect('/');
+          $compte=  Comptes::Find(Auth::id());
+    
+           
+            if ($compte) {
+                $role = $compte->role;
+                
+               
+                if ($role == 'Admin' || $role == 'Responsable' || $role == 'Commis') {
+                    return redirect()->route('getListeFournisseur');
+                } else {
+                    return redirect()->route('profil.connexion')->withErrors(['Informations invalides']);
+                }
+        }
         }
         else {
-            return view('Profil.connexion');
+            return view('profil.connexion');
         }
 
-        
         
     }
 
     public function deconnexion()
     {
         Auth::logout();
-        return redirect('/')->with('message', "Déconnexion réussie");
+        return redirect()->route('profil.connexionNEQ');
     }
+    public function deconnexionFournisseur(Request $request)
+    {
+        Auth::guard('fournisseurs')->logout();
 
+        // Optionnel: Supprimer toutes les sessions de l'utilisateur
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        // Rediriger après la déconnexion
+        return redirect()->route('profil.connexionNEQ');
+    }
 
     
 
@@ -54,7 +76,19 @@ class ProfilsController extends Controller
     {
  
         if (auth()->check()) {
-            return redirect('/');
+            Comptes::Find(Auth::id());
+    
+           
+            if ($compte) {
+                $role = $compte->role;
+                
+               
+                if ($role == 'Admin' || $role == 'Responsable' || $role == 'Commis') {
+                    return redirect()->route('getListeFournisseur');
+                } else {
+                    return redirect()->route('profil.connexionNEQ')->withErrors(['Informations invalides']);
+                }
+        }
         }
         else {
             return view('Profil.connexionNEQ');
@@ -66,25 +100,43 @@ class ProfilsController extends Controller
 
     public function login(Request $request)
     {
-
+        // Validation des données de la requête
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+    
+        // Vérifier d'abord si c'est un compte (utilisateur)
         $reussi = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
-        if($reussi)
-        {
-        $compte = Comptes::where('email', $request->email)->first();
-        $role = $compte->role;
-        if( $role == 'Fournisseur'){
-          
-            return redirect()->route('fiche.demandeFiche') ->with('message', "Connexion réussie");
-        } elseif( $role == 'admin' ||$role == 'responsable')
-        {
-            return redirect()->route('acceuils.index'); 
-        }
-        else{
-            return redirect()->route('profil.connexion')->withErrors(['Informations invalides']); 
-        }
-        }else {
-            return redirect()->route('profil.connexion')->withErrors(['Informations invalides']); 
-        }
+
+  
+            // Récupérer le compte utilisateur
+            $compte = Comptes::where('email', $request->email)->first();
+    
+            // Si un compte existe et il a un rôle spécifique
+            if ($compte) {
+                $role = $compte->role;
+                
+                // Vérifier les rôles du compte
+                if ($role == 'Admin' || $role == 'Responsable' || $role == 'Commis') {
+                    return redirect()->route('getListeFournisseur');
+                } else {
+                    return redirect()->route('profil.connexion')->withErrors(['Informations invalides']);
+                }
+            } else {
+                // Si aucun compte trouvé, vérifier si c'est un fournisseur
+                $fournisseur = Fournisseurs::where('email', $request->email)->first();
+    
+                // Si un fournisseur existe
+                if ($fournisseur && $request->password == $fournisseur->mdp) {
+                    Session::put('idFournisseur', $fournisseur->idFournisseur);
+                    Auth::guard('fournisseurs')->login($fournisseur);
+                    return redirect()->route('fiche.demandeFiche');
+                } else {
+                    // Fournisseur non trouvé ou mot de passe incorrect
+                    return redirect()->route('profil.connexion')->withErrors(['Informations invalides']);
+                }
+            }
         
     }
 
@@ -138,31 +190,38 @@ class ProfilsController extends Controller
 
     public function loginNEQ(Request $request)
     {
-        $reussi = Auth::attempt(['neq' => $request->neq, 'password' => $request->password]);
-        if($reussi)
-        {
-        $compte = Comptes::where('email', $request->email)->first();
-        $role = $compte->role;
-        if( $role == 'Fournisseur'){
-          
+        $neq = $request->neq;
+        $password = $request->password;
+    
+       
+        $fournisseur = Fournisseurs::where('neq', $neq)->first();
+    
+        if (!$fournisseur) {
+            return back()->withErrors(['neq' => 'Fournisseur non trouvé']);
+        }
+    
+
+        if ($password== $fournisseur->password) {
+            return back()->withErrors(['password' => 'Mot de passe invalide']);
+        }
+    
+ 
+        Auth::guard('fournisseurs')->login($fournisseur);
+        Session::put('idFournisseur', $fournisseur->idFournisseur);
             return redirect()->route('fiche.demandeFiche') ->with('message', "Connexion réussie");
-        } elseif( $role == 'admin' ||$role == 'responsable')
-        {
-            return redirect()->route('acceuils.index'); 
-        }
-        else{
-            return redirect()->route('profil.connexionNEQ')->withErrors(['Informations invalides']); 
-        }
-        }else {
-            return redirect()->route('profil.connexionNEQ')->withErrors(['Informations invalides']); 
-        }
+        
+        
+        
     }
 
     public function creation()
     {
         return view('Profil.creation');
     }
-
+    public function creationCompte()
+    {
+        return view('Profil.creationCompte');
+    }
 
     public function gererComptes()
     {
@@ -175,7 +234,7 @@ class ProfilsController extends Controller
         $finance = Parametres::where('id',1)->first();
         return view('Profil.gererParametres',compact("finance"));
     }
-
+    
     public function editGererParametres(Request $request)
     {
     
@@ -187,7 +246,7 @@ class ProfilsController extends Controller
             $finance->tailleFichiersMax = $request->taille;
             $finance->save();
             
-            return redirect()->route('acceuils.index');
+            return redirect()->route('getListeFournisseur');
         }catch(\Throwable $e)
         {
             Log::debug($e);
@@ -200,20 +259,20 @@ class ProfilsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function creer(Request $request)
+    public function creerCompte(Request $request)
     {
      
         $compte = new Comptes();
         $compte->email = $request->email;
         $compte->nom = $request->nom;
         $compte->password = bcrypt($request->password);
-        $compte->role = "aucun";
+        $compte->role = "Commis";
         $compte->code = Str::random(60);
         $compte->verifier = false;
         $compte->save();
         Mail::to($compte-> email)->send(new AccountCreated($compte));
        
-            return redirect()->route('acceuils.index');
+            return redirect()->route('profil.connexionNEQ');
     }
 
     public function motdepasseView(){
@@ -277,11 +336,11 @@ class ProfilsController extends Controller
         try{
         $compte= Comptes::findOrFail($id);
 
-            if($compte->role =='admin')
+            if($compte->role =='Admin')
             {
 
           
-        $adminCount = Comptes::where('role', 'admin')->count();
+        $adminCount = Comptes::where('role', 'Admin')->count();
 
         if ($adminCount <= 2) {
             return redirect()->back()->with('error', 'Il doit y avoir au moins 2 administrateurs');
@@ -323,7 +382,23 @@ class ProfilsController extends Controller
         try{
             $compte->email = $request->email;
             $compte->nom = $request->nom;
+            if($compte->role =='Admin')
+            {
+
+          
+        $adminCount = Comptes::where('role', 'Admin')->count();
+
+        if ($adminCount <= 2) {
+            return redirect()->back()->with('error', 'Il doit y avoir au moins 2 administrateurs');
+        }else{
             $compte->role = $request->role;
+            return redirect()->route('profil.gererComptes');
+        }
+        } else
+        {
+            $compte->role = $request->role;
+        }
+
             $compte->save();
             
             return redirect()->route('profil.gererComptes')->with('message', "Modification de " .$compte->nom . " réussi!");
