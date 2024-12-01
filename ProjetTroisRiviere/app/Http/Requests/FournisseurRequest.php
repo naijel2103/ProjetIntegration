@@ -32,7 +32,7 @@ class FournisseurRequest extends FormRequest
             'bureau' => 'nullable|string|max:8',  // Le bureau est optionnel et peut avoir jusqu'à 8 caractères
             'municipalite' => 'nullable|string|max:64',  // La municipalité est requise et doit être une chaîne de max 64 caractères
             'province' => 'nullable|string|max:25',  // La province est requise et doit être une chaîne de max 25 caractères
-            'codePostal' => 'nullable|string|max:6',  // Le code postal est requis et doit être une chaîne de max 6 caractères
+            'codePostal' => 'nullable|string|max:10',  // Le code postal est requis et doit être une chaîne de max 6 caractères
             'region' => 'nullable|string|max:50',  // La région est optionnelle, mais si présente, elle ne doit pas dépasser 50 caractères
             'codeRegion' => 'nullable|integer',  // Le code de région est optionnel, mais s'il est fourni, il doit être un entier
             'siteWeb' => 'nullable|url|max:64',  // Le site web est optionnel, mais doit être une URL valide et ne pas dépasser 64 caractères

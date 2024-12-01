@@ -29,10 +29,10 @@
         // Cacher les autres étapes
         document.getElementById('step1').style.display = 'none';
         document.getElementById('step2').style.display = 'none';
-        document.getElementById('step4').style.display = 'none';
+        document.getElementById('step4').style.display = 'block';
         
         // Afficher l'étape 3
-        document.getElementById('step5').style.display = 'block';
+        document.getElementById('step5').style.display = 'none';
     });
 </script>
 
@@ -102,6 +102,16 @@
                                 </div>
                             </div>
                         </div>
+                        <script>
+                            function togglePasswordVisibility(inputId) {
+                            const inputField = document.getElementById(inputId);
+                            const inputType = inputField.type === 'password' ? 'text' : 'password';
+                            inputField.type = inputType;
+
+                            const eyeIcon = document.getElementById(`toggle-${inputId}`);
+                            eyeIcon.src = inputType === 'password' ? 'Images/eye.png' : 'Images/eye-open.png';
+}
+                        </script>
 
                         <div class="text-center">
                             <a href="{{ route('profil.connexionNEQ') }}" class="btn btn-danger btn-lg" >Retour</a>
@@ -168,13 +178,13 @@
                             </div>
 
                             <div class="form-group row mb-3 justify-content-end">
-                                <label for="code_postal" class="col-sm-4 col-form-label text-end">Code Postal (Obligatoire):</label>
+                                <label for="codePostal" class="col-sm-4 col-form-label text-end">Code Postal (Obligatoire):</label>
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
-                                        <input type="text" name="code_postal" id="code_postal" class="form-control" required>
+                                        <input type="text" name="codePostal" id="codePostal" class="form-control" required>
                                         <img src="Images/XIcon.png" alt="" class="icon" id="code_postal-icon" style="display: none; margin-left: 10px;">
                                     </div>
-                                    <span class="error" id="code_postal-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                    <span class="error" id="codePostal-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                             </div>
 
@@ -186,9 +196,9 @@
                                     <span class="error" id="num_tel_type-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" name="num_tel" id="num_tel" class="form-control" placeholder="Numéro de téléphone" required>
-                                    <img src="Images/XIcon.png" alt="" class="icon" id="num_tel-icon" style="display: none; margin-left: 10px;">
-                                    <span class="error" id="num_tel-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                    <input type="text" name="num_telstep2" id="num_telstep2" class="form-control" placeholder="Numéro de téléphone" required>
+                                    <img src="Images/XIcon.png" alt="" class="icon" id="num_telstep2-icon" style="display: none; margin-left: 10px;">
+                                    <span class="error" id="num_telstep2-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                                 <div class="col-sm-2">
                                     <input type="text" name="poste" id="poste" class="form-control" placeholder="Poste">
@@ -260,6 +270,54 @@
                                 <h4>Catégories de licence</h4>
                             </div>
 
+                            <!-- Section pour le numéro de licence RBQ et le statut -->
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <div class="form-group w-50">
+                                    <label for="rbqLicenseInput">Numéro de licence RBQ</label>
+                                    <input 
+                                        type="text" 
+                                        id="rbqLicenseInput" 
+                                        class="form-control" 
+                                        placeholder="Entrez votre numéro de licence RBQ"
+                                    />
+                                    <span 
+                                        id="rbqLicenseInput-error" 
+                                        class="error-message" 
+                                        style="display:none; color: red;"
+                                    ></span>
+                                </div>
+                                <div class="form-group w-50 text-center">
+                                    <label for="licenseStatus">Statut de la licence</label>
+                                    <select id="licenseStatus" class="form-control">
+                                        <option value="">-- Sélectionnez un statut --</option>
+                                        <option value="valide">Valide</option>
+                                        <option value="non-valide">Non valide</option>
+                                        <option value="valide-restriction">Valide avec restriction</option>
+                                    </select>
+                                    <span 
+                                        id="licenseStatus-error" 
+                                        class="error-message" 
+                                        style="display:none; color: red;"
+                                    ></span>
+                                </div>
+                            </div>
+
+                            <!-- Nouvelle ligne pour le type d'entrepreneur -->
+                            <div class="form-group mb-4">
+                                <label for="entrepreneurType">Type d'entrepreneur</label>
+                                <select id="entrepreneurType" class="form-control">
+                                    <option value="">-- Sélectionnez un type --</option>
+                                    <option value="general">Entrepreneur général</option>
+                                    <option value="specialise">Entrepreneur spécialisé</option>
+                                </select>
+                                <span 
+                                        id="entrepreneurType-error" 
+                                        class="error-message" 
+                                        style="display:none; color: red;"
+                                    ></span>
+                            </div>
+
+                            <!-- Reste du formulaire -->
                             <div class="cols-4 grid-filtre d-flex flex-column align-items-center">
                                 <div class="rows-3 container-filtre w-100">
                                     <div class="recherche-filtre mb-3">
@@ -269,32 +327,55 @@
                                     <div class="liste-filtre w-100" style="max-height: 150px; overflow-y: auto; margin-top: -25px;">
                                         @foreach ($listeCategories as $categorie)
                                         <div class="uneCategorie form-check" style="margin-bottom: 150px; display: flex; align-items: center;">
-                                            <input type="checkbox" name="categories[]" value="{{ $categorie->numCategorie }}" id="categorie-{{ $categorie->numCategorie }}" @if(in_array($categorie->numCategorie, $catSelect)) checked @endif>
-                                            <label for="categorie-{{ $categorie->numCategorie }}" class="form-check-label" style="white-space: normal; overflow: hidden; text-overflow: ellipsis; flex-grow: 1;">
+                                            <input 
+                                                type="checkbox" 
+                                                name="categories[]" 
+                                                value="{{ $categorie->numCategorie }}" 
+                                                id="categorie-{{ $categorie->numCategorie }}" 
+                                                @if(in_array($categorie->numCategorie, $catSelect)) 
+                                                    checked 
+                                                @endif
+                                            >
+                                            <label 
+                                                for="categorie-{{ $categorie->numCategorie }}" 
+                                                class="form-check-label" 
+                                                style="white-space: normal; overflow: hidden; text-overflow: ellipsis; flex-grow: 1;"
+                                            >
                                                 {{ $categorie->numCategorie }} {{ $categorie->nom }}
                                             </label>
                                         </div>
                                         @endforeach
                                     </div>
                                 </div>
-                                
-                            </div>
-                            <br>
-                            <br>
-                            <div class="w-100">
-                            <div class="form-group">
-                                <label for="specificationsTextarea">Détails et spécifications</label>
-                                <textarea id="specificationsTextarea" class="form-control" rows="4" placeholder="Entrez les spécifications..."></textarea>
-                                <span id="specificationsTextarea-error" class="error-message" style="display:none; color: red;"></span>
                             </div>
 
+                            <br><br>
+
+                            <div class="w-100">
+                                <div class="form-group">
+                                    <label for="specificationsTextarea">Détails et spécifications</label>
+                                    <textarea 
+                                        id="specificationsTextarea" 
+                                        class="form-control" 
+                                        rows="4" 
+                                        placeholder="Entrez les spécifications..."
+                                    ></textarea>
+                                    <span 
+                                        id="specificationsTextarea-error" 
+                                        class="error-message" 
+                                        style="display:none; color: red;"
+                                    ></span>
+                                </div>
                             </div>
                         </div>
+
                         <div class="text-center mt-2 mb-3">
                             <button type="button" id="btnRetour3" class="btn btn-danger btn-lg">Retour</button>
                             <button type="button" id="btnNextStep4" class="btn btn-primary btn-lg">Suivant</button>
                         </div>
                     </div>
+
+
 
                     <div id="step5" class="form-step" style="display: none;">
                         <div class="col-10 offset-1">
@@ -350,24 +431,6 @@
                             </div>
 
                             <!-- Téléphone -->
-                            <div class="form-group row mb-3 justify-content-end">
-                                <label for="tel_contact" class="col-sm-4 col-form-label text-end">Téléphone (Obligatoire):</label>
-                                <div class="col-sm-2">
-                                    <input type="text" name="num_tel_type_contact" id="num_tel_type-contact-step5" class="form-control" placeholder="(Bureau, Maison etc.)" required>
-                                    <img src="Images/XIcon.png" alt="" class="icon" id="num_tel_type-contact-step5-icon" style="display: none; margin-left: 10px;">
-                                    <span class="error" id="num_tel_type-contact-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
-                                </div>
-                                <div class="col-sm-2">
-                                    <input type="text" name="tel_contact" id="tel_contact-step5" class="form-control" placeholder="Numéro de téléphone" required>
-                                    <img src="Images/XIcon.png" alt="" class="icon" id="tel_contact-step5-icon" style="display: none; margin-left: 10px;">
-                                    <span class="error" id="tel_contact-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
-                                </div>
-                                <div class="col-sm-2">
-                                    <input type="text" name="poste" id="poste-step5" class="form-control" placeholder="Poste">
-                                    <img src="Images/XIcon.png" alt="" class="icon" id="poste-step5-icon" style="display: none; margin-left: 0px;">
-                                    <span class="error" id="poste-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
-                                </div>
-                            </div>
                         </div>
 
                         <div class="text-center mt-2 mb-3">

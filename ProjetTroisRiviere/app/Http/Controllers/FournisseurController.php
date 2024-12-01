@@ -4,13 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Fournisseurs;
+use App\Models\Infotels;
 use App\Models\Offres;
 use App\Models\OffresFournisseurs;
 use App\Models\CategorieLiscences;
 use App\Models\SpecificationLiscences;
 use App\Models\Liscences;
 use App\Models\ListeAContacter;
+use App\Models\Contacts;
 use App\Http\Requests\FournisseurRequest;
+use App\Http\Requests\infoTelsRequest;
+use App\Http\Requests\LiscencesRequest;
+use App\Http\Requests\SpecificationLiscencesRequest;
+use App\Http\Requests\OffresFournisseursRequest;
+use App\Http\Requests\ContactsRequest;
+
+
+
+
+
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\ApiController;
 
@@ -167,29 +179,42 @@ class FournisseurController extends Controller
 
 
 
-    public function createFournisseur(FournisseurRequest $request)
-    {
-        Log::debug('ALLO');
 
+    public function createFournisseur(FournisseurRequest $request)
+{
+
+    Log::debug('Requête reçue : ', $request->all());
+      
         Log::debug('validated');
   
     try {
-        // Créer un nouveau fournisseur avec les données du formulaire
-        $fournisseur = new Fournisseur();
+
+        $LiscencesRequest = new LiscencesRequest($request->all()); // Make sure this contains the necessary data
+
+        Liscences::create([
+            'numLiscence'=> $request->input('rbqLicenseInput', "0113456789"),
+            'statut' => $request->input('licenseStatus', "Erreur"),
+            'type'=> $request->input('entrepreneurType', "Erreur")
+        ]);  
+        Log::error('numLiscence');
+
+
+        // Création du fournisseur
+        $fournisseur = new Fournisseurs();
         $fournisseur->neq = $request->input('neq', null);
-        $fournisseur->nomFournisseur = $request->input('nomFournisseur', null);
-        $fournisseur->numLiscence = $request->input('numLiscence', null);
-        $fournisseur->email = $request->input('email', null);
-        $fournisseur->mdp = bcrypt($request->input('mdp', null));  // Assurez-vous de hasher le mot de passe
-        $fournisseur->numCivique = $request->input('numCivique', null);
+        $fournisseur->nomFournisseur = $request->input('nom', null);
+        $fournisseur->numLiscence = $request->input('rbqLicenseInput', "0123456789");
+        $fournisseur->email = $request->input('email', 'null@gmail.com');
+        $fournisseur->mdp = bcrypt($request->input('mdp', null));
+        $fournisseur->numCivique = $request->input('numero_civique', null);
         $fournisseur->rue = $request->input('rue', null);
         $fournisseur->bureau = $request->input('bureau', null);
-        $fournisseur->municipalite = $request->input('municipalite', null);
+        $fournisseur->municipalite = $request->input('ville', '');
         $fournisseur->province = $request->input('province', null);
-        $fournisseur->codePostal = $request->input('codePostal', null);
+        $fournisseur->codePostal = $request->input('codePostal', 'g7t2r4');
         $fournisseur->region = $request->input('region', null);
         $fournisseur->codeRegion = $request->input('codeRegion', null);
-        $fournisseur->siteWeb = $request->input('siteWeb', null);
+        $fournisseur->siteWeb = $request->input('siteInternet', null);
         $fournisseur->detailService = $request->input('detailService', null);
         $fournisseur->numTPS = $request->input('numTPS', null);
         $fournisseur->numTVQ = $request->input('numTVQ', null);
@@ -197,20 +222,114 @@ class FournisseurController extends Controller
         $fournisseur->codeCondition = $request->input('codeCondition', null);
         $fournisseur->devise = $request->input('devise', null);
         $fournisseur->modCom = $request->input('modCom', null);
-        $fournisseur->statut = $request->input('statut', null);
+        $fournisseur->statut = $request->input('statut', 'En attente');
 
-        // Sauvegarder le fournisseur
+        // Save the fournisseur first
         $fournisseur->save();
+
+        // Get the ID of the newly created fournisseur
+        // Pass the $fournisseur object to createInfotel
+        $infoTelsRequest = new InfoTelsRequest($request->all()); // Make sure this contains the necessary data
+
+        InfoTels::create([
+            'typeTel' => "auto",
+            'numTel' => $request->input('num_telstedfp2', "1231231233"),
+            'postTel'=> "1",
+            'fournisseur' => $fournisseur->idFournisseur,  // Utilisez l'ID de l'objet
+            'contact' => "12",
+        ]);  
+
+        $OffresFournisseursRequest = new OffresFournisseursRequest($request->all()); // Make sure this contains the necessary data
+
+        // Créer une première SpecificationLiscence si categories[0] n'est pas vide
+        if (!empty($request->input('offres[0]'))) {
+            OffresFournisseurs::create([
+                'fournisseur' => $fournisseur->idFournisseur,
+                'offre' => $request->input('offres[0]', '00000000')
+            ]);
+        }
+
+        if (!empty($request->input('offres[1]'))) {
+            OffresFournisseurs::create([
+                'fournisseur' => $fournisseur->idFournisseur,
+                'offre' => $request->input('offres[1]', '00000000')
+            ]);
+        }
+
+        if (!empty($request->input('offres[2]'))) {
+            OffresFournisseurs::create([
+                'fournisseur' => $fournisseur->idFournisseur,
+                'offre' => $request->input('offres[2]', '00000000')
+            ]);
+        }
+
+        if (!empty($request->input('offres[3]'))) {
+            OffresFournisseurs::create([
+                'fournisseur' => $fournisseur->idFournisseur,
+                'offre' => $request->input('offres[3]', '00000000')
+            ]);
+        }
+
+
+        $SpecificationLiscencesRequest = new SpecificationLiscencesRequest($request->all()); // Make sure this contains the necessary data
+
+        // Créer une première SpecificationLiscence si categories[0] n'est pas vide
+        if (!empty($request->input('categories[0]'))) {
+            SpecificationLiscences::create([
+                'numLiscence' => $fournisseur->numLiscence,
+                'numCategorie' => $request->input('categories[0]')
+            ]);
+        }
+
+        // Créer une deuxième SpecificationLiscence si categories[1] n'est pas vide
+        if (!empty($request->input('categories[1]'))) {
+            SpecificationLiscences::create([
+                'numLiscence' => $fournisseur->numLiscence,
+                'numCategorie' => $request->input('categories[1]')
+            ]);
+        }
+
+        if (!empty($request->input('categories[2]'))) {
+            SpecificationLiscences::create([
+                'numLiscence' => $fournisseur->numLiscence,
+                'numCategorie' => $request->input('categories[2]')
+            ]);
+        }
+
+        if (!empty($request->input('categories[3]'))) {
+            SpecificationLiscences::create([
+                'numLiscence' => $fournisseur->numLiscence,
+                'numCategorie' => $request->input('categories[3]')
+            ]);
+        }
+
+        $ContactsRequest = new ContactsRequest($request->all()); // Make sure this contains the necessary data
+
+        // Créer une première SpecificationLiscence si categories[0] n'est pas vide
+            Contacts::create([
+                'fournisseur' => $fournisseur->idFournisseur,
+                'prenom' => $request->input('prenom-step5'),
+                'nom' => $request->input('nom-step5'),
+                'fonction' => $request->input('fonction-step5'),
+                'email' => $request->input('email_contact-step5'),
+            ]);
+        
+
+  
+
         Mail::to($fournisseur-> email)->send(new AccountCreated($fournisseur));
         // Réponse JSON
         Log::info('Tentative de création du fournisseur');
+      
         return response()->json(['success' => true]);
 
+
     } catch (\Exception $e) {
-        // Log l'exception et retourne un message d'erreur
+
         Log::error('Erreur lors de la création du fournisseur: ' . $e->getMessage());
         return response()->json(['success' => false, 'message' => 'Erreur serveur.'], 500);
     }
+}
     }
 
     public function edit(Fournisseurs $fournisseur)

@@ -9,15 +9,15 @@ class Liscences extends Model
 {
     use HasFactory;
 
-    public $incrementing = false;
+    public $incrementing = true;
     public $timestamps = false;
 
-    protected $primaryKey = 'numLiscence';
-
     protected $fillable = [
+        'numLiscence',  // Ajouter numLiscence ici
         'statut',
         'type'
     ];
+    
 
     public function fournisseur()
     {

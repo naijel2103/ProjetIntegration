@@ -11,10 +11,12 @@ class Fournisseurs extends Authenticatable
 {
     use HasFactory;
 
-    public $incrementing = false;
+    public $incrementing = true;
     public $timestamps = false;
 
     protected $primaryKey = 'idFournisseur';
+
+    
 
     protected $fillable = [
         'neq',
@@ -76,4 +78,6 @@ class Fournisseurs extends Authenticatable
     {
         return $this->hasMany(Infotels::class, 'fournisseur');
     }
+
+    
 }

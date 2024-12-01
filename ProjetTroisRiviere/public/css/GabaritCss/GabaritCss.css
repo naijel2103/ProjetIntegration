@@ -381,6 +381,38 @@ html, body {
   font-weight:500
 }
 
+#progress-bar {
+  transition: width 0.5s ease-in-out;  /* Animation de la largeur sur 0.5 secondes */
+  height: 10px; /* Si tu veux définir une hauteur spécifique */
+  background-color: #4caf50; /* Une couleur de fond pour la barre */
+}
+
+
+/* Classes de transition */
+.step {
+  position: absolute;
+  width: 100%;
+  transition: transform 0.5s ease-in-out;
+  opacity: 0;
+}
+
+.step.visible {
+  opacity: 1;
+}
+
+.step.left {
+  transform: translateX(-100%);
+}
+
+.step.right {
+  transform: translateX(100%);
+}
+
+.step.showing {
+  transform: translateX(0);
+}
+
+=======
 @media (max-width: 768px) {
   .navbar {
     align-items: center; /* Centre les éléments */
@@ -606,5 +638,4 @@ body {
     max-width: 100%;
   }
 }
-
 
