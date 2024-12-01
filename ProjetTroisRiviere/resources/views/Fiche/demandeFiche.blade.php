@@ -176,7 +176,10 @@
             <div class="info-title">Licence:</div>
             <div class="info-content3">
                 <div>
-                    <b>Numéro de licence:</b> {{ $fournisseur->numliscence }}
+                    <b>Numéro de licence:</b> 
+                    <div>
+                    {{ $liscences->numLiscence }}
+                    </div>
                 </div>
                 <div>
                   @if($liscences->statut == "Valide")

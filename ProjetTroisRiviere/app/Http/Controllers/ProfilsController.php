@@ -132,7 +132,7 @@ class ProfilsController extends Controller
                 if ($fournisseur && $request->password == $fournisseur->mdp) {
                     Session::put('idFournisseur', $fournisseur->idFournisseur);
                     Auth::guard('fournisseurs')->login($fournisseur);
-                    return redirect()->route('getListeFournisseur');
+                    return redirect()->route('fiche.demandeFiche');
                 } else {
                     // Fournisseur non trouvé ou mot de passe incorrect
                     return redirect()->route('profil.connexion')->withErrors(['Informations invalides']);
