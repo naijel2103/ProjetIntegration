@@ -267,10 +267,7 @@ class FichesController extends Controller
         return View('fiche.edit', compact('fournisseur'));
     }
 
-    public function editFiche(Fournisseurs $fournisseur)
-    {
-        return view('fiche.edit',compact("fournisseur"));
-    }
+   
     
     public function showListeAContacte($codeListe){
 

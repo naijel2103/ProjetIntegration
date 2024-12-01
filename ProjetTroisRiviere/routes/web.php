@@ -18,7 +18,10 @@ Route::put('/demandeFiche',
 [FichesController::class, 'desactivateFiche']) -> name('fiche.desactivateFiche');
 
 Route::get('/fournisseur/edit/{fournisseur}',
-[FichesController::class, 'editFiche'])->name('Fiche.modifer');
+[FournisseurController::class, 'edit'])->name('fiche.edit');
+
+Route::patch('/fournisseur/edit/{fournisseur}',
+[FournisseurController::class, 'update'])->name('fiche.update');
 
 Route::get('/listeDemande',
 [FichesController::class, 'index']) -> name('fiche.index')->middleware('check.role:Admin,Responsable,Commis');

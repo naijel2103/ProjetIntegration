@@ -172,7 +172,7 @@ class FournisseurController extends Controller
         Log::debug('ALLO');
 
         Log::debug('validated');
-
+  
     try {
         // Créer un nouveau fournisseur avec les données du formulaire
         $fournisseur = new Fournisseur();
@@ -211,6 +211,50 @@ class FournisseurController extends Controller
         Log::error('Erreur lors de la création du fournisseur: ' . $e->getMessage());
         return response()->json(['success' => false, 'message' => 'Erreur serveur.'], 500);
     }
+    }
+
+    public function edit(Fournisseurs $fournisseur)
+    {
+        $listeOffres = Offres::all();
+        $listeCategories = CategorieLiscences::all();
+    
+        return view('fiche.edit', [
+            'listeOffres' => $listeOffres,
+            'listeCategories' => $listeCategories,
+            'offreSelect' => [],
+            'catSelect' => [],
+            'fournisseur' => $fournisseur
+
+        ]);
+    }
+
+    public function update(FournisseurRequest $requestFournisseurs, Fournisseurs $fournisseur )
+    {
+        $fournisseur->neq = $request->input('neq', null);
+        $fournisseur->nomFournisseur = $request->input('nomFournisseur', null);
+        $fournisseur->numLiscence = $request->input('numLiscence', null);
+        $fournisseur->email = $request->input('email', null);
+        $fournisseur->mdp = bcrypt($request->input('mdp', null));  // Assurez-vous de hasher le mot de passe
+        $fournisseur->numCivique = $request->input('numCivique', null);
+        $fournisseur->rue = $request->input('rue', null);
+        $fournisseur->bureau = $request->input('bureau', null);
+        $fournisseur->municipalite = $request->input('municipalite', null);
+        $fournisseur->province = $request->input('province', null);
+        $fournisseur->codePostal = $request->input('codePostal', null);
+        $fournisseur->region = $request->input('region', null);
+        $fournisseur->codeRegion = $request->input('codeRegion', null);
+        $fournisseur->siteWeb = $request->input('siteWeb', null);
+        $fournisseur->detailService = $request->input('detailService', null);
+        $fournisseur->numTPS = $request->input('numTPS', null);
+        $fournisseur->numTVQ = $request->input('numTVQ', null);
+        $fournisseur->conditionPaiement = $request->input('conditionPaiement', null);
+        $fournisseur->codeCondition = $request->input('codeCondition', null);
+        $fournisseur->devise = $request->input('devise', null);
+        $fournisseur->modCom = $request->input('modCom', null);
+        $fournisseur->statut = $request->input('statut', null);
+
+       
+        $fournisseur->save();
     }
 }
 
