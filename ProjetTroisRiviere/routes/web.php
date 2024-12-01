@@ -21,36 +21,36 @@ Route::get('/fournisseur/edit/{fournisseur}',
 [FichesController::class, 'editFiche'])->name('Fiche.modifer');
 
 Route::get('/listeDemande',
-[FichesController::class, 'index']) -> name('fiche.index');
+[FichesController::class, 'index']) -> name('fiche.index')->middleware('check.role:Admin,Responsable,Commis');
 
 Route::get('/envoieDemandeFiche/{fournisseur}',
 [FichesController::class, 'envoieDemandeFiche']) -> name('fiche.envoieDemandeFiche');
 
 Route::get('/envoieFicheFinance/{fournisseur}',
-[FichesController::class, 'envoieFicheFinance']) -> name('fiche.envoieFicheFinance');
+[FichesController::class, 'envoieFicheFinance']) -> name('fiche.envoieFicheFinance')->middleware('check.role:Admin,Responsable,Commis');
 
 Route::get('/fournisseurs/{fournisseur}',
-[FichesController::class, 'show']) -> name('fiche.show');
+[FichesController::class, 'show']) -> name('fiche.show')->middleware('check.role:Admin,Responsable,Commis');
 
 Route::get('/gererDemande/{fournisseur}',
-[FichesController::class, 'gererDemande']) -> name('fiche.gererDemande');
+[FichesController::class, 'gererDemande']) -> name('fiche.gererDemande')->middleware('check.role:Admin,Responsable');
 
 Route::patch('/gererDemande/{fournisseur}',
-[FichesController::class, 'reponseDemande'])->name('fiche.reponseDemande');
+[FichesController::class, 'reponseDemande'])->name('fiche.reponseDemande')->middleware('check.role:Admin,Responsable');
 
 
 
 Route::get('/listeAContacter', 
-[FichesController::class, 'askCode'])->name('askCodeListe');
+[FichesController::class, 'askCode'])->name('askCodeListe')->middleware('check.role:Admin,Responsable');
 
 Route::get('/listeAContacter/{codeListe}', 
-[FichesController::class, 'showListeAContacte'])->name('showListeAContacte');
+[FichesController::class, 'showListeAContacte'])->name('showListeAContacte')->middleware('check.role:Admin,Responsable');
 
 Route::put('/listeAContacter/{codeListe}/{idFournisseur}/update-contacte', 
-[FichesController::class, 'fournisseurContacted'])->name('updateContacte');
+[FichesController::class, 'fournisseurContacted'])->name('updateContacte')->middleware('check.role:Admin,Responsable');
 
 Route::delete('/listeAContacter/{codeListe}',
-[FichesController::class, 'deleteListe']) -> name('deleteListe');
+[FichesController::class, 'deleteListe']) -> name('deleteListe')->middleware('check.role:Admin,Responsable');
 
 
 Route::get('/api/data/{neq}', 
@@ -80,17 +80,17 @@ Route::get('/creation',
 [ProfilsController::class, 'creation']) -> name('profil.creation');
 
 Route::get('/gererModele',
-[ProfilsController::class, 'gererModele']) -> name('profil.gererModele');
+[ProfilsController::class, 'gererModele']) -> name('profil.gererModele')->middleware('check.role:Admin');
 
 
 Route::patch('/gererModele/edit',
-[ProfilsController::class, 'editGererModele']) -> name('profil.editGererModele');
+[ProfilsController::class, 'editGererModele']) -> name('profil.editGererModele')->middleware('check.role:Admin');
 
 Route::get('/gererParametres',
-[ProfilsController::class, 'gererParametres']) -> name('profil.gererParametres');
+[ProfilsController::class, 'gererParametres']) -> name('profil.gererParametres')->middleware('check.role:Admin');
 
 Route::patch('/editGererParametres/edit',
-[ProfilsController::class, 'editGererParametres']) -> name('profil.editGererParametres');
+[ProfilsController::class, 'editGererParametres']) -> name('profil.editGererParametres')->middleware('check.role:Admin');
 
 
 Route::get('/confirmer/{code}',
@@ -103,25 +103,25 @@ Route::post('/reinitialiser/{code}',
 [ProfilsController::class, 'reinitialiser']) -> name('profil.reinitialiser');
 
 Route::get('/gererComptes',
-[ProfilsController::class, 'gererComptes']) -> name('profil.gererComptes');
+[ProfilsController::class, 'gererComptes']) -> name('profil.gererComptes')->middleware('check.role:Admin');
 
 Route::patch('/comptes/modifier/{compte}',
-[ProfilsController::class, 'update'])->name('profil.update');
+[ProfilsController::class, 'update'])->name('profil.update')->middleware('check.role:Admin');
 
 Route::get('/comptes/edit/{compte}',
-[ProfilsController::class, 'edit'])->name('profil.edit');
+[ProfilsController::class, 'edit'])->name('profil.edit')->middleware('check.role:Admin');
 
 Route::delete('/comptes/supprimer/{compte}',
-[ProfilsController::class, 'destroy'])->name('profil.destroy');
+[ProfilsController::class, 'destroy'])->name('profil.destroy')->middleware('check.role:Admin');
 
 Route::post('/creer',
 [ProfilsController::class, 'creer']) -> name('profil.creer');
 
 Route::get('/creationCompte',
-[ProfilsController::class, 'creationCompte']) -> name('profil.creationCompte');
+[ProfilsController::class, 'creationCompte']) -> name('profil.creationCompte')->middleware('check.role:Admin');
 
 Route::post('/creerCompte',
-[ProfilsController::class, 'creerCompte']) -> name('profil.creerCompte');
+[ProfilsController::class, 'creerCompte']) -> name('profil.creerCompte')->middleware('check.role:Admin');
 
 Route::get('/motdepasse',
 [ProfilsController::class, 'motdepasseView']) -> name('motdepasse');
@@ -138,7 +138,7 @@ Route::post('/reinitialiser/{code}',
 
 
 Route::get('/listeFournisseur', 
-[FournisseurController::class, 'getListe'])->name('getListeFournisseur');
+[FournisseurController::class, 'getListe'])->name('getListeFournisseur')->middleware('check.role:Admin,Responsable,Commis');
 
 Route::post('/listeFournisseur', 
 [FournisseurController::class, 'createListe'])->name('createListeFournisseur');

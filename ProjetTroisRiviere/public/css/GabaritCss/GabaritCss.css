@@ -515,25 +515,96 @@ body {
 
 /* Style du footer */
 .site-footer {
-  background-color: #f8f9fa;
-  padding: 20px;
-  text-align: center;
-  position: relative;
-  bottom: 0;
-  width: 100%;
+  background-color: #f5f5f5;
+  padding: 20px 40px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
 }
 
-.footer-content {
+.footer-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: wrap;
 }
 
-.footer-left {
-  display: flex;
-  flex-direction: column;
+.footer-left,
+.footer-middle,
+.footer-right {
+  margin-bottom: 20px;
 }
 
+.footer-left {
+  max-width: 40%;
+}
+
+.footer-left img {
+  max-width: 100px;
+}
+
+.footer-middle ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-middle ul li {
+  margin-bottom: 8px;
+}
+
+.footer-middle ul li a {
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.footer-middle ul li a:hover {
+  color: #0073e6;
+}
+
+.footer-right {
+  max-width: 30%;
+  text-align: right;
+}
+
+.footer-right div a {
+  text-decoration: none;
+  color: #333;
+  margin: 0 10px;
+  transition: color 0.3s ease;
+}
+
+.footer-right div a img {
+  width: 24px;
+  margin-right: 10px;
+  transition: transform 0.3s ease;
+}
+
+.footer-right div a:hover img {
+  transform: scale(1.1);
+}
+
+.footer-right p {
+  margin: 10px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .footer-right {
+    text-align: left;
+    max-width: 100%;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-middle {
+    max-width: 100%;
+  }
+}
 
 
