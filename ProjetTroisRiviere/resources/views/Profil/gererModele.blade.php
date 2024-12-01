@@ -63,7 +63,7 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <div class="d-flex justify-content-between">
-                                        <a href="{{route('acceuils.index')}}" id="btnretour" class="btn btn-success">Retour</a>
+                                        <a href="{{route('getListeFournisseur')}}" id="btnretour" class="btn btn-success">Retour</a>
                                         <button type="submit" id="btnaccept" class="btn btn-primary">
                                             Confirmer les modèles
                                         </button>
@@ -79,10 +79,4 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
 @endsection

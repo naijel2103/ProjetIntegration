@@ -40,7 +40,7 @@
     padding-top: 5%;
 }
 
-.errorMessage{
+.errorMessage, .successMessage{
     text-align: center;
 }
 
@@ -127,4 +127,78 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.bottom-box{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.openPopup-btn{
+    width: 20vw;
+    height: 5vh;
+    border-radius: 10px;
+    background-color: rgb(253, 170, 170);
+    margin: 5px;
+}
+
+.openPopup-btn:hover{
+    border: 0.5px solid black;
+    background-color: rgb(243, 45, 45);
+}
+
+.popup-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 50%;
+    height: 25%;
+    max-width: 600px; 
+    max-height: 80%; 
+    overflow: auto; 
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.warningText{
+    font-size: x-large;
+    font-weight: bolder;
+}
+
+.popup-btns{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.popup-btn{
+    width: 10vw;
+    height: 5vh;
+    border-radius: 10px;
+}
+
+.yesBtn:hover{
+    background-color: rgb(184, 253, 170);
+    border: 0.5px solid black;
+}
+
+.noBtn:hover{
+    background-color: rgb(253, 170, 170);
+    border: 0.5px solid black;
 }

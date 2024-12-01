@@ -26,7 +26,7 @@ use App\Models\SpecificationLiscences;
 use App\Models\CategorieLiscences;
 use App\Mail\EnvoieAccepteFiche;
 use App\Models\Demandesinscriptions;
-
+use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 
 class FichesController extends Controller
@@ -47,8 +47,16 @@ class FichesController extends Controller
      */
     public function demandeFiche()
     {
-         $compte = Comptes::Find(Auth::id());
-        $fournisseur = Fournisseurs::where('email', $compte->email)->first();
+        $compte = Comptes::Find(Auth::id());
+      
+
+        $idFournisseur = Session::get('idFournisseur');
+
+        if ($idFournisseur) {
+            $fournisseur = Fournisseurs::find($idFournisseur);
+
+        }
+  
         $offreFournisseurs = OffresFournisseurs::where('fournisseur', $fournisseur->idFournisseur)->get();
 
 
@@ -68,11 +76,36 @@ class FichesController extends Controller
         $contacts = Contacts::where('fournisseur', $fournisseur->idFournisseur)->get();
         $infotels = Infotels::where('fournisseur', $fournisseur->idFournisseur)->get();
 
+        $infotelsContacts = collect();
+
+        foreach ($contacts as $contact) {
+            $infotelsContact = Infotels::where('contact', $contact->idContact)->get();
+            $infotelsContacts = $infotelsContacts->merge($infotelsContact);
+        }
+        
+       
 
         $demandeInscription = Demandesinscriptions::where('idFournisseur', $fournisseur->idFournisseur)->first();
         return View('fiche.demandeFiche',compact("fournisseur", "demandeInscription",
-        "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs"));
+        "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs","infotelsContacts"));
     }
+
+    public function desactivateFiche(){
+        $compte = Comptes::Find(Auth::id());
+        $fournisseur = Fournisseurs::where('email', $compte->email)->first();
+        $statut = $fournisseur->statut;
+        if($statut == "Acceptee"){
+            Fournisseurs::where('email', $compte->email)->first()
+                ->update(['statut' => 'Desactivee']);
+            return redirect()->back()->with('success', 'Le  fournisseur a bien été désactivé');
+        } else {
+            Fournisseurs::where('email', $compte->email)->first()
+                ->update(['statut' => 'Acceptee']);
+            return redirect()->back()->with('success', 'Le  fournisseur a bien été réactivé');
+        }
+
+    }
+
     public function envoieDemandeFiche(Fournisseurs $fournisseur)
     {
         
@@ -97,11 +130,11 @@ class FichesController extends Controller
 
         $contacts = Contacts::where('fournisseur', $fournisseur->idFournisseur)->get();
         $infotels = Infotels::where('fournisseur', $fournisseur->idFournisseur)->get();
-
-
+        $infotelsContacts = Infotels::where('contact', $contacts->idContact)->get();
+            dd($infotelsContacts);
         $demandeInscription = Demandesinscriptions::where('idFournisseur', $fournisseur->idFournisseur)->first();
         return View('fiche.demandeFiche',compact("fournisseur", "demandeInscription",
-        "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs"));
+        "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs","infotelsContacts"));
     }
    
 
@@ -133,23 +166,74 @@ class FichesController extends Controller
                  
                     if($estCochee)
                     {
-                        
-                        Mail::to($fournisseur->email )->send(new EnvoieRefuFicheRaison($raison));
+                        $modele = Modeles_courriels::where('idModele',1)->first();
+                        Mail::to($fournisseur->email )->send(new EnvoieRefuFicheRaison($raison,$modele));
                     }else
                     {
-                        Mail::to($fournisseur->email )->send(new EnvoieRefuFiche());
+                        $modele = Modeles_courriels::where('idModele',1)->first();
+                        Mail::to($fournisseur->email )->send(new EnvoieRefuFiche($modele));
                     }
-                }else if($request->statut == "Accepte"){
-                    Mail::to($fournisseur->email )->send(new EnvoieAccepteFiche());
+                }else if($request->statut == "Acceptee"){
+
+                    $modele = Modeles_courriels::where('idModele',2)->first();
+                    Mail::to($fournisseur->email )->send(new EnvoieAccepteFiche($modele));
                     $demandeInscription->raisonRefus = null;
                 }
                 $demandeInscription->save(); // Enregistrer les modifications
                 $fournisseur->save(); // Enregistrer les modifications
+
+            } else if($demandeInscription == null) {
+                $fournisseur->statut = $request->statut;
+
+                if($request->statut == "Refusee")
+                {
+                    $raison = $request->raisonRefus;
+                    $donneeCryptee = encrypt($request->raisonRefus);
+                    $estCochee = $request->has('envoyerRaison');
+                 
+                    if($estCochee)
+                    {
+                        $modele = Modeles_courriels::where('idModele',1)->first();
+                        Mail::to($fournisseur->email )->send(new EnvoieRefuFicheRaison($raison));
+                    }else
+                    {
+                        $modele = Modeles_courriels::where('idModele',1)->first();
+                        Mail::to($fournisseur->email )->send(new EnvoieRefuFiche());
+                    }
+
+                    Demandesinscriptions::create([  
+                        'idFournisseur'=> $fournisseur->idFournisseur,
+                        'dateDemande' => $dateFormatee,
+                        'dateDerniereMod' => $dateFormatee,
+                        'dateChangementStatut' => $dateFormatee,
+                        'statut' => $request->statut,
+                        'raisonRefus' => $donneeCryptee
+                    ]);
+
+                }else{
+                    
+                    if($request->statut == "Acceptee"){
+                        $modele = Modeles_courriels::where('idModele',2)->first();
+                        Mail::to($fournisseur->email )->send(new EnvoieAccepteFiche());
+                    }
+                    
+                    Demandesinscriptions::create([
+                        'idFournisseur'=> $fournisseur->idFournisseur,
+                        'dateDemande' => $dateFormatee,
+                        'dateDerniereMod' => $dateFormatee,
+                        'dateChangementStatut' => $dateFormatee,
+                        'statut' => $request->statut,
+                        'raisonRefus' => null
+                    ]);
+                }
+                
+                $fournisseur->save();
             }
             
             return redirect()->route('fiche.index')->with('message', "Modification de  réussi!");
         }catch(\Throwable $e)
         {
+            dd($e);
             Log::debug($e);
             return redirect()->route('fiche.gererDemande',compact("fournisseur"))->with('message', "Modification pas effectue");
         }
@@ -164,10 +248,7 @@ class FichesController extends Controller
         $finance = Parametres::where('id',1)->first();
         Mail::to($finance->courrielFinance)->send(new EnvoieFicheFinance($fournisseur));
        
-        return redirect()->route('acceuils.index');
-
-       
-        
+        return redirect()->route('getListeFournisseur');
     }
 
     /**
@@ -197,9 +278,23 @@ class FichesController extends Controller
         $infotels = Infotels::where('fournisseur', $fournisseur->idFournisseur)->get();
 
 
+
+        $infotelsContacts = collect();
+
+        foreach ($contacts as $contact) {
+            $infotelsContact = Infotels::where('contact', $contact->idContact)->get();
+            $infotelsContacts = $infotelsContacts->merge($infotelsContact);
+        }
+        
+       
+    
+
+
         $demandeInscription = Demandesinscriptions::where('idFournisseur', $fournisseur->idFournisseur)->first();
+
+
         return View('fiche.show',compact("fournisseur", "demandeInscription",
-                                        "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs"
+                                        "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs","infotelsContacts"
                                         ));
     }
 
@@ -208,7 +303,6 @@ class FichesController extends Controller
             $codeListe = $request->input('codeListe');
             return redirect()->route('showListeAContacte', ['codeListe' => $codeListe]);
         }
-
         return view('Fiche.askCodeListe');
     }
 
@@ -219,6 +313,8 @@ class FichesController extends Controller
         return View('fiche.edit', compact('fournisseur'));
     }
 
+   
+    
     public function showListeAContacte($codeListe){
 
         $listeAContacteExists = ListeAContacter::where('codeListe', $codeListe)->exists();
@@ -268,5 +364,12 @@ class FichesController extends Controller
         ->update(['contacte' => $contacte]);
         
         return redirect()->back()->with('success', 'Le statut de contact a été mis à jour.');
+    }
+
+    public function deleteListe($codeListe){
+        $listeAContacter = ListeAContacter::where('codeListe', $codeListe);
+        $listeAContacter->delete();
+
+        return redirect()->route('askCodeListe')->with('success', '* La liste a été supprimé avec succès *');
     }
 }

@@ -198,4 +198,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    document.getElementById('openPopupDelete').addEventListener('click', function () {
+        const popup = document.getElementById('popUpDelete');
+        popup.style.display = 'flex';
+    });
+
+    document.getElementById('closePopUpBtn').addEventListener('click', function () {
+        const popup = document.getElementById('popUpDelete');
+        popup.style.display = 'none';
+    });
 });

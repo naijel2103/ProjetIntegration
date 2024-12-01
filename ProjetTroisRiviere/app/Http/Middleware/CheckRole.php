@@ -17,14 +17,14 @@ class CheckRole
     {
                 $user = $request->user();
         if (!$user) {
-            // Si l'utilisateur n'est pas connecté et n'est pas déjà sur la page de connexion
-            if (!$request->is('login')) {
-                return redirect()->route('login'); // Rediriger vers la page de connexion
+          
+            if (!$request->is('profil.connexionNEQ')) {
+                return redirect()->route('profil.connexionNEQ'); 
             }
         } else {
-        // Vérifie si le rôle de l'utilisateur est autorisé
+    
             if (!in_array($user->role, $roles)) {
-                return redirect()->route('login'); // Rediriger vers la page de connexion
+                return redirect()->route('profil.connexionNEQ'); 
             }
         }
         return $next($request);

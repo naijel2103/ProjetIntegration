@@ -7,11 +7,13 @@
 
 <div class="button-container">
     <a href="{{ route('fiche.index') }}" class="btn btn-primary btn-lg" id="btnRetour">Retour</a>
+    @role('Responsable')
     <a href="{{ route('fiche.gererDemande', [$fournisseur]) }}" class="btn btn-success btn-lg" id="btnGererDemande">Gérer la demande</a>
   
-    @if ( $fournisseur->statut == "Accepte" )
+    @if ( $fournisseur->statut == "Acceptee" )
         <a href="{{ route('fiche.envoieFicheFinance', [$fournisseur]) }}" class="btn btn-warning btn-lg" id="btnExporter">Exporter vers les Finances</a>
     @endif
+    @endrole
 </div>
 
 @if (isset($fournisseur))
@@ -32,21 +34,26 @@
                     <b>Email:</b> {{ $fournisseur->email }}
                 </div>
                 <div>
-                    <b>Statut:</b>      @if($fournisseur->statut == "En attente" || $fournisseur->statut == "A reviser")
-                                        <div>
-                                        <img src="../Images/enAttente.png" alt="enAttente" id='imgStatut'>
-                                        {{ $fournisseur->statut }}
-                                        </div>
-                                        @elseif($fournisseur->statut == "Accepte")
-                                        <div>
-                                        <img src="../Images/accepter.png" alt="accepter" id='imgStatut'>
-                                        {{ $fournisseur->statut }}
-                                        </div>
-                                         @else
-                                         <div>
-                                        <img src="../Images/refuse.png" alt="refuse" id='imgStatut'>
-                                        {{ $fournisseur->statut }}
-                                        </div>
+                    <b>Statut:</b>      @if($fournisseur->statut == "Refusee")
+                                            <div>
+                                                <img src="../Images/refuse.png" alt="refusee" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
+                                        @elseif($fournisseur->statut == "Acceptee")
+                                            <div>
+                                                <img src="../Images/accepter.png" alt="acceptee" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
+                                        @elseif($fournisseur->statut == "Desactivee")
+                                            <div>
+                                                <img src="../Images/desactivee.png" alt="desactivee" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
+                                        @else
+                                            <div>
+                                                <img src="../Images/enAttente.png" alt="enAttente" id='imgStatut'>
+                                                {{ $fournisseur->statut }}
+                                            </div>
                                         @endif
                 </div>
             </div>
@@ -123,7 +130,11 @@
             <b>Courriel:</b> {{ $contact->email }}
         </div>
         <div>
-            <b>Téléphone:</b> {{ $contact->telephone }}
+        @foreach($infotelsContacts as $infotelsContact)
+        @if($contact->idContact == $infotelsContact->contact)
+            <b>Téléphone:</b> {{ $infotelsContact->numTel }}
+        @endif
+            @endforeach
         </div>
         </div>
         @endforeach
@@ -154,7 +165,10 @@
             <div class="info-title">Licence:</div>
             <div class="info-content">
                 <div>
-                    <b>Numéro de licence:</b> {{ $fournisseur->numliscence }}
+                    <b>Numéro de licence:</b> 
+                    <div>
+                    {{ $liscences->numLiscence }}
+                    </div>
                 </div>
                 <div>
                   @if($liscences->statut == "Valide")
