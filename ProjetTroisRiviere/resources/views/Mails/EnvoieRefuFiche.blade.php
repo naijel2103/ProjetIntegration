@@ -6,7 +6,7 @@
 <body>
     <h1>Votre demande a été refusé</h1>
     <p>
-        
+    {{ $modele->message}}
  
 
     </p>

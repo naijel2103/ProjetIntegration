@@ -6,7 +6,7 @@
 <body>
     <h1>Votre demande a été acceptée !</h1>
     <p>
-    {{ $modele->message }}
+    {{ $modele->message}}
  
 
     </p>

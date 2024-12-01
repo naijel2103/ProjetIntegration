@@ -15,91 +15,122 @@
 </head>
 
 <body>
-<!-- Mettre la NavBar et toutes les entêtes du site ici -->
+
 <header>
-  <div class="sticky-container"> 
+  <div class="sticky-container">
     <div class="navbar contrast">
-      {{-- <a href="#home" class="active"> --}}
-        
-        <img src="{{ asset('images/LogoTrNoir.png') }}" id="imgLogo"/>
-      {{-- </a> --}}
-      <div class="bottom-nav">      
-      @role('Fournisseur')
+      <!-- Logo -->
+      <img src="{{ asset('images/LogoTrNoir.png') }}" id="imgLogo" />
 
-        <a href="\demandeFiche" class="header-link-top">Voir ma fiche</a>
-      @endauth
-        @role('Responsable')
-        <a href="\listeFournisseur" class="header-link-top">Fiches fournisseur</a>      
-        <div class="separator"></div>   
+      <!-- Hamburger Button -->
+      <button id="hamburger" class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <script>
+  document.getElementById('hamburger').addEventListener('click', function () {
+    const menu = document.getElementById('menu');
+    menu.classList.toggle('show');
+  });
+</script>
+
+      <!-- Navigation principale -->
+      <nav id="menu" class="menu">
+
+
+        @role('Commis')
+        <a href="\listeFournisseur" class="header-link-top">Fiches fournisseur</a>
         <a href="\listeAContacter" class="header-link-top">Listes à contacter</a>
-        <div class="separator"></div>   
         <a href="\listeDemande" class="header-link-top">Demandes fournisseur</a>
-        
         @endrole
+
+        @role('Responsable')
+        <a href="\listeFournisseur" class="header-link-top">Fiches fournisseur</a>
+        <a href="\listeAContacter" class="header-link-top">Listes à contacter</a>
+        <a href="\listeDemande" class="header-link-top">Demandes fournisseur</a>
+        @endrole
+
         @role('Admin')
-        <a href="\gererModele" class="header-link-top">Gerer les modeles de courriels </a>      
-        <div class="separator"></div>   
-        <a href="\creation" class="header-link-top">Créer des comptes </a>    
-        <div class="separator"></div>   
-        <a href="\gererComptes" class="header-link-top">Gérer les comptes </a>   
-        <div class="separator"></div>   
-        <a href="\gererParametres" class="header-link-top">Gérer les paramètres </a>   
+        <a href="\gererModele" class="header-link-top">Gérer les modèles de courriels</a>
+        <a href="\creationCompte" class="header-link-top">Créer des comptes</a>
+        <a href="\gererComptes" class="header-link-top">Gérer les comptes</a>
+        <a href="\gererParametres" class="header-link-top">Gérer les paramètres</a>
+        <a href="\listeFournisseur" class="header-link-top">Fiches fournisseur</a>
+        <a href="\listeAContacter" class="header-link-top">Listes à contacter</a>
+        <a href="\listeDemande" class="header-link-top">Demandes fournisseur</a>
         @endrole
-  </div>
 
 
 
-
-
-
-      <div class="bottom-nav">
-  
-      @auth
-      <a href="{{ route('profil.deconnexion') }}"><button type="submit" id="boutonDeonnexion">Deconnexion</button></a>
-      @else
-      <a href="{{ route('profil.connexionNEQ') }}"><button type="submit" id="boutonConnexion">Connexion/s'inscrire</button></a>
+        @auth
+        <a href="{{ route('profil.deconnexion') }}">
+          <button type="submit" id="boutonConnexion">Déconnexion</button>
+        </a>
+        @elseif(Auth::guard('fournisseurs')->check())  <!-- Pour le fournisseur -->
+        <a href="\demandeFiche" class="header-link-top">Voir ma fiche</a>
+    <a href="{{ route('profil.deconnexionFournisseur') }}">
+        <button type="submit" id="boutonConnexion">Déconnexion</button>
+    </a>
+    @else
+    <a href="{{ route('profil.connexionNEQ') }}">
+        <button type="submit" id="boutonConnexion">Connexion / S'inscrire</button>
+    </a>
       @endauth
-     
-      </div>  
+      </nav>
     </div>
-</div>    
+  </div>
+</header>
 
-
-
-    </header>
 @yield('contenu')
 
 <!-- Mettre le footer -->
 
-    <footer class="site-footer">
-      <div class="footer contrast">
-        <div class="footer-content">
-          <div class="footer-left">
-            <a href=""><img src="https://www.v3r.net/wp-content/themes/v3r/Images/icons/logo-v3r-v2017.svg" alt="Ville de Trois-Rivières"> </a>
-            <div class="footer-title">Ville de Trois-Rivières</div>
-            <div class="footer-link">
-            <a class="link-foot" href="https://www.google.ca/maps/place/H%C3%B4tel+de+ville/@46.3430042,-72.545511,17z/data=!4m12!1m6!3m5!1s0x41aa0c6a9ae1712b:0xc5f7bf52c7282858!2sH%C3%B4tel+de+ville!8m2!3d46.3430005!4d-72.5433223!3m4!1s0x41aa0c6a9ae1712b:0xc5f7bf52c7282858!8m2!3d46.3430005!4d-72.5433223" target="blank" >
-              1325, place de l'Hôtel-de-Ville, C.P. 368
-              <br>
-              Trois-Rivières, QC G9A 5H3
-            </a>
-            </div>
-            <div class="footer-phone">
-              Téléphone : <a href="tel" class="link-foot">311</a> ou <a href="tel" class="link-foot">819 374-2002</a>
-            </div>
-            <div class="footer-link">
-              <a class="link-foot" href="tel">
-                Canada ou Étas-Unis : 1 833 374-2002
-              </a>
-            </div>
-            <div class="footer-link">
-              <a class="link-foot" href="mailto:311@v3r.net">
-                Courriel : 311@v3r.net
-              </a>
-            </div>
-          </div>
-        </div>
+
+<footer class="site-footer" style="background-color: #f5f5f5; padding: 20px 40px; font-family: Arial, sans-serif;">
+  <div class="footer-container" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+
+    <!-- Section de gauche -->
+    <div class="footer-left" style="max-width: 40%;">
+      <img src="https://www.v3r.net/wp-content/themes/v3r/Images/icons/logo-v3r-v2017.svg" alt="Ville de Trois-Rivières" style="max-width: 100px;">
+      <div style="margin-top: 10px;">
+        <p><strong>Ville de Trois-Rivières</strong></p>
+        <p>1325, place de l'Hôtel-de-Ville, C.P. 368<br>
+        Trois-Rivières, QC G9A 5H3</p>
+        <p><strong>Téléphone :</strong> 311 ou 819 374-2002<br>
+        <strong>Canada ou États-Unis :</strong> 1 833 374-2002<br>
+        <strong>Courriel :</strong> <a href="mailto:311@v3r.net" style="color: #0073e6;">311@v3r.net</a></p>
       </div>
-    </footer>
+    </div>
+
+    <!-- Section du milieu -->
+    <div class="footer-middle" style="max-width: 20%;">
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li><a href="#" style="text-decoration: none; color: #333;">› Communications</a></li>
+        <li><a href="#" style="text-decoration: none; color: #333;">› FAQ</a></li>
+        <li><a href="#" style="text-decoration: none; color: #333;">› Tourisme</a></li>
+      </ul>
+    </div>
+
+    <!-- Section de droite -->
+    <div class="footer-right">
+      <div>
+      <a href="/infolettre" class="social-link"><i class="fas fa-envelope"></i></a>
+<a href="https://www.facebook.com/villetroisrivieres" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
+<a href="https://www.instagram.com/villede3rivieres" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+<a href="https://www.linkedin.com/company/ville-de-trois-rivi-res" target="_blank" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+<a href="https://www.youtube.com/channel/UC4UyW0CoJfaCFaOzcQ05yw" target="_blank" class="social-link"><i class="fab fa-youtube"></i></a>
+      </div>
+      <p>
+        <a href="#">Intranet</a> |
+        <a href="#">Portail d'accès aux organismes</a> |
+        <a href="#">Politique de confidentialité</a>
+      </p>
+      <p>© Ville de Trois-Rivières. Tous droits réservés.</p>
+    </div>
+
+  </div>
+</footer>
 </body>
 </html>

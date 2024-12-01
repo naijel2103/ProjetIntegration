@@ -6,10 +6,11 @@
 <body>
     <h1>Votre demande a été refusé</h1>
     <p>
-    {{ $modele->message }}
+    {{ $modele->message}}
  
 
     </p>
+   
     <p>
         Raison du refu: <b>{{ $raison }}</b>
     </p>

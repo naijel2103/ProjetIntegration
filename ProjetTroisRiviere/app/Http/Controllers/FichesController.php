@@ -26,7 +26,7 @@ use App\Models\SpecificationLiscences;
 use App\Models\CategorieLiscences;
 use App\Mail\EnvoieAccepteFiche;
 use App\Models\Demandesinscriptions;
-
+use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 
 class FichesController extends Controller
@@ -48,7 +48,15 @@ class FichesController extends Controller
     public function demandeFiche()
     {
         $compte = Comptes::Find(Auth::id());
-        $fournisseur = Fournisseurs::where('email', $compte->email)->first();
+      
+
+        $idFournisseur = Session::get('idFournisseur');
+
+        if ($idFournisseur) {
+            $fournisseur = Fournisseurs::find($idFournisseur);
+
+        }
+  
         $offreFournisseurs = OffresFournisseurs::where('fournisseur', $fournisseur->idFournisseur)->get();
 
 
@@ -283,6 +291,8 @@ class FichesController extends Controller
 
 
         $demandeInscription = Demandesinscriptions::where('idFournisseur', $fournisseur->idFournisseur)->first();
+
+
         return View('fiche.show',compact("fournisseur", "demandeInscription",
                                         "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs","infotelsContacts"
                                         ));
@@ -303,10 +313,7 @@ class FichesController extends Controller
         return View('fiche.edit', compact('fournisseur'));
     }
 
-    public function editFiche(Fournisseurs $fournisseur)
-    {
-        return view('fiche.edit',compact("fournisseur"));
-    }
+   
     
     public function showListeAContacte($codeListe){
 
