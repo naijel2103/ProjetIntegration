@@ -21,20 +21,7 @@
         <div id="progress-bar" style="height: 100%; width: 0%; background-color: #4CAF50;"></div>
     </div>
 
-    <button type="button" id="btnDirectStep3" class="btn btn-warning btn-lg">Aller à l'étape 3</button>
 </div>
-
-<script>
-    document.getElementById('btnDirectStep3').addEventListener('click', function() {
-        // Cacher les autres étapes
-        document.getElementById('step1').style.display = 'none';
-        document.getElementById('step2').style.display = 'none';
-        document.getElementById('step4').style.display = 'block';
-        
-        // Afficher l'étape 3
-        document.getElementById('step5').style.display = 'none';
-    });
-</script>
 
 <div class="page-wrap">
     <div class="container">
@@ -49,7 +36,7 @@
                                 <label for="neq" class="col-sm-4 col-form-label text-end">NEQ (Facultatif)</label>
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
-                                        <input type="text" name="neq" id="neq" class="form-control" placeholder=" 8831854938" required>
+                                        <input type="text" name="neq" id="neq" class="form-control" placeholder="8831854938" required>
                                         <img src="Images/XIcon.png" alt="" class="icon" id="neq-icon" style="display: none; margin-left: 10px;">
                                     </div>
                                     <span class="error" id="neq-error" style="color: red; display: none; font-size: 0.8rem;"></span>

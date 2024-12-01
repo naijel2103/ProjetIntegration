@@ -22,7 +22,7 @@ class FournisseurRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'neq' => 'nullable|integer|unique:fournisseurs,neq',  // L'NEQ peut être nul, mais s'il est fourni, il doit être unique
+            'neq',  // L'NEQ peut être nul, mais s'il est fourni, il doit être unique
             'nomFournisseur' => 'nullable|string|max:64',  // Le nom peut être nul, sinon il doit être une chaîne de max 64 caractères
             'numLiscence' => 'nullable|string|max:10|exists:liscences,numLiscence',  // Si présent, doit être valide et correspondre à un enregistrement dans la table 'liscences'
             'email' => 'nullable|email|max:64|unique:fournisseurs,email',  // L'email est requis, unique et doit être valide

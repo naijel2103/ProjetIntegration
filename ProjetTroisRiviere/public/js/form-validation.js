@@ -49,6 +49,7 @@ document.getElementById('neq').addEventListener('blur', function () {
     let neqData = {}
     const nameInput = document.getElementById('nom');
 
+
     fetch(`/api/data/${neq}`)
         .then(response => response.json())
         .then(data => {
@@ -89,8 +90,12 @@ document.getElementById('btnNext').addEventListener('click', function () {
             if (value && !/^\d{10}$/.test(value)) {
                 return "Le NEQ doit être composé uniquement de chiffres.";
             }
+            if (value && !/^1\d{9}$/.test(value)) {
+                return "Le NEQ doit commencer par '1'.";
+            }
             return '';  // Si l'utilisateur ne met rien, la validation passe
         },
+        
         nom: value => !value.trim() && "Le nom est requis.",
         email: value => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) && "L'email n'est pas valide.",
         password: value => value.length < 8 && "Le mot de passe doit contenir au moins 8 caractères.",

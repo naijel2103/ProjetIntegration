@@ -18,6 +18,7 @@ use App\Http\Requests\LiscencesRequest;
 use App\Http\Requests\SpecificationLiscencesRequest;
 use App\Http\Requests\OffresFournisseursRequest;
 use App\Http\Requests\ContactsRequest;
+use App\Mail\AccountCreated;
 
 
 
@@ -233,7 +234,7 @@ class FournisseurController extends Controller
 
         InfoTels::create([
             'typeTel' => "auto",
-            'numTel' => $request->input('num_telstedfp2', "1231231233"),
+            'numTel' => $request->input('num_telstep2', "1231231233"),
             'postTel'=> "1",
             'fournisseur' => $fournisseur->idFournisseur,  // Utilisez l'ID de l'objet
             'contact' => "12",
@@ -315,10 +316,7 @@ class FournisseurController extends Controller
             ]);
         
 
-  
-
-        Mail::to($fournisseur-> email)->send(new AccountCreated($fournisseur));
-        // Réponse JSON
+          // Réponse JSON
         Log::info('Tentative de création du fournisseur');
       
         return response()->json(['success' => true]);
@@ -330,7 +328,7 @@ class FournisseurController extends Controller
         return response()->json(['success' => false, 'message' => 'Erreur serveur.'], 500);
     }
 }
-    }
+    
 
     public function edit(Fournisseurs $fournisseur)
     {
