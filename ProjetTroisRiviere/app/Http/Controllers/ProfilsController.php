@@ -76,7 +76,7 @@ class ProfilsController extends Controller
     {
  
         if (auth()->check()) {
-            Comptes::Find(Auth::id());
+           $compte= Comptes::Find(Auth::id());
     
            
             if ($compte) {
