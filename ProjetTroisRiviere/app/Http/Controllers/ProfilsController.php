@@ -33,20 +33,31 @@ class ProfilsController extends Controller
     {
 
         if (auth()->check()) {
-            return redirect('/');
+            Comptes::Find(Auth::id());
+    
+           
+            if ($compte) {
+                $role = $compte->role;
+                
+               
+                if ($role == 'Admin' || $role == 'Responsable' || $role == 'Commis') {
+                    return redirect()->route('getListeFournisseur');
+                } else {
+                    return redirect()->route('profil.connexion')->withErrors(['Informations invalides']);
+                }
+        }
         }
         else {
-            return view('Profil.connexion');
+            return view('profil.connexion');
         }
 
-        
         
     }
 
     public function deconnexion()
     {
         Auth::logout();
-        return redirect('/')->with('message', "Déconnexion réussie");
+        return redirect()->route('profil.connexionNEQ');
     }
     public function deconnexionFournisseur(Request $request)
     {
@@ -66,7 +77,19 @@ class ProfilsController extends Controller
     {
  
         if (auth()->check()) {
-            return redirect('/');
+            Comptes::Find(Auth::id());
+    
+           
+            if ($compte) {
+                $role = $compte->role;
+                
+               
+                if ($role == 'Admin' || $role == 'Responsable' || $role == 'Commis') {
+                    return redirect()->route('getListeFournisseur');
+                } else {
+                    return redirect()->route('profil.connexionNEQ')->withErrors(['Informations invalides']);
+                }
+        }
         }
         else {
             return view('Profil.connexionNEQ');
@@ -97,7 +120,7 @@ class ProfilsController extends Controller
                 
                 // Vérifier les rôles du compte
                 if ($role == 'Admin' || $role == 'Responsable' || $role == 'Commis') {
-                    return redirect()->route('acceuils.index');
+                    return redirect()->route('getListeFournisseur');
                 } else {
                     return redirect()->route('profil.connexion')->withErrors(['Informations invalides']);
                 }
@@ -109,7 +132,7 @@ class ProfilsController extends Controller
                 if ($fournisseur && $request->password == $fournisseur->mdp) {
                     Session::put('idFournisseur', $fournisseur->idFournisseur);
                     Auth::guard('fournisseurs')->login($fournisseur);
-                    return redirect()->route('fiche.demandeFiche');
+                    return redirect()->route('getListeFournisseur');
                 } else {
                     // Fournisseur non trouvé ou mot de passe incorrect
                     return redirect()->route('profil.connexion')->withErrors(['Informations invalides']);

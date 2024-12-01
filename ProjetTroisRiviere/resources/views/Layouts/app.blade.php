@@ -38,7 +38,6 @@
 
       <!-- Navigation principale -->
       <nav id="menu" class="menu">
-        <a href="\" class="header-link-top">Accueil</a>
 
 
         @role('Commis')
