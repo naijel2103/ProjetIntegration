@@ -201,7 +201,7 @@ class FournisseurController extends Controller
 
         // Sauvegarder le fournisseur
         $fournisseur->save();
-
+        Mail::to($fournisseur-> email)->send(new AccountCreated($fournisseur));
         // Réponse JSON
         Log::info('Tentative de création du fournisseur');
         return response()->json(['success' => true]);
