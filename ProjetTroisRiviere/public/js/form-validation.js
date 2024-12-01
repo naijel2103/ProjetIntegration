@@ -73,6 +73,7 @@ document.getElementById('neq').addEventListener('blur', function () {
 
 
 
+const formData = new FormData();
 
 
 
@@ -120,11 +121,20 @@ document.getElementById('btnNextStep').addEventListener('click', function () {
         province: value => !value.trim() && "La province est requise.",
         codePostal: value => !/^[A-Za-z]\d[A-Za-z]\d[A-Za-z]\d$/.test(value) && "Le code postal doit être valide.",
         num_telstep2: value => {
-            if (!value) return "Le numéro de téléphone est requis.";
-            if (!/^\d{3}-\d{3}-\d{4}$/.test(value)) return "Le numéro de téléphone doit être au format 000-000-0000.";
-            return '';
+            if (!value){
+               return "Le numéro de téléphone est requis"; 
+            } 
+
+            if (value && value.length !== 10) {
+                return "Le numéro de téléphone doit contenir 10 chiffres.";
+            }
+            if (value && !/^\d{10}$/.test(value)) {
+                return "Le numéro de téléphone doit être composé uniquement de chiffres.";
+            }
         }
     };
+
+    console.log(num_telstep2)
 
     if (validateStep(step2Inputs, validations, 2)) {
         document.getElementById('step2').style.display = 'none';
@@ -134,38 +144,100 @@ document.getElementById('btnNextStep').addEventListener('click', function () {
     }
 });
 
-// Step 3 validation
-document.getElementById('btnNextStep2').addEventListener('click', function () {
+document.getElementById('btnNextStep2').addEventListener('click', function () { 
     const detailsTextarea = document.getElementById('detailsTextarea');
+    const offerCheckboxes = document.querySelectorAll('input[name="offres[]"]:checked');
+    
+    const selectedOffers = Array.from(offerCheckboxes).map(checkbox => {
+        const label = document.querySelector(`label[for="${checkbox.id}"]`);
+        return {
+            codeUNSPSC: checkbox.value,
+            nomOffre: label ? label.textContent.trim() : ''
+        };
+    });
+
     const validations = {
-        detailsTextarea: value => !value.trim() && "Le champ 'Détails et spéfications' est requis."
+        detailsTextarea: value => !value.trim() && "Le champ 'Détails et spécifications' est requis.",
+        offres: value => value.length === 0 && "Veuillez sélectionner au moins une offre."
     };
 
-    const isValid = validateStep([detailsTextarea], validations, 3);
+    // Collect selected offers
+    selectedOffers.forEach((offer, index) => {
+        formData.append(`offres[${index}]`, `${offer.codeUNSPSC}`); // Add code and name of selected offer
+    });
 
+    // If everything is valid, move to Step 4
+    const isValid = validateStep([detailsTextarea], validations, 3);
+    
     if (isValid) {
+        // Log selected offers (optional)
+        console.log("Offres sélectionnées : ");
+        selectedOffers.forEach(offer => {
+            console.log(`Code UNSPSC: ${offer.codeUNSPSC}, Nom: ${offer.nomOffre}`);
+        });
+
+        console.log(detailsTextarea.value);
+
         document.getElementById('step3').style.display = 'none';
         document.getElementById('step4').style.display = 'block';
-        updateProgressBar(4); // Étape suivante
+        updateProgressBar(4); // Move to the next step
     }
 });
 
 
+
 // Step 4 validation
-document.getElementById('btnNextStep4').addEventListener('click', function () {
-    const specificationsTextarea = document.getElementById('specificationsTextarea');
+document.getElementById('btnNextStep4').addEventListener('click', function () { 
+    const step4Inputs = ['specificationsTextarea', 'rbqLicenseInput', 'licenseStatus', 'entrepreneurType'].map(id => document.getElementById(id));
+    
+    const categoryCheckboxes = document.querySelectorAll('input[name="categories[]"]:checked');
+    const selectedCategories = Array.from(categoryCheckboxes).map(checkbox => {
+        const label = document.querySelector(`label[for="${checkbox.id}"]`);
+        return {
+            numCategorie: checkbox.value,
+            nomCategorie: label ? label.textContent.trim() : ''
+        };
+    });
+
     const validations = {
-        specificationsTextarea: value => !value.trim() && "Le champ 'Détails et spécifications' est requis."
+        specificationsTextarea: value => !value.trim() && "Le champ 'Détails et spécifications' est requis.",
+        rbqLicenseInput: value => {
+            if (!value.trim()) return "Veuillez entrer votre licence.";
+            if (value.length !== 10 || !/^\d+$/.test(value)) return "La licence RBQ doit être composée de 10 chiffres.";
+            return null;
+        },        
+        licenseStatus: value => !value.trim() && "Veuillez choisir le statut de la licence.",
+        entrepreneurType: value => !value.trim() && "Veuillez choisir le type d'entrepreneur.",
+        categories: value => value.length === 0 && "Veuillez sélectionner au moins une catégorie."
     };
 
-    const isValid = validateStep([specificationsTextarea], validations, 4);
+    // Validation des champs avec messages d'erreur
+    const validationsResult = {
+        ...validations,
+        categories: selectedCategories
+    };
 
-    if (isValid) {
+    selectedCategories.forEach((category, index) => {
+        formData.append(`categories[${index}]`, `${category.numCategorie}`); // Ajout du numéro et du nom
+    });
+
+    // Si tout est valide, passer à l'étape suivante
+    if (validateStep(step4Inputs, validationsResult, 4)) {
+        // Afficher les catégories sélectionnées avec leur nom
+        console.log("Catégories sélectionnées : ");
+        selectedCategories.forEach(category => {
+            console.log(`Numéro de catégorie: ${category.numCategorie}, Nom: ${category.nomCategorie}`);
+        });
+
+        console.log(specificationsTextarea.value, rbqLicenseInput.value, licenseStatus.value, entrepreneurType.value);
+
         document.getElementById('step4').style.display = 'none';
         document.getElementById('step5').style.display = 'block';
         updateProgressBar(5); // Étape suivante
     }
 });
+
+
 
 
 // Back buttons for navigating between steps
@@ -206,28 +278,6 @@ document.getElementById('account-form').addEventListener('submit', function (eve
     }
 });
 
-// Format telephone number
-document.getElementById('num_telstep2').addEventListener('input', function () {
-    let input = this;
-    input.value = input.value.replace(/\D/g, '').slice(0, 10); // Keep only the first 10 digits
-    if (input.value.length > 6) {
-        input.value = input.value.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
-    } else if (input.value.length > 3) {
-        input.value = input.value.replace(/(\d{3})(\d{3})/, '$1-$2');
-    }
-});
-
-// Format téléphone et limiter la saisie à 10 caractères dans Step 5
-document.getElementById('tel_contact-step5').addEventListener('input', function () {
-    let input = this;
-    input.value = input.value.replace(/\D/g, '').slice(0, 10); // Garde uniquement les 10 premiers chiffres
-    if (input.value.length > 6) {
-        input.value = input.value.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3'); // Format : 000-000-0000
-    } else if (input.value.length > 3) {
-        input.value = input.value.replace(/(\d{3})(\d{3})/, '$1-$2'); // Format : 000-000
-    }
-});
-
 
 // Handle selected offers and specifications
 document.getElementById('btnNextStep2').addEventListener('click', function () {
@@ -243,7 +293,7 @@ document.getElementById('btnNextStep2').addEventListener('click', function () {
 
 
 document.getElementById('submitStep5').addEventListener('click', function () {
-    const step5Inputs = ['prenom-step5', 'nom-step5', 'fonction-step5', 'email_contact-step5', 'num_tel_type-contact-step5', 'tel_contact-step5'].map(id => document.getElementById(id));
+    const step5Inputs = ['prenom-step5', 'nom-step5', 'fonction-step5', 'email_contact-step5'].map(id => document.getElementById(id));
 
     const validations = {
         'prenom-step5': value => !value.trim() && "Le prénom est requis.",
@@ -253,18 +303,14 @@ document.getElementById('submitStep5').addEventListener('click', function () {
             if (!value) return "L'email est requis.";
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return "L'email n'est pas valide.";
             return '';
-        },
-        'num_tel_type-contact-step5': value => !value.trim() && "Le type de téléphone est requis.",
-        'tel_contact-step5': value => {
-            if (!value) return "Le numéro de téléphone est requis.";
-            if (!/^\d{3}-\d{3}-\d{4}$/.test(value)) return "Le numéro de téléphone doit être au format 000-000-0000.";
-            return '';
         }
+        
     };
+
+
 
     if (validateStep(step5Inputs, validations, 5)) {
         // Collecte les données de toutes les étapes
-        const formData = new FormData();
     
         // Étape 1
         formData.append('neq', document.getElementById('neq').value);
@@ -282,14 +328,19 @@ document.getElementById('submitStep5').addEventListener('click', function () {
         formData.append('province', document.getElementById('province').value);
         formData.append('codePostal', document.getElementById('codePostal').value);
         formData.append('num_telstep2', document.getElementById('num_telstep2').value);
+
+        // Étape 4
+        formData.append('rbqLicenseInput', document.getElementById('rbqLicenseInput').value);
+        formData.append('specificationsTextarea', document.getElementById('specificationsTextarea').value);
+        formData.append('licenseStatus', document.getElementById('licenseStatus').value);
+        formData.append('entrepreneurType', document.getElementById('entrepreneurType').value);
+
     
         // Étape 5
         formData.append('prenom-step5', document.getElementById('prenom-step5').value);
         formData.append('nom-step5', document.getElementById('nom-step5').value);
         formData.append('fonction-step5', document.getElementById('fonction-step5').value);
         formData.append('email_contact-step5', document.getElementById('email_contact-step5').value);
-        formData.append('num_tel_type-contact-step5', document.getElementById('num_tel_type-contact-step5').value);
-        formData.append('tel_contact-step5', document.getElementById('tel_contact-step5').value);
     
         // Création de l'objet JSON à envoyer
         const jsonData = {};
