@@ -1,13 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-function togglePasswordVisibility(inputId) {
-    const inputField = document.getElementById(inputId);
-    const inputType = inputField.type === 'password' ? 'text' : 'password';
-    inputField.type = inputType;
-
-    const eyeIcon = document.getElementById(`toggle-${inputId}`);
-    eyeIcon.src = inputType === 'password' ? 'Images/eye.png' : 'Images/eye-open.png';
-}
+    function updateProgressBar(step) {
+        const progressBar = document.getElementById('progress-bar');
+        const progress = (step / 6) * 100; // Calcul du pourcentage en fonction de l'étape
+        progressBar.style.width = `${progress}%`;
+    }    
 
 function addCheckmark(input, isValid, errorMessage, step) {
     const existingCheckmark = input.parentNode.querySelector('.check-icon');
@@ -80,9 +77,19 @@ document.getElementById('neq').addEventListener('blur', function () {
 
 
 // Step 1 validation
+// Step 1 validation
 document.getElementById('btnNext').addEventListener('click', function () {
-    const step1Inputs = ['nom', 'email', 'password', 'password_confirmation'].map(id => document.getElementById(id));
+    const step1Inputs = ['neq', 'nom', 'email', 'password', 'password_confirmation'].map(id => document.getElementById(id));
     const validations = {
+        neq: value => {
+            if (value && value.length !== 10) {
+                return "Le NEQ doit contenir 10 chiffres.";
+            }
+            if (value && !/^\d{10}$/.test(value)) {
+                return "Le NEQ doit être composé uniquement de chiffres.";
+            }
+            return '';  // Si l'utilisateur ne met rien, la validation passe
+        },
         nom: value => !value.trim() && "Le nom est requis.",
         email: value => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) && "L'email n'est pas valide.",
         password: value => value.length < 8 && "Le mot de passe doit contenir au moins 8 caractères.",
@@ -97,17 +104,18 @@ document.getElementById('btnNext').addEventListener('click', function () {
         document.getElementById('step1').style.display = 'none';
         document.getElementById('step2').style.display = 'block';
         updateProgressBar(2);  // Étape 2
-
     }
 });
 
+
 // Step 2 validation
 document.getElementById('btnNextStep').addEventListener('click', function () {
-    const step2Inputs = ['siteInternet', 'numero_civique', 'rue', 'ville', 'province', 'codePostal', 'num_telstep2'].map(id => document.getElementById(id));
+    const step2Inputs = ['siteInternet', 'numero_civique', 'rue', 'bureau', 'ville', 'province', 'codePostal', 'num_telstep2'].map(id => document.getElementById(id));
     const validations = {
         siteInternet: value => !value && "Le site internet est requis.",
         numero_civique: value => !/^\d+$/.test(value) && "Le numéro civique doit être un nombre.",
         rue: value => !value.trim() && "La rue est requise.",
+        bureau: value => !value.trim() && "Le bureau est requis.",
         ville: value => !value.trim() && "La ville est requise.",
         province: value => !value.trim() && "La province est requise.",
         codePostal: value => !/^[A-Za-z]\d[A-Za-z]\d[A-Za-z]\d$/.test(value) && "Le code postal doit être valide.",
@@ -259,6 +267,7 @@ document.getElementById('submitStep5').addEventListener('click', function () {
         const formData = new FormData();
     
         // Étape 1
+        formData.append('neq', document.getElementById('neq').value);
         formData.append('nom', document.getElementById('nom').value);
         formData.append('email', document.getElementById('email').value);
         formData.append('password', document.getElementById('password').value);
@@ -267,6 +276,7 @@ document.getElementById('submitStep5').addEventListener('click', function () {
         // Étape 2
         formData.append('siteInternet', document.getElementById('siteInternet').value);
         formData.append('numero_civique', document.getElementById('numero_civique').value);
+        formData.append('bureau', document.getElementById('bureau').value);
         formData.append('rue', document.getElementById('rue').value);
         formData.append('ville', document.getElementById('ville').value);
         formData.append('province', document.getElementById('province').value);

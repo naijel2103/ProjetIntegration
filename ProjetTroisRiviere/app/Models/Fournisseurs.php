@@ -9,10 +9,12 @@ class Fournisseurs extends Model
 {
     use HasFactory;
 
-    public $incrementing = false;
+    public $incrementing = true;
     public $timestamps = false;
 
     protected $primaryKey = 'idFournisseur';
+
+    
 
     protected $fillable = [
         'neq',
@@ -74,4 +76,6 @@ class Fournisseurs extends Model
     {
         return $this->hasMany(Infotels::class, 'fournisseur');
     }
+
+    
 }

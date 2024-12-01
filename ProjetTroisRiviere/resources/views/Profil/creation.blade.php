@@ -29,10 +29,10 @@
         // Cacher les autres étapes
         document.getElementById('step1').style.display = 'none';
         document.getElementById('step2').style.display = 'none';
-        document.getElementById('step4').style.display = 'none';
+        document.getElementById('step4').style.display = 'block';
         
         // Afficher l'étape 3
-        document.getElementById('step5').style.display = 'block';
+        document.getElementById('step5').style.display = 'none';
     });
 </script>
 
@@ -102,6 +102,16 @@
                                 </div>
                             </div>
                         </div>
+                        <script>
+                            function togglePasswordVisibility(inputId) {
+                            const inputField = document.getElementById(inputId);
+                            const inputType = inputField.type === 'password' ? 'text' : 'password';
+                            inputField.type = inputType;
+
+                            const eyeIcon = document.getElementById(`toggle-${inputId}`);
+                            eyeIcon.src = inputType === 'password' ? 'Images/eye.png' : 'Images/eye-open.png';
+}
+                        </script>
 
                         <div class="text-center">
                             <a href="{{ route('profil.connexionNEQ') }}" class="btn btn-danger btn-lg" >Retour</a>

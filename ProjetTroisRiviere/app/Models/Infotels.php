@@ -9,7 +9,6 @@ class Infotels extends Model
 {
     use HasFactory;
 
-    public $incrementing = false;
     public $timestamps = false;
 
     protected $primaryKey = 'idInfoTel';
