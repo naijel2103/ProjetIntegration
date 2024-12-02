@@ -129,7 +129,7 @@ class ProfilsController extends Controller
                 $fournisseur = Fournisseurs::where('email', $request->email)->first();
     
                 // Si un fournisseur existe
-                if (!Hash::check($request->password, $fournisseur->mdp)) {
+                if ($fournisseur && $request->password == $fournisseur->mdp) {
                     Session::put('idFournisseur', $fournisseur->idFournisseur);
                     Auth::guard('fournisseurs')->login($fournisseur);
                     return redirect()->route('fiche.demandeFiche');
@@ -202,7 +202,7 @@ class ProfilsController extends Controller
         }
     
 
-        if (!Hash::check($request->password, $fournisseur->mdp)) {
+        if ($password== $fournisseur->password) {
             return back()->withErrors(['password' => 'Mot de passe invalide']);
         }
     
