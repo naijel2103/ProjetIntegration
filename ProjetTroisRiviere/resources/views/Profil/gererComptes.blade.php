@@ -8,7 +8,7 @@
 
 <div class="row text-center">
     <div class="col-12 ">
-    <a href="/creation" class="btn btn-primary text-center " >ajouter un nouveau compte</a>
+    <a href="/creationCompte" class="btn btn-primary text-center " >ajouter un nouveau compte</a>
   </div>
 </div>
  

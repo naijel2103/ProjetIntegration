@@ -15,6 +15,7 @@ use App\Models\Modeles_courriels;
 use App\Models\Parametres;
 use App\Mail\resetDeMotDePasse;
 use App\Mail\AccountCreated;
+use Illuminate\Support\Facades\Hash;
 
 class ProfilsController extends Controller
 {
@@ -76,7 +77,7 @@ class ProfilsController extends Controller
     {
  
         if (auth()->check()) {
-            Comptes::Find(Auth::id());
+           $compte= Comptes::Find(Auth::id());
     
            
             if ($compte) {
