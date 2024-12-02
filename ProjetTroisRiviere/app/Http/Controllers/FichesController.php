@@ -92,15 +92,25 @@ class FichesController extends Controller
 
     public function desactivateFiche(){
         $compte = Comptes::Find(Auth::id());
-        $fournisseur = Fournisseurs::where('email', $compte->email)->first();
+        $idFournisseur = Session::get('idFournisseur');
+
+        if ($idFournisseur) {
+            $fournisseur = Fournisseurs::find($idFournisseur);
+
+        }
         $statut = $fournisseur->statut;
         if($statut == "Acceptee"){
-            Fournisseurs::where('email', $compte->email)->first()
+            if ($idFournisseur) {
+                $fournisseur = Fournisseurs::find($idFournisseur)
                 ->update(['statut' => 'Desactivee']);
+            }
             return redirect()->back()->with('success', 'Le  fournisseur a bien été désactivé');
         } else {
-            Fournisseurs::where('email', $compte->email)->first()
+            if ($idFournisseur) {
+                $fournisseur = Fournisseurs::find($idFournisseur)
                 ->update(['statut' => 'Acceptee']);
+            }
+                
             return redirect()->back()->with('success', 'Le  fournisseur a bien été réactivé');
         }
 

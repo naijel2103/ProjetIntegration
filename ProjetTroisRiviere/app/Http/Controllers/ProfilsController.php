@@ -32,7 +32,7 @@ class ProfilsController extends Controller
     public function connexion()
     {
         if (auth()->check()) {
-          $compte=  Comptes::Find(Auth::id());
+          $compte= Comptes::Find(Auth::id());
     
            
             if ($compte) {

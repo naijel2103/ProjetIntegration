@@ -10,7 +10,7 @@
                     @csrf
                     <div class=" col-10 offset-1">
                         <br>
-                        <label for="nom">Nom de l'entreprise:</label>
+                        <label for="nom">Nom:</label>
                         <input type="text" name="nom" id="nom"class="form-control" required>
 
                         <label for="email">Adresse courriel</label>
