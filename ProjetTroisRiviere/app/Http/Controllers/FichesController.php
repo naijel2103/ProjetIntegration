@@ -204,11 +204,11 @@ class FichesController extends Controller
                     if($estCochee)
                     {
                         $modele = Modeles_courriels::where('idModele',1)->first();
-                        Mail::to($fournisseur->email )->send(new EnvoieRefuFicheRaison($raison));
+                        Mail::to($fournisseur->email )->send(new EnvoieRefuFicheRaison($raison,$modele));
                     }else
                     {
                         $modele = Modeles_courriels::where('idModele',1)->first();
-                        Mail::to($fournisseur->email )->send(new EnvoieRefuFiche());
+                        Mail::to($fournisseur->email )->send(new EnvoieRefuFiche($modele));
                     }
 
                     Demandesinscriptions::create([  
@@ -224,7 +224,7 @@ class FichesController extends Controller
                     
                     if($request->statut == "Acceptee"){
                         $modele = Modeles_courriels::where('idModele',2)->first();
-                        Mail::to($fournisseur->email )->send(new EnvoieAccepteFiche());
+                        Mail::to($fournisseur->email )->send(new EnvoieAccepteFiche($modele));
                     }
                     
                     Demandesinscriptions::create([
