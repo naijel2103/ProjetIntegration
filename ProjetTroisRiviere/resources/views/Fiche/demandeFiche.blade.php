@@ -16,6 +16,7 @@
 
 @if (isset($fournisseur))
     
+    @if($fournisseur->statut == "Desactivee" || $fournisseur->statut == "Acceptee")
         <button type="submit" id="descativationBtn" class="btn btn-danger btn-lg">
         @if($fournisseur->statut == "Desactivee")
             Réactiver le compte
@@ -23,6 +24,7 @@
             Désactiver le compte
         @endif
         </button>
+    @endif
 </div>
 </form>
 
@@ -182,7 +184,7 @@
                     </div>
                 </div>
                 <div>
-                  @if($liscences->statut == "Valide")
+                  @if($liscences->statut == "valide")
                   <b>Statut de licence:</b>
                   <div>
                    {{ $liscences->statut }} <img src="../Images/checkVert.png" alt="accepter" id='imgStatut'>

@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function majListe(index, value){
         switch(index){
+            
             case "attente":
                 if(value == true){
                     listeDemande.forEach(uneDemande =>{
@@ -85,13 +86,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             break;
 
-            case "revise":
+            case "desactivee":
                 if(value == true){
                     listeDemande.forEach(uneDemande =>{
                         const info = uneDemande.querySelectorAll("td");
                         const statut = info[0].querySelector("p").textContent.trim();
 
-                        if(statut == "À reviser"){
+                        if(statut == "Désactivée"){
                             uneDemande.style.display="table-row";
                         }
                     })
@@ -100,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         const info = uneDemande.querySelectorAll("td");
                         const statut = info[0].querySelector("p").textContent.trim();
 
-                        if(statut == "À reviser"){
+                        if(statut == "Désactivée"){
                             uneDemande.style.display="none";
                         }
                     })

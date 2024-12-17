@@ -43,7 +43,6 @@
         @role('Commis')
         <a href="\listeFournisseur" class="header-link-top">Fiches fournisseur</a>
         <a href="\listeAContacter" class="header-link-top">Listes à contacter</a>
-        <a href="\listeDemande" class="header-link-top">Demandes fournisseur</a>
         @endrole
 
         @role('Responsable')
