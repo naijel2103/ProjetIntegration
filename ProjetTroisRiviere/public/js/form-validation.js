@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateProgressBar(step) {
         const progressBar = document.getElementById('progress-bar');
-        const progress = (step / 6) * 100; // Calcul du pourcentage en fonction de l'étape
+        const progress = (step / 6) * 100; 
         progressBar.style.width = `${progress}%`;
     }    
 
@@ -41,11 +41,31 @@ function validateStep(inputs, validations, step) {
     });
     return isValid;
 }
-updateProgressBar(1);  // Étape 2
+
+async function validateStep(inputs, validations, step) {
+    let isValid = true;
+    
+    for (let input of inputs) {
+        const validation = validations[input.id];
+        // Attends la validation (promesse) si nécessaire
+        const errorMessage = await validation(input.value);  // Utilise 'await' ici
+
+        if (errorMessage) {
+            addCheckmark(input, false, errorMessage, step);
+            isValid = false;
+        } else {
+            addCheckmark(input, true, '', step);
+        }
+    }
+
+    return isValid;
+}
+
+updateProgressBar(1); 
 
 document.getElementById('neq').addEventListener('blur', function () {
     const neq = this.value.trim();
-    if (!neq) return; // Ne rien faire si le champ est vide
+    if (!neq) return; 
     let neqData = {}
     const nameInput = document.getElementById('nom');
 
@@ -63,7 +83,6 @@ document.getElementById('neq').addEventListener('blur', function () {
 
             console.log(neqData["Autre nom"]);
 
-            // Autofill du champ 'nom' avec la valeur renvoyée par le contrôleur
             nameInput.value = neqData["Autre nom"] || '';
         })
         .catch(error => {
@@ -79,11 +98,10 @@ const formData = new FormData();
 
 
 // Step 1 validation
-// Step 1 validation
-document.getElementById('btnNext').addEventListener('click', function () {
+document.getElementById('btnNext').addEventListener('click', async function () {
     const step1Inputs = ['neq', 'nom', 'email', 'password', 'password_confirmation'].map(id => document.getElementById(id));
     const validations = {
-        neq: value => {
+        neq: async value => {
             if (value && value.length !== 10) {
                 return "Le NEQ doit contenir 10 chiffres.";
             }
@@ -93,11 +111,40 @@ document.getElementById('btnNext').addEventListener('click', function () {
             if (value && !/^1\d{9}$/.test(value)) {
                 return "Le NEQ doit commencer par '1'.";
             }
-            return '';  // Si l'utilisateur ne met rien, la validation passe
+            try {
+                const response = await fetch(`/check-neq?neq=${value}`);
+                const data = await response.json();
+        
+                if (data.exists) {
+                    return "Ce NEQ est déjà utilisé.";
+                }
+        
+                return ''; // Retourne une chaîne vide si l'email est valide
+            } catch (error) {
+                return "Erreur de vérification de neq."; // Gérer l'erreur en cas de problème avec la requête
+            }
         },
         
         nom: value => !value.trim() && "Le nom est requis.",
-        email: value => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) && "L'email n'est pas valide.",
+        email: async value => {
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                return "L'email n'est pas valide.";
+            }
+        
+            try {
+                const response = await fetch(`/check-email?email=${value}`);
+                const data = await response.json();
+        
+                if (data.exists) {
+                    return "Cet email est déjà utilisé.";
+                }
+        
+                return ''; // Retourne une chaîne vide si l'email est valide
+            } catch (error) {
+                return "Erreur de vérification de l'email."; // Gérer l'erreur en cas de problème avec la requête
+            }
+        },
+               
         password: value => value.length < 8 && "Le mot de passe doit contenir au moins 8 caractères.",
         password_confirmation: (value) => {
             if (!value) return "La confirmation du mot de passe est requise.";
@@ -106,19 +153,19 @@ document.getElementById('btnNext').addEventListener('click', function () {
         }
     };
 
-    if (validateStep(step1Inputs, validations, 1)) {
+    if (await validateStep(step1Inputs, validations, 1)) {
         document.getElementById('step1').style.display = 'none';
         document.getElementById('step2').style.display = 'block';
-        updateProgressBar(2);  // Étape 2
+        updateProgressBar(2);
     }
 });
 
 
+
 // Step 2 validation
-document.getElementById('btnNextStep').addEventListener('click', function () {
-    const step2Inputs = ['siteInternet', 'numero_civique', 'rue', 'bureau', 'ville', 'province', 'codePostal', 'num_telstep2'].map(id => document.getElementById(id));
+document.getElementById('btnNextStep').addEventListener('click', async function () {
+    const step2Inputs = ['numero_civique', 'rue', 'bureau', 'ville', 'province', 'codePostal', 'num_telstep2'].map(id => document.getElementById(id));
     const validations = {
-        siteInternet: value => !value && "Le site internet est requis.",
         numero_civique: value => !/^\d+$/.test(value) && "Le numéro civique doit être un nombre.",
         rue: value => !value.trim() && "La rue est requise.",
         bureau: value => !value.trim() && "Le bureau est requis.",
@@ -141,15 +188,15 @@ document.getElementById('btnNextStep').addEventListener('click', function () {
 
     console.log(num_telstep2)
 
-    if (validateStep(step2Inputs, validations, 2)) {
+    if (await validateStep(step2Inputs, validations, 2)) {
         document.getElementById('step2').style.display = 'none';
         document.getElementById('step3').style.display = 'block';
-        updateProgressBar(3);  // Étape 2
+        updateProgressBar(3);  
 
     }
 });
 
-document.getElementById('btnNextStep2').addEventListener('click', function () { 
+document.getElementById('btnNextStep2').addEventListener('click', async function () { 
     const detailsTextarea = document.getElementById('detailsTextarea');
     const offerCheckboxes = document.querySelectorAll('input[name="offres[]"]:checked');
     
@@ -166,16 +213,13 @@ document.getElementById('btnNextStep2').addEventListener('click', function () {
         offres: value => value.length === 0 && "Veuillez sélectionner au moins une offre."
     };
 
-    // Collect selected offers
     selectedOffers.forEach((offer, index) => {
-        formData.append(`offres[${index}]`, `${offer.codeUNSPSC}`); // Add code and name of selected offer
+        formData.append(`offres[${index}]`, `${offer.codeUNSPSC}`); 
     });
 
-    // If everything is valid, move to Step 4
-    const isValid = validateStep([detailsTextarea], validations, 3);
+    const isValid = await validateStep([detailsTextarea], validations, 3);
     
     if (isValid) {
-        // Log selected offers (optional)
         console.log("Offres sélectionnées : ");
         selectedOffers.forEach(offer => {
             console.log(`Code UNSPSC: ${offer.codeUNSPSC}, Nom: ${offer.nomOffre}`);
@@ -185,14 +229,14 @@ document.getElementById('btnNextStep2').addEventListener('click', function () {
 
         document.getElementById('step3').style.display = 'none';
         document.getElementById('step4').style.display = 'block';
-        updateProgressBar(4); // Move to the next step
+        updateProgressBar(4); 
     }
 });
 
 
 
 // Step 4 validation
-document.getElementById('btnNextStep4').addEventListener('click', function () { 
+document.getElementById('btnNextStep4').addEventListener('click', async function () { 
     const step4Inputs = ['specificationsTextarea', 'rbqLicenseInput', 'licenseStatus', 'entrepreneurType'].map(id => document.getElementById(id));
     
     const categoryCheckboxes = document.querySelectorAll('input[name="categories[]"]:checked');
@@ -206,9 +250,21 @@ document.getElementById('btnNextStep4').addEventListener('click', function () {
 
     const validations = {
         specificationsTextarea: value => !value.trim() && "Le champ 'Détails et spécifications' est requis.",
-        rbqLicenseInput: value => {
+        rbqLicenseInput: async value => {
             if (!value.trim()) return "Veuillez entrer votre licence.";
             if (value.length !== 10 || !/^\d+$/.test(value)) return "La licence RBQ doit être composée de 10 chiffres.";
+            try {
+                const response = await fetch(`/check-rbq?numLiscence=${value}`);
+                const data = await response.json();
+        
+                if (data.exists) {
+                    return "Ce RBQ est déjà utilisé.";
+                }
+        
+                return ''; // Retourne une chaîne vide si l'email est valide
+            } catch (error) {
+                return "Erreur de vérification de l'email."; // Gérer l'erreur en cas de problème avec la requête
+            }
             return null;
         },        
         licenseStatus: value => !value.trim() && "Veuillez choisir le statut de la licence.",
@@ -216,19 +272,16 @@ document.getElementById('btnNextStep4').addEventListener('click', function () {
         categories: value => value.length === 0 && "Veuillez sélectionner au moins une catégorie."
     };
 
-    // Validation des champs avec messages d'erreur
     const validationsResult = {
         ...validations,
         categories: selectedCategories
     };
 
     selectedCategories.forEach((category, index) => {
-        formData.append(`categories[${index}]`, `${category.numCategorie}`); // Ajout du numéro et du nom
+        formData.append(`categories[${index}]`, `${category.numCategorie}`); 
     });
 
-    // Si tout est valide, passer à l'étape suivante
-    if (validateStep(step4Inputs, validationsResult, 4)) {
-        // Afficher les catégories sélectionnées avec leur nom
+    if (await validateStep(step4Inputs, validationsResult, 4)) {
         console.log("Catégories sélectionnées : ");
         selectedCategories.forEach(category => {
             console.log(`Numéro de catégorie: ${category.numCategorie}, Nom: ${category.nomCategorie}`);
@@ -238,39 +291,38 @@ document.getElementById('btnNextStep4').addEventListener('click', function () {
 
         document.getElementById('step4').style.display = 'none';
         document.getElementById('step5').style.display = 'block';
-        updateProgressBar(5); // Étape suivante
+        updateProgressBar(5); 
     }
 });
 
 
 
 
-// Back buttons for navigating between steps
 document.getElementById('btnRetour').addEventListener('click', () => {
     document.getElementById('step2').style.display = 'none';
     document.getElementById('step1').style.display = 'block';
-    updateProgressBar(1);  // Étape 1
+    updateProgressBar(1);  
 
 });
 
 document.getElementById('btnRetour2').addEventListener('click', () => {
     document.getElementById('step3').style.display = 'none';
     document.getElementById('step2').style.display = 'block';
-    updateProgressBar(2);  // Étape 2
+    updateProgressBar(2);  
 
 });
 
 document.getElementById('btnRetour3').addEventListener('click', () => {
     document.getElementById('step4').style.display = 'none';
     document.getElementById('step3').style.display = 'block';
-    updateProgressBar(3);  // Étape 3
+    updateProgressBar(3);  
 
 });
 
 document.getElementById('btnRetour5').addEventListener('click', () => {
     document.getElementById('step5').style.display = 'none';
     document.getElementById('step4').style.display = 'block';
-    updateProgressBar(4);  // Étape 4
+    updateProgressBar(4);  
 
 });
 
@@ -284,7 +336,6 @@ document.getElementById('account-form').addEventListener('submit', function (eve
 });
 
 
-// Handle selected offers and specifications
 document.getElementById('btnNextStep2').addEventListener('click', function () {
     const selectedOffers = Array.from(document.querySelectorAll('.offer-checkbox:checked')).map(checkbox => checkbox.value);
     const specifications = document.getElementById('specificationsInput').value;
@@ -315,7 +366,6 @@ document.getElementById('submitStep5').addEventListener('click', function () {
 
 
     if (validateStep(step5Inputs, validations, 5)) {
-        // Collecte les données de toutes les étapes
     
         // Étape 1
         formData.append('neq', document.getElementById('neq').value);
@@ -325,7 +375,6 @@ document.getElementById('submitStep5').addEventListener('click', function () {
         formData.append('password_confirmation', document.getElementById('password_confirmation').value);
     
         // Étape 2
-        formData.append('siteInternet', document.getElementById('siteInternet').value);
         formData.append('numero_civique', document.getElementById('numero_civique').value);
         formData.append('bureau', document.getElementById('bureau').value);
         formData.append('rue', document.getElementById('rue').value);
@@ -347,7 +396,6 @@ document.getElementById('submitStep5').addEventListener('click', function () {
         formData.append('fonction-step5', document.getElementById('fonction-step5').value);
         formData.append('email_contact-step5', document.getElementById('email_contact-step5').value);
     
-        // Création de l'objet JSON à envoyer
         const jsonData = {};
         formData.forEach((value, key) => {
             jsonData[key] = value;
@@ -355,7 +403,6 @@ document.getElementById('submitStep5').addEventListener('click', function () {
     
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         
-        // Envoi des données avec fetch (AJAX) en JSON
         fetch(routeCreateFournisseur, {
             method: 'POST',
             headers: {
@@ -363,17 +410,16 @@ document.getElementById('submitStep5').addEventListener('click', function () {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': csrfToken
             },
-            body: JSON.stringify(jsonData) // Sérialisation en JSON
+            body: JSON.stringify(jsonData) 
         })
         .then(response => {
             return response.json();
         })
         .then(data => {
             if (data.success) {
-                // Si tout s'est bien passé, passer à l'étape 6
                 document.getElementById('step5').style.display = 'none';
                 document.getElementById('step6').style.display = 'block';
-                updateProgressBar(6);  // Étape 6
+                updateProgressBar(6);
             } else {
                 alert('Erreur lors de l\'enregistrement des données. Veuillez réessayer.');
             }
@@ -392,7 +438,7 @@ document.getElementById('submitStep5').addEventListener('click', function () {
 
 function updateProgressBar(step) {
     const progressBar = document.getElementById('progress-bar');
-    const progress = (step / 6) * 100; // Calcul du pourcentage en fonction de l'étape
+    const progress = (step / 6) * 100; 
     progressBar.style.width = `${progress}%`;
 }
 });

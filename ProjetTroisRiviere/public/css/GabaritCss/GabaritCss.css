@@ -412,7 +412,6 @@ html, body {
   transform: translateX(0);
 }
 
-=======
 @media (max-width: 768px) {
   .navbar {
     align-items: center; /* Centre les éléments */
