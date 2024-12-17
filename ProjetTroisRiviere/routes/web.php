@@ -23,7 +23,7 @@ Route::patch('/fournisseur/edit/{fournisseur}',
 [FournisseurController::class, 'update'])->name('fiche.update');
 
 Route::get('/listeDemande',
-[FichesController::class, 'index']) -> name('fiche.index')->middleware('check.role:Admin,Responsable,Commis');
+[FichesController::class, 'index']) -> name('fiche.index')->middleware('check.role:Admin,Responsable');
 
 Route::get('/envoieDemandeFiche/{fournisseur}',
 [FichesController::class, 'envoieDemandeFiche']) -> name('fiche.envoieDemandeFiche');
@@ -43,13 +43,13 @@ Route::patch('/gererDemande/{fournisseur}',
 
 
 Route::get('/listeAContacter', 
-[FichesController::class, 'askCode'])->name('askCodeListe')->middleware('check.role:Admin,Responsable');
+[FichesController::class, 'askCode'])->name('askCodeListe');
 
 Route::get('/listeAContacter/{codeListe}', 
-[FichesController::class, 'showListeAContacte'])->name('showListeAContacte')->middleware('check.role:Admin,Responsable');
+[FichesController::class, 'showListeAContacte'])->name('showListeAContacte');
 
 Route::put('/listeAContacter/{codeListe}/{idFournisseur}/update-contacte', 
-[FichesController::class, 'fournisseurContacted'])->name('updateContacte')->middleware('check.role:Admin,Responsable');
+[FichesController::class, 'fournisseurContacted'])->name('updateContacte');
 
 Route::delete('/listeAContacter/{codeListe}',
 [FichesController::class, 'deleteListe']) -> name('deleteListe')->middleware('check.role:Admin,Responsable');
