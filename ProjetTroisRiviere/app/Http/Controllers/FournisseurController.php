@@ -252,7 +252,7 @@ class FournisseurController extends Controller
         $fournisseur->codePostal = $request->input('codePostal', 'g7t2r4');
         $fournisseur->region = $request->input('region', null);
         $fournisseur->codeRegion = $request->input('codeRegion', null);
-        $fournisseur->siteWeb = $request->input('siteInternet', "Error");
+        $fournisseur->siteWeb = $request->input('siteInternet', null);
         $fournisseur->detailService = $request->input('detailService', null);
         $fournisseur->numTPS = $request->input('numTPS', null);
         $fournisseur->numTVQ = $request->input('numTVQ', null);

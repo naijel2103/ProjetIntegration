@@ -126,23 +126,11 @@ document.getElementById('btnNext').addEventListener('click', async function () {
         },
         
         nom: value => !value.trim() && "Le nom est requis.",
-        email: async value => {
+        email: value => {
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
                 return "L'email n'est pas valide.";
             }
-        
-            try {
-                const response = await fetch(`/check-email?email=${value}`);
-                const data = await response.json();
-        
-                if (data.exists) {
-                    return "Cet email est déjà utilisé.";
-                }
-        
-                return ''; // Retourne une chaîne vide si l'email est valide
-            } catch (error) {
-                return "Erreur de vérification de l'email."; // Gérer l'erreur en cas de problème avec la requête
-            }
+
         },
                
         password: value => value.length < 8 && "Le mot de passe doit contenir au moins 8 caractères.",
@@ -164,11 +152,17 @@ document.getElementById('btnNext').addEventListener('click', async function () {
 
 // Step 2 validation
 document.getElementById('btnNextStep').addEventListener('click', async function () {
-    const step2Inputs = ['numero_civique', 'rue', 'bureau', 'ville', 'province', 'codePostal', 'num_telstep2'].map(id => document.getElementById(id));
+    const step2Inputs = ['siteInternet', 'numero_civique', 'rue', 'bureau', 'ville', 'province', 'codePostal', 'num_telstep2'].map(id => document.getElementById(id));
     const validations = {
+        siteInternet: value => {
+            if (value && !/^(ftp|http|https):\/\/[^ "]+$/.test(value)) {
+                return "L'URL doit être valide.";
+            }
+        },
         numero_civique: value => !/^\d+$/.test(value) && "Le numéro civique doit être un nombre.",
         rue: value => !value.trim() && "La rue est requise.",
-        bureau: value => !value.trim() && "Le bureau est requis.",
+        bureau: value => {
+        },
         ville: value => !value.trim() && "La ville est requise.",
         province: value => !value.trim() && "La province est requise.",
         codePostal: value => !/^[A-Za-z]\d[A-Za-z]\d[A-Za-z]\d$/.test(value) && "Le code postal doit être valide.",
@@ -209,7 +203,7 @@ document.getElementById('btnNextStep2').addEventListener('click', async function
     });
 
     const validations = {
-        detailsTextarea: value => !value.trim() && "Le champ 'Détails et spécifications' est requis.",
+        detailsTextarea: {},
         offres: value => value.length === 0 && "Veuillez sélectionner au moins une offre."
     };
 
@@ -217,9 +211,8 @@ document.getElementById('btnNextStep2').addEventListener('click', async function
         formData.append(`offres[${index}]`, `${offer.codeUNSPSC}`); 
     });
 
-    const isValid = await validateStep([detailsTextarea], validations, 3);
     
-    if (isValid) {
+    if (validateStep([detailsTextarea], validations, 3)) {
         console.log("Offres sélectionnées : ");
         selectedOffers.forEach(offer => {
             console.log(`Code UNSPSC: ${offer.codeUNSPSC}, Nom: ${offer.nomOffre}`);
@@ -249,7 +242,7 @@ document.getElementById('btnNextStep4').addEventListener('click', async function
     });
 
     const validations = {
-        specificationsTextarea: value => !value.trim() && "Le champ 'Détails et spécifications' est requis.",
+        specificationsTextarea: value => {},
         rbqLicenseInput: async value => {
             if (!value.trim()) return "Veuillez entrer votre licence.";
             if (value.length !== 10 || !/^\d+$/.test(value)) return "La licence RBQ doit être composée de 10 chiffres.";
