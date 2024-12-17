@@ -119,21 +119,39 @@ document.getElementById('btnNext').addEventListener('click', async function () {
                     return "Ce NEQ est déjà utilisé.";
                 }
         
-                return ''; // Retourne une chaîne vide si l'email est valide
+                return ''; // Retourne une chaîne vide si le NEQ est valide
             } catch (error) {
-                return "Erreur de vérification de neq."; // Gérer l'erreur en cas de problème avec la requête
+                return "Erreur de vérification de NEQ."; // Gérer l'erreur en cas de problème avec la requête
             }
         },
         
         nom: value => !value.trim() && "Le nom est requis.",
-        email: value => {
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-                return "L'email n'est pas valide.";
+        
+        email: async value => {
+            // Si le NEQ est rempli, pas besoin de vérifier l'email
+            const neqValue = document.getElementById('neq').value;
+            if (!neqValue.trim()) {
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                    return "L'email n'est pas valide.";
+                }
+                try {
+                    const response = await fetch(`/check-email?email=${value}`);
+                    const data = await response.json();
+        
+                    if (data.exists) {
+                        return "Ce email est déjà utilisé.";
+                    }
+        
+                    return ''; // Retourne une chaîne vide si l'email est valide
+                } catch (error) {
+                    return "Erreur de vérification de l'email."; // Gérer l'erreur en cas de problème avec la requête
+                }
             }
-
+            return ''; // Si le NEQ est rempli, ne pas valider l'email
         },
-               
+        
         password: value => value.length < 8 && "Le mot de passe doit contenir au moins 8 caractères.",
+        
         password_confirmation: (value) => {
             if (!value) return "La confirmation du mot de passe est requise.";
             if (value !== document.getElementById('password').value) return "Les mots de passe ne correspondent pas.";
@@ -147,6 +165,7 @@ document.getElementById('btnNext').addEventListener('click', async function () {
         updateProgressBar(2);
     }
 });
+
 
 
 
