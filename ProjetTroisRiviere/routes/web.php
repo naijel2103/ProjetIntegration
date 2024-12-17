@@ -137,6 +137,12 @@ Route::get('/reinitialiser/{code}',
 Route::post('/reinitialiser/{code}',
 [ProfilsController::class, 'reinitialiser']) -> name('profil.reinitialiser');
 
+Route::get('/check-email', [FournisseurController::class, 'checkEmail']);
+
+Route::get('/check-neq', [FournisseurController::class, 'checkNEQ']);
+
+Route::get('/check-rbq', [FournisseurController::class, 'checkRBQ']);
+
 
 
 Route::get('/listeFournisseur', 

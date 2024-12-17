@@ -19,19 +19,56 @@ use App\Http\Requests\SpecificationLiscencesRequest;
 use App\Http\Requests\OffresFournisseursRequest;
 use App\Http\Requests\ContactsRequest;
 use App\Mail\AccountCreated;
-
-
-
-
-
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\ApiController;
 
 
 class FournisseurController extends Controller
 {
+    
+    public function checkEmail(Request $request)
+    {
+        $email = $request->query('email'); // Récupérer l'email de la requête GET
+    
+        if (!$email) {
+            return response()->json(['error' => 'Email manquant'], 400);
+        }
+    
+        $exists = Fournisseurs::where('email', $email)->exists(); // Vérifier si l'email existe
+
+        return response()->json(['exists' => $exists]);
+    }
+
+    public function checkNEQ(Request $request)
+    {
+        $neq = $request->query('neq'); // Récupérer l'email de la requête GET
+    
+        if (!$neq) {
+            return response()->json(['error' => 'neq manquant'], 400);
+        }
+    
+        $exists = Fournisseurs::where('neq', $neq)->exists(); // Vérifier si l'email existe
+
+        return response()->json(['exists' => $exists]);
+    }
+
+    public function checkRBQ(Request $request)
+    {
+        $numLiscence = $request->query('numLiscence'); // Récupérer l'email de la requête GET
+    
+        if (!$numLiscence) {
+            return response()->json(['error' => 'RBQ manquant'], 400);
+        }
+    
+        $exists = Fournisseurs::where('numLiscence', $numLiscence)->exists(); // Vérifier si l'email existe
+
+        return response()->json(['exists' => $exists]);
+    }
+    
+
     public function showCreationForm()
     {
+
         $listeOffres = Offres::all();
         $listeCategories = CategorieLiscences::all();
     
