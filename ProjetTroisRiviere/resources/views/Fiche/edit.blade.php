@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('titre', 'Création du compte')
+@section('titre', 'modification du compte')
 @section('contenu')
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -16,32 +16,17 @@
 
 
 <div class="text-center mb-3">
-    <!-- Barre de progression placée juste au-dessus du bouton -->
     <div id="progress-container" style="width: 100%; height: 5px; background-color: #ddd; margin-bottom: 20px;">
         <div id="progress-bar" style="height: 100%; width: 0%; background-color: #4CAF50;"></div>
     </div>
 
-    <button type="button" id="btnDirectStep3" class="btn btn-warning btn-lg">Aller à l'étape 3</button>
 </div>
-
-<script>
-    document.getElementById('btnDirectStep3').addEventListener('click', function() {
-        // Cacher les autres étapes
-        document.getElementById('step1').style.display = 'none';
-        document.getElementById('step2').style.display = 'none';
-        document.getElementById('step4').style.display = 'none';
-        
-        // Afficher l'étape 3
-        document.getElementById('step5').style.display = 'block';
-    });
-</script>
 
 <div class="page-wrap">
     <div class="container">
         <div>
             <div class="formbold-main-wrapper">
-                <form id="account-form" action="{{ route('profil.update',[$fournisseur]) }}" method="POST">
-                @method('PATCH')
+                <form id="account-form" action="{{ route('fiche.update',[$fournisseur]) }}" method="POST">
                     @csrf
                     <div id="step1" class="form-step">
                         <div class="col-10 offset-1">
@@ -50,7 +35,7 @@
                                 <label for="neq" class="col-sm-4 col-form-label text-end">NEQ </label>
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
-                                        <input type="text" name="neq" id="neq" class="form-control" placeholder=" 8831854938" required value="{{ $fournisseur->neq }}">
+                                        <input type="text" name="neq" id="neq" class="form-control" value="<?php echo $fournisseur->neq; ?>" required>
                                         <img src="Images/XIcon.png" alt="" class="icon" id="neq-icon" style="display: none; margin-left: 10px;">
                                     </div>
                                     <span class="error" id="neq-error" style="color: red; display: none; font-size: 0.8rem;"></span>
@@ -61,8 +46,8 @@
                                 <label for="nom" class="col-sm-4 col-form-label text-end">Nom de l'entreprise:</label>
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
-                                        <input type="text" name="nom" id="nom" class="form-control" required value="{{ $fournisseur->nomFournisseur }}">
-                                        <img src="../Images/XIcon.png" alt="" class="icon" id="nom-icon" style="display: none; margin-left: 10px;">
+                                        <input type="text" name="nom" id="nom" class="form-control"  value="<?php echo $fournisseur->nomFournisseur; ?>"required>
+                                        <img src="Images/XIcon.png" alt="" class="icon" id="nom-icon" style="display: none; margin-left: 10px;">
                                     </div>
                                     <span class="error" id="nom-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
@@ -72,16 +57,19 @@
                                 <label for="email" class="col-sm-4 col-form-label text-end">Adresse courriel:</label>
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
-                                        <input type="email" name="email" id="email" class="form-control" required value="{{ $fournisseur->email }}">
-                                        <img src="../Images/XIcon.png" alt="" class="icon" id="email-icon" style="display: none; margin-left: 10px;">
+                                        <input type="email" name="email" id="email" class="form-control" value="<?php echo $fournisseur->email; ?>" required>
+                                        <img src="Images/XIcon.png" alt="" class="icon" id="email-icon" style="display: none; margin-left: 10px;">
                                     </div>
                                     <span class="error" id="email-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                             </div>
 
+                           
                         </div>
+                     
 
                         <div class="text-center">
+                            <a href="{{ route('profil.connexionNEQ') }}" class="btn btn-danger btn-lg" >Retour</a>
                             <button type="button" id="btnNext" class="btn btn-primary btn-lg">Suivant</button>
                         </div>
                     </div>
@@ -90,43 +78,41 @@
                         <div class="col-10 offset-1">
                             <br>
                             <div class="form-group row mb-3 justify-content-end">
-                                <label for="siteInternet" class="col-sm-4 col-form-label text-end">Site Internet :</label>
+                                <label for="siteInternet" class="col-sm-4 col-form-label text-end">Site Internet (Facultatif):</label>
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
-                                        <input type="text" name="siteInternet" id="siteInternet" class="form-control" required value="{{ $fournisseur->siteWeb }}">
+                                        <input type="text" name="siteInternet" id="siteInternet" class="form-control" value="<?php echo $fournisseur->siteWeb; ?>" required>
                                         <img src="Images/XIcon.png" alt="" class="icon" id="siteInternet-icon" style="display: none; margin-left: 10px;">
                                     </div>
                                     <span class="error" id="siteInternet-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                             </div>
 
-                            <!-- Address Inputs in Same Row -->
                             <div class="form-group row mb-3 justify-content-end">
                                 <label for="num" class="col-sm-4 col-form-label text-end">Adresse:</label>
                                 <div class="col-sm-2">
-                                    <input type="text" name="numero_civique" id="numero_civique" class="form-control" placeholder="Numéro Civique (Obligatoire)" required value="{{ $fournisseur->numCivique }}">
+                                    <input type="text" name="numero_civique" id="numero_civique" class="form-control" value="<?php echo $fournisseur->numCivique; ?>" placeholder="Numéro Civique" required>
                                     <img src="Images/XIcon.png" alt="" class="icon" id="numero_civique-icon" style="display: none; margin-left: 10px; ">
                                     <span class="error" id="numero_civique-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" name="rue" id="rue" class="form-control" placeholder="Rue (Obligatoire)" required value="{{ $fournisseur->rue }}">
+                                    <input type="text" name="rue" id="rue" class="form-control" placeholder="Rue" value="<?php echo $fournisseur->rue; ?>" required>
                                     <img src="Images/XIcon.png" alt="" class="icon" id="rue-icon" style="display: none; margin-left: 0px;">
                                     <span class="error" id="rue-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" name="bureau" id="bureau" class="form-control" placeholder="Bureau (Facultatif)" value="{{ $fournisseur->bureau }}">
+                                    <input type="text" name="bureau" id="bureau" class="form-control" placeholder="Bureau (Facultatif)" value="<?php echo $fournisseur->bureau; ?>">
                                     <img src="Images/XIcon.png" alt="" class="icon" id="bureau-icon" style="display: none; margin-left: 0px;">
                                     <span class="error" id="bureau-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                             </div>
 
 
-                            <!-- Other Inputs -->
                             <div class="form-group row mb-3 justify-content-end">
                                 <label for="ville" class="col-sm-4 col-form-label text-end">Ville:</label>
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
-                                        <input type="text" name="ville" id="ville" class="form-control" required value="{{ $fournisseur->municipalite }}">
+                                        <input type="text" name="ville" id="ville" class="form-control" value="<?php echo $fournisseur->municipalite; ?>" required>
                                         <img src="Images/XIcon.png" alt="" class="icon" id="ville-icon" style="display: none; margin-left: 10px;">
                                     </div>
                                     <span class="error" id="ville-error" style="color: red; display: none; font-size: 0.8rem;"></span>
@@ -137,7 +123,7 @@
                                 <label for="province" class="col-sm-4 col-form-label text-end">Province:</label>
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
-                                        <input type="text" name="province" id="province" class="form-control" required value="{{ $fournisseur->province }}">
+                                        <input type="text" name="province" id="province" class="form-control" value="<?php echo $fournisseur->province; ?>" required>
                                         <img src="Images/XIcon.png" alt="" class="icon" id="province-icon" style="display: none; margin-left: 10px;">
                                     </div>
                                     <span class="error" id="province-error" style="color: red; display: none; font-size: 0.8rem;"></span>
@@ -145,30 +131,30 @@
                             </div>
 
                             <div class="form-group row mb-3 justify-content-end">
-                                <label for="code_postal" class="col-sm-4 col-form-label text-end">Code Postal:</label>
+                                <label for="codePostal" class="col-sm-4 col-form-label text-end">Code Postal:</label>
                                 <div class="col-sm-6">
                                     <div class="d-flex align-items-center">
-                                        <input type="text" name="code_postal" id="code_postal" class="form-control" required value="{{ $fournisseur->codePostal }}">
+                                        <input type="text" name="codePostal" id="codePostal" class="form-control" value="<?php echo $fournisseur->codePostal; ?>" required>
                                         <img src="Images/XIcon.png" alt="" class="icon" id="code_postal-icon" style="display: none; margin-left: 10px;">
                                     </div>
-                                    <span class="error" id="code_postal-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                    <span class="error" id="codePostal-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                             </div>
 
                             <div class="form-group row mb-3 justify-content-end">
                                 <label for="num_tel_type" class="col-sm-4 col-form-label text-end">Téléphone:</label>
                                 <div class="col-sm-2">
-                                    <input type="text" name="num_tel_type" id="num_tel_type" class="form-control" placeholder="(Bureau, Maison etc.)" required >
+                                    <input type="text" name="num_tel_type" id="num_tel_type" class="form-control" placeholder="(Bureau, Maison etc.)" value="<?php echo $infotel->numtel; ?>" required>
                                     <img src="Images/XIcon.png" alt="" class="icon" id="num_tel_type-icon" style="display: none; margin-left: 10px;">
                                     <span class="error" id="num_tel_type-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" name="num_tel" id="num_tel" class="form-control" placeholder="Numéro de téléphone" required>
-                                    <img src="Images/XIcon.png" alt="" class="icon" id="num_tel-icon" style="display: none; margin-left: 10px;">
-                                    <span class="error" id="num_tel-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                    <input type="text" name="num_telstep2" id="num_telstep2" class="form-control" placeholder="Numéro de téléphone" required>
+                                    <img src="Images/XIcon.png" alt="" class="icon" id="num_telstep2-icon" style="display: none; margin-left: 10px;">
+                                    <span class="error" id="num_telstep2-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" name="poste" id="poste" class="form-control" placeholder="Poste">
+                                    <input type="text" name="poste" id="poste" class="form-control" placeholder="Poste" value="<?php echo $infotel->postTel; ?>">
                                     <img src="Images/XIcon.png" alt="" class="icon" id="poste-icon" style="display: none; margin-left: 0px;">
                                     <span class="error" id="poste-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
@@ -218,7 +204,7 @@
                             <div class="w-100">
                             <div class="form-group">
                                 <label for="detailsTextarea">Détails et spécifications</label>
-                                <textarea id="detailsTextarea" class="form-control" rows="4" placeholder="Entrez les détails..."></textarea>
+                                <textarea id="detailsTextarea" class="form-control" rows="4" placeholder="Entrez les détails..."  value="<?php echo $offre->segmentNom; ?>"></textarea>
                                 <span id="detailsTextarea-error" class="error-message" style="display:none; color: red;"></span>
                             </div>
                             </div>
@@ -237,6 +223,76 @@
                                 <h4>Catégories de licence</h4>
                             </div>
 
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <div class="form-group w-50">
+                                    <label for="rbqLicenseInput">Numéro de licence RBQ</label>
+                                    <input 
+                                        type="text" 
+                                        id="rbqLicenseInput" 
+                                        class="form-control" 
+                                        placeholder="Entrez votre numéro de licence RBQ"
+                                        value="<?php echo $liscence->numLiscence; ?>"
+                                    />
+                                    <span 
+                                        id="rbqLicenseInput-error" 
+                                        class="error-message" 
+                                        style="display:none; color: red;"
+                                    ></span>
+                                </div>
+                                <div class="form-group w-50 text-center">
+                                    <label for="licenseStatus">Statut de la licence</label>
+                                    @if($liscence->statut == "valide")
+                                    <select id="licenseStatus" class="form-control" >
+                                        <option value="">-- Sélectionnez un statut --</option>
+                                        <option value="valide" selected>Valide</option>
+                                        <option value="non-valide">Non valide</option>
+                                        <option value="valide-restriction">Valide avec restriction</option>
+                                    </select>
+                                    @elseif($liscence->statut == "non-valide")
+                                    <select id="licenseStatus" class="form-control" >
+                                        <option value="">-- Sélectionnez un statut --</option>
+                                        <option value="valide">Valide</option>
+                                        <option value="non-valide" selected>Non valide</option>
+                                        <option value="valide-restriction">Valide avec restriction</option>
+                                    </select>
+                                    @else
+                                    <select id="licenseStatus" class="form-control" >
+                                        <option value="">-- Sélectionnez un statut --</option>
+                                        <option value="valide">Valide</option>
+                                        <option value="non-valide">Non valide</option>
+                                        <option value="valide-restriction" selected>Valide avec restriction</option>
+                                    </select>
+                                    @endif
+                                    <span 
+                                        id="licenseStatus-error" 
+                                        class="error-message" 
+                                        style="display:none; color: red;"
+                                    ></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="entrepreneurType">Type d'entrepreneur</label>
+                                @if($liscence->type == "general")
+                                <select id="entrepreneurType" class="form-control">
+                                    <option value="">-- Sélectionnez un type --</option>
+                                    <option value="general" selected>Entrepreneur général</option>
+                                    <option value="specialise">Entrepreneur spécialisé</option>
+                                </select>
+                                @else
+                                <select id="entrepreneurType" class="form-control">
+                                    <option value="">-- Sélectionnez un type --</option>
+                                    <option value="general">Entrepreneur général</option>
+                                    <option value="specialise" selected>Entrepreneur spécialisé</option>
+                                </select>
+                                @endif
+                                <span 
+                                        id="entrepreneurType-error" 
+                                        class="error-message" 
+                                        style="display:none; color: red;"
+                                    ></span>
+                            </div>
+
                             <div class="cols-4 grid-filtre d-flex flex-column align-items-center">
                                 <div class="rows-3 container-filtre w-100">
                                     <div class="recherche-filtre mb-3">
@@ -246,114 +302,58 @@
                                     <div class="liste-filtre w-100" style="max-height: 150px; overflow-y: auto; margin-top: -25px;">
                                         @foreach ($listeCategories as $categorie)
                                         <div class="uneCategorie form-check" style="margin-bottom: 150px; display: flex; align-items: center;">
-                                            <input type="checkbox" name="categories[]" value="{{ $categorie->numCategorie }}" id="categorie-{{ $categorie->numCategorie }}" @if(in_array($categorie->numCategorie, $catSelect)) checked @endif>
-                                            <label for="categorie-{{ $categorie->numCategorie }}" class="form-check-label" style="white-space: normal; overflow: hidden; text-overflow: ellipsis; flex-grow: 1;">
+                                            <input 
+                                                type="checkbox" 
+                                                name="categories[]" 
+                                                value="{{ $categorie->numCategorie }}" 
+                                                id="categorie-{{ $categorie->numCategorie }}" 
+                                                @if(in_array($categorie->numCategorie, $catSelect)) 
+                                                    checked 
+                                                @endif
+                                            >
+                                            <label 
+                                                for="categorie-{{ $categorie->numCategorie }}" 
+                                                class="form-check-label" 
+                                                style="white-space: normal; overflow: hidden; text-overflow: ellipsis; flex-grow: 1;"
+                                            >
                                                 {{ $categorie->numCategorie }} {{ $categorie->nom }}
                                             </label>
                                         </div>
                                         @endforeach
                                     </div>
                                 </div>
-                                
                             </div>
-                            <br>
-                            <br>
+
+                            <br><br>
+
                             <div class="w-100">
-                            <div class="form-group">
-                                <label for="specificationsTextarea">Détails et spécifications</label>
-                                <textarea id="specificationsTextarea" class="form-control" rows="4" placeholder="Entrez les spécifications..."></textarea>
-                                <span id="specificationsTextarea-error" class="error-message" style="display:none; color: red;"></span>
-                            </div>
-
-                            </div>
-                        </div>
-                        <div class="text-center mt-2 mb-3">
-                            <button type="button" id="btnRetour3" class="btn btn-danger btn-lg">Retour</button>
-                            <button type="button" id="btnNextStep4" class="btn btn-primary btn-lg">Suivant</button>
-                        </div>
-                    </div>
-
-                    <div id="step5" class="form-step" style="display: none;">
-                        <div class="col-10 offset-1">
-                            <br>
-                            <h4 class="text-center mb-4">Personne ressource</h4>
-
-                            <!-- Prénom -->
-                            <div class="form-group row mb-3 justify-content-end">
-                                <label for="prenom" class="col-sm-4 col-form-label text-end">Prénom:</label>
-                                <div class="col-sm-6">
-                                    <div class="d-flex align-items-center">
-                                        <input type="text" name="prenom" id="prenom-step5" class="form-control" required>
-                                        <img src="Images/XIcon.png" alt="" class="icon" id="prenom-step5-icon" style="display: none; margin-left: 10px;">
-                                    </div>
-                                    <span class="error" id="prenom-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
-                                </div>
-                            </div>
-
-                            <!-- Nom -->
-                            <div class="form-group row mb-3 justify-content-end">
-                                <label for="nom" class="col-sm-4 col-form-label text-end">Nom (Obligatoire):</label>
-                                <div class="col-sm-6">
-                                    <div class="d-flex align-items-center">
-                                        <input type="text" name="nom" id="nom-step5" class="form-control" required>
-                                        <img src="Images/XIcon.png" alt="" class="icon" id="nom-step5-icon" style="display: none; margin-left: 10px;">
-                                    </div>
-                                    <span class="error" id="nom-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
-                                </div>
-                            </div>
-
-                            <!-- Fonction -->
-                            <div class="form-group row mb-3 justify-content-end">
-                                <label for="fonction" class="col-sm-4 col-form-label text-end">Fonction (Obligatoire):</label>
-                                <div class="col-sm-6">
-                                    <div class="d-flex align-items-center">
-                                        <input type="text" name="fonction" id="fonction-step5" class="form-control" required>
-                                        <img src="Images/XIcon.png" alt="" class="icon" id="fonction-step5-icon" style="display: none; margin-left: 10px;">
-                                    </div>
-                                    <span class="error" id="fonction-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
-                                </div>
-                            </div>
-
-                            <!-- Email -->
-                            <div class="form-group row mb-3 justify-content-end">
-                                <label for="email_contact" class="col-sm-4 col-form-label text-end">Courriel (Obligatoire):</label>
-                                <div class="col-sm-6">
-                                    <div class="d-flex align-items-center">
-                                        <input type="email" name="email_contact" id="email_contact-step5" class="form-control" required>
-                                        <img src="Images/XIcon.png" alt="" class="icon" id="email_contact-step5-icon" style="display: none; margin-left: 10px;">
-                                    </div>
-                                    <span class="error" id="email_contact-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
-                                </div>
-                            </div>
-
-                            <!-- Téléphone -->
-                            <div class="form-group row mb-3 justify-content-end">
-                                <label for="tel_contact" class="col-sm-4 col-form-label text-end">Téléphone (Obligatoire):</label>
-                                <div class="col-sm-2">
-                                    <input type="text" name="num_tel_type_contact" id="num_tel_type-contact-step5" class="form-control" placeholder="(Bureau, Maison etc.)" required>
-                                    <img src="Images/XIcon.png" alt="" class="icon" id="num_tel_type-contact-step5-icon" style="display: none; margin-left: 10px;">
-                                    <span class="error" id="num_tel_type-contact-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
-                                </div>
-                                <div class="col-sm-2">
-                                    <input type="text" name="tel_contact" id="tel_contact-step5" class="form-control" placeholder="Numéro de téléphone" required>
-                                    <img src="Images/XIcon.png" alt="" class="icon" id="tel_contact-step5-icon" style="display: none; margin-left: 10px;">
-                                    <span class="error" id="tel_contact-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
-                                </div>
-                                <div class="col-sm-2">
-                                    <input type="text" name="poste" id="poste-step5" class="form-control" placeholder="Poste">
-                                    <img src="Images/XIcon.png" alt="" class="icon" id="poste-step5-icon" style="display: none; margin-left: 0px;">
-                                    <span class="error" id="poste-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                <div class="form-group">
+                                    <label for="specificationsTextarea">Détails et spécifications</label>
+                                    <textarea 
+                                        id="specificationsTextarea" 
+                                        class="form-control" 
+                                        rows="4" 
+                                        placeholder="Entrez les spécifications..."
+                                        value="<?php echo $offre->segmentNom; ?>"
+                                    ></textarea>
+                                    <span 
+                                        id="specificationsTextarea-error" 
+                                        class="error-message" 
+                                        style="display:none; color: red;"
+                                    ></span>
                                 </div>
                             </div>
                         </div>
 
+              
+
+                        
                         <div class="text-center mt-2 mb-3">
                             <button type="button" id="btnRetour5" class="btn btn-danger btn-lg">Retour</button>
                             <button type="button" id="submitStep5" class="btn btn-primary btn-lg">Soumettre</button>
                         </div>
                     </div>
 
-                    <!-- Step 6 (initialement masqué) -->
                     <div id="step6" style="display: none;">
                         <h3>Le formulaire a été envoyé avec succès !</h3>
                         <p>Nous avons bien reçu vos informations.</p>

@@ -316,11 +316,48 @@ class FichesController extends Controller
         return view('Fiche.askCodeListe');
     }
 
-    public function edit(string $id)
+
+    
+    public function edit(Fournisseurs $fournisseur)
     {
-        $compte = Comptes::Find(Auth::id());
-        $fournisseur = Fournisseurs::where('email', $compte->email)->first();
-        return View('fiche.edit', compact('fournisseur'));
+        $offreFournisseurs = OffresFournisseurs::where('fournisseur', $fournisseur->idFournisseur)->get();
+
+
+        $offres = collect();
+
+        foreach ($offreFournisseurs as $offreFournisseur) {
+            $offre = Offres::where('codeUNSPSC', $offreFournisseur->offre)->get();
+            $offres = $offres->merge($offre);
+            }
+
+
+        $liscences  = Liscences::where('numLiscence', $fournisseur->numLiscence)->first();
+        $speLiscences = SpecificationLiscences::where('numLiscence', $fournisseur->numLiscence)->get();
+        $catLiscences = CategorieLiscences::whereIn('numCategorie', $speLiscences->pluck('numCategorie')->toArray())->get();
+
+
+        $contacts = Contacts::where('fournisseur', $fournisseur->idFournisseur)->get();
+        $infotels = Infotels::where('fournisseur', $fournisseur->idFournisseur)->get();
+
+
+
+        $infotelsContacts = collect();
+
+        foreach ($contacts as $contact) {
+            $infotelsContact = Infotels::where('contact', $contact->idContact)->get();
+            $infotelsContacts = $infotelsContacts->merge($infotelsContact);
+        }
+        
+       
+    
+
+
+        $demandeInscription = Demandesinscriptions::where('idFournisseur', $fournisseur->idFournisseur)->first();
+
+
+        return View('fiche.edit',compact("fournisseur", "demandeInscription",
+                                        "contacts","infotels","liscences","speLiscences","catLiscences","offres","offreFournisseurs","infotelsContacts"
+                                        ));
     }
 
    
