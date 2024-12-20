@@ -175,33 +175,35 @@
 
 
         <div class="info-box licence">
-            <div class="info-title">Licence:</div>
-            <div class="info-content3">
-                <div>
-                    <b>Numéro de licence:</b> 
-                    <div>
-                    {{ $liscences->numLiscence }}
-                    </div>
-                </div>
-                <div>
-                  @if($liscences->statut == "valide")
-                  <b>Statut de licence:</b>
-                  <div>
-                   {{ $liscences->statut }} <img src="../Images/checkVert.png" alt="accepter" id='imgStatut'>
-                   </div>
-                @else
-                <b>Statut de licence:</b> 
-                <div>
+    <div class="info-title">Licence:</div>
+    <div class="info-content">
+        @if($liscences && $liscences->numLiscence != null)
+        <div>
+            <b>Numéro de licence:</b>
+            <div>
+                {{ $liscences->numLiscence }}
+            </div>
+        </div>
+        @endif
+        <div>
+            @if($liscences && $liscences->statut == "Valide")
+            <b>Statut de licence:</b>
+            <div>
+                {{ $liscences->statut }} <img src="../Images/checkVert.png" alt="accepter" id='imgStatut'>
+            </div>
+            @elseif($liscences)
+            <b>Statut de licence:</b>
+            <div>
                 {{ $liscences->statut }}<img src="Images/refuse.png" alt="refuse" id='imgStatut'>
-                </div>
-                @endif
-                </div>
-                <div>
-                    <b>Type de licence:</b> {{ $liscences->type }}
-                </div>
-                <div class="liscences-container">
-                @foreach($catLiscences as $catLiscence)
-                <div class="liscence-item">
+            </div>
+            @endif
+        </div>
+        <div>
+            <b>Type de licence:</b> {{ $liscences ? $liscences->type : 'N/A' }}
+        </div>
+        <div class="liscences-container">
+            @foreach($catLiscences as $catLiscence)
+            <div class="liscence-item">
                 <div>
                     <b>Numéro de catégorie:</b> {{ $catLiscence->numCategorie }}
                 </div>
@@ -211,11 +213,11 @@
                 <div>
                     <b>Classe de la catégorie:</b> {{ $catLiscence->classe }}
                 </div>
-                </div>
-                @endforeach
-                </div>
             </div>
+            @endforeach
         </div>
+    </div>
+</div>
 
     </div>
 </div>
