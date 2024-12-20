@@ -130,11 +130,13 @@ document.getElementById('btnNext').addEventListener('click', async function () {
         email: async value => {
             // Si le NEQ est rempli, pas besoin de vérifier l'email
             const neqValue = document.getElementById('neq').value;
-            if (!neqValue.trim()) {
                 if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
                     return "L'email n'est pas valide.";
                 }
-                try {
+
+                
+                if (!neqValue.trim()) {                
+                    try {
                     const response = await fetch(`/check-email?email=${value}`);
                     const data = await response.json();
         
@@ -142,12 +144,13 @@ document.getElementById('btnNext').addEventListener('click', async function () {
                         return "Ce email est déjà utilisé.";
                     }
         
-                    return ''; // Retourne une chaîne vide si l'email est valide
-                } catch (error) {
-                    return "Erreur de vérification de l'email."; // Gérer l'erreur en cas de problème avec la requête
-                }
+                    return '';
+                } 
+                catch (error) {
+                    return "Erreur de vérification de l'email."; }
+
             }
-            return ''; // Si le NEQ est rempli, ne pas valider l'email
+            return '';
         },
         
         password: value => value.length < 8 && "Le mot de passe doit contenir au moins 8 caractères.",
