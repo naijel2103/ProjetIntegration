@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    function updateProgressBar(step) {
-        const progressBar = document.getElementById('progress-bar');
-        const progress = (step / 6) * 100; 
-        progressBar.style.width = `${progress}%`;
-    }    
+function updateProgressBar(step) {
+    const progressBar = document.getElementById('progress-bar');
+    const progress = (step / 6) * 100; 
+    progressBar.style.width = `${progress}%`;
+}
 
 function addCheckmark(input, isValid, errorMessage, step) {
     const existingCheckmark = input.parentNode.querySelector('.check-icon');
@@ -65,30 +65,65 @@ updateProgressBar(1);
 
 document.getElementById('neq').addEventListener('blur', function () {
     const neq = this.value.trim();
-    if (!neq) return; 
-    let neqData = {}
-    const nameInput = document.getElementById('nom');
+    if (!neq) return;
 
-
+    // Vérifie si le NEQ existe dans l'API
     fetch(`/api/data/${neq}`)
         .then(response => response.json())
         .then(data => {
-            if (data.error) {
-                console.error(data.error);
-                alert("Aucun utilisateur trouvé pour ce NEQ.");
-                return;
+            if (data.error || !data.result.records || data.result.records.length === 0) {
+                console.error('Aucun utilisateur trouvé pour ce NEQ.');
+                return;  // Ne pas afficher la modale si l'API ne retourne pas de données valides
             }
 
-            neqData = data.result.records[0];
+            // Affiche la modale si l'API trouve un utilisateur
+            document.getElementById('autofillModal').style.display = 'flex';
 
-            console.log(neqData["Autre nom"]);
+            // Si l'utilisateur clique sur "Oui", remplir les champs
+            document.getElementById('autofillYes').addEventListener('click', function () {
+                const neqData = data.result.records[0];
+                console.log(neqData);
 
-            nameInput.value = neqData["Autre nom"] || '';
+                // Pré-remplissage des autres champs
+                document.getElementById('nom').value = neqData["Autre nom"] || '';
+                document.getElementById('email').value = neqData["Courriel"] || '';
+                document.getElementById('num_telstep2').value = neqData["Numero de telephone"] || '';
+
+                // Récupération du numéro de licence RBQ et suppression des tirets
+                const rbqLicense = (neqData["Numero de licence"] || '').replace(/-/g, '');
+                document.getElementById('rbqLicenseInput').value = rbqLicense;
+
+                // Analyse et découpage de l'adresse
+                const adresse = neqData["Adresse"] || '';
+                const adresseParts = adresse.split(' ');
+
+                if (adresseParts.length >= 6) {
+                    document.getElementById('numero_civique').value = adresseParts[0] || '';
+                    document.getElementById('rue').value = adresseParts.slice(1, -4).join(' ') || '';
+                    document.getElementById('ville').value = adresseParts[adresseParts.length - 4] || '';
+                    document.getElementById('province').value = adresseParts[adresseParts.length - 3] || '';
+                    document.getElementById('codePostal').value = adresseParts.slice(-2).join('') || '';
+                }
+
+                // Cacher la modale après autofill
+                document.getElementById('autofillModal').style.display = 'none';
+            });
+
+            // Si l'utilisateur clique sur "Non", cacher la modale
+            document.getElementById('autofillNo').addEventListener('click', function () {
+                document.getElementById('autofillModal').style.display = 'none';
+            });
         })
         .catch(error => {
             console.error('Erreur lors de la récupération des données:', error);
         });
 });
+
+
+
+
+
+
 
 
 
@@ -194,7 +229,7 @@ document.getElementById('btnNextStep').addEventListener('click', async function 
             } 
 
             if (value && value.length !== 10) {
-                return "Le numéro de téléphone doit contenir 10 chiffres.";
+                return "Le numéro de téléphone doit contenir 10 chiffres et sans traits-d'union.";
             }
             if (value && !/^\d{10}$/.test(value)) {
                 return "Le numéro de téléphone doit être composé uniquement de chiffres.";
@@ -264,27 +299,54 @@ document.getElementById('btnNextStep4').addEventListener('click', async function
     });
 
     const validations = {
-        specificationsTextarea: value => {},
+        specificationsTextarea: value => { },
         rbqLicenseInput: async value => {
-            if (!value.trim()) return "Veuillez entrer votre licence.";
-            if (value.length !== 10 || !/^\d+$/.test(value)) return "La licence RBQ doit être composée de 10 chiffres.";
-            try {
-                const response = await fetch(`/check-rbq?numLiscence=${value}`);
-                const data = await response.json();
-        
-                if (data.exists) {
-                    return "Ce RBQ est déjà utilisé.";
+            if (value.trim()) {
+                try {
+                    if (value.length !== 10 || !/^\d+$/.test(value)) return "La licence RBQ doit être composée de 10 chiffres.";
+
+                    const response = await fetch(`/check-rbq?numLiscence=${value}`);
+                    const data = await response.json();
+
+                    if (data.exists) {
+                        return "Ce RBQ est déjà utilisé.";
+                    }
+                    return ''; // Retourne une chaîne vide si l'email est valide
+                } catch (error) {
+                    return "Erreur de vérification de l'email."; // Gérer l'erreur en cas de problème avec la requête
                 }
-        
-                return ''; // Retourne une chaîne vide si l'email est valide
-            } catch (error) {
-                return "Erreur de vérification de l'email."; // Gérer l'erreur en cas de problème avec la requête
             }
-            return null;
-        },        
-        licenseStatus: value => !value.trim() && "Veuillez choisir le statut de la licence.",
-        entrepreneurType: value => !value.trim() && "Veuillez choisir le type d'entrepreneur.",
-        categories: value => value.length === 0 && "Veuillez sélectionner au moins une catégorie."
+            return '';
+        },
+ 
+        
+        licenseStatus: async value => {
+            const RBQvalue = document.getElementById('rbqLicenseInput').value;
+            if(!RBQvalue.trim() || value) {
+                return '';
+            }
+            return "Veuillez choisir le statut de la licence."
+
+        },
+        entrepreneurType: async value => {
+            const RBQvalue = document.getElementById('rbqLicenseInput').value;
+            if(!RBQvalue.trim() || value) {
+                return '';
+            }
+            return "Veuillez choisir le type d'entrepreneur.";
+
+        },
+        categories: async value => {
+            const RBQvalue = document.getElementById('rbqLicenseInput').value;
+            console.log(selectedCategories.length)
+            
+            if(!RBQvalue.trim() || selectedCategories.length > 0) {
+                
+                return '';
+            }
+            return "Veuillez sélectionner au moins une catégorie.";
+
+        },
     };
 
     const validationsResult = {

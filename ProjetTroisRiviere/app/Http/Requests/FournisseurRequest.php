@@ -24,7 +24,7 @@ class FournisseurRequest extends FormRequest
         return [
             'neq',  // L'NEQ peut être nul, mais s'il est fourni, il doit être unique
             'nomFournisseur' => 'nullable|string|max:64',  // Le nom peut être nul, sinon il doit être une chaîne de max 64 caractères
-            'numLiscence' => 'nullable|string|max:10|exists:liscences,numLiscence',  // Si présent, doit être valide et correspondre à un enregistrement dans la table 'liscences'
+            'numLiscence' => 'string|max:10|exists:liscences,numLiscence',  // Si présent, doit être valide et correspondre à un enregistrement dans la table 'liscences'
             'email' => 'email|max:64',  // L'email est requis, unique et doit être valide
             'mdp' => 'nullable|string|min:6',  // Le mot de passe est optionnel mais doit avoir au moins 6 caractères s'il est fourni
             'numCivique' => 'nullable|string|max:8',  // Le numéro civique est requis et doit être une chaîne de max 8 caractères
@@ -32,7 +32,7 @@ class FournisseurRequest extends FormRequest
             'bureau' => 'max:64',  // Le bureau est optionnel et peut avoir jusqu'à 8 caractères
             'municipalite' => 'nullable|string|max:64',  // La municipalité est requise et doit être une chaîne de max 64 caractères
             'province' => 'nullable|string|max:25',  // La province est requise et doit être une chaîne de max 25 caractères
-            'codePostal' => 'nullable|string|max:10',  // Le code postal est requis et doit être une chaîne de max 6 caractères
+            'codePostal' => 'string|max:10',  // Le code postal est requis et doit être une chaîne de max 6 caractères
             'region' => 'nullable|string|max:50',  // La région est optionnelle, mais si présente, elle ne doit pas dépasser 50 caractères
             'codeRegion' => 'nullable|integer',  // Le code de région est optionnel, mais s'il est fourni, il doit être un entier
             'siteWeb' => 'url|max:64',  // Le site web est optionnel, mais doit être une URL valide et ne pas dépasser 64 caractères
