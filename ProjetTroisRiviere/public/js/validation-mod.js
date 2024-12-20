@@ -373,8 +373,6 @@ document.getElementById('submitStep5').addEventListener('click', function () {
         formData.append('neq', document.getElementById('neq').value);
         formData.append('nom', document.getElementById('nom').value);
         formData.append('email', document.getElementById('email').value);
-        formData.append('password', document.getElementById('password').value);
-        formData.append('password_confirmation', document.getElementById('password_confirmation').value);
     
         // Étape 2
         formData.append('numero_civique', document.getElementById('numero_civique').value);
