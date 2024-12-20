@@ -67,20 +67,20 @@ document.getElementById('neq').addEventListener('blur', function () {
     const neq = this.value.trim();
     if (!neq) return;
 
-    // Affiche la modale
-    document.getElementById('autofillModal').style.display = 'flex';
+    // Vérifie si le NEQ existe dans l'API
+    fetch(`/api/data/${neq}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error || !data.result.records || data.result.records.length === 0) {
+                console.error('Aucun utilisateur trouvé pour ce NEQ.');
+                return;  // Ne pas afficher la modale si l'API ne retourne pas de données valides
+            }
 
-    // Si l'utilisateur clique sur "Oui", remplir les champs
-    document.getElementById('autofillYes').addEventListener('click', function () {
-        fetch(`/api/data/${neq}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    console.error(data.error);
-                    alert("Aucun utilisateur trouvé pour ce NEQ.");
-                    return;
-                }
+            // Affiche la modale si l'API trouve un utilisateur
+            document.getElementById('autofillModal').style.display = 'flex';
 
+            // Si l'utilisateur clique sur "Oui", remplir les champs
+            document.getElementById('autofillYes').addEventListener('click', function () {
                 const neqData = data.result.records[0];
                 console.log(neqData);
 
@@ -88,6 +88,10 @@ document.getElementById('neq').addEventListener('blur', function () {
                 document.getElementById('nom').value = neqData["Autre nom"] || '';
                 document.getElementById('email').value = neqData["Courriel"] || '';
                 document.getElementById('num_telstep2').value = neqData["Numero de telephone"] || '';
+
+                // Récupération du numéro de licence RBQ et suppression des tirets
+                const rbqLicense = (neqData["Numero de licence"] || '').replace(/-/g, '');
+                document.getElementById('rbqLicenseInput').value = rbqLicense;
 
                 // Analyse et découpage de l'adresse
                 const adresse = neqData["Adresse"] || '';
@@ -103,17 +107,18 @@ document.getElementById('neq').addEventListener('blur', function () {
 
                 // Cacher la modale après autofill
                 document.getElementById('autofillModal').style.display = 'none';
-            })
-            .catch(error => {
-                console.error('Erreur lors de la récupération des données:', error);
             });
-    });
 
-    // Si l'utilisateur clique sur "Non", cacher la modale
-    document.getElementById('autofillNo').addEventListener('click', function () {
-        document.getElementById('autofillModal').style.display = 'none';
-    });
+            // Si l'utilisateur clique sur "Non", cacher la modale
+            document.getElementById('autofillNo').addEventListener('click', function () {
+                document.getElementById('autofillModal').style.display = 'none';
+            });
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération des données:', error);
+        });
 });
+
 
 
 
@@ -224,7 +229,7 @@ document.getElementById('btnNextStep').addEventListener('click', async function 
             } 
 
             if (value && value.length !== 10) {
-                return "Le numéro de téléphone doit contenir 10 chiffres.";
+                return "Le numéro de téléphone doit contenir 10 chiffres et sans traits-d'union.";
             }
             if (value && !/^\d{10}$/.test(value)) {
                 return "Le numéro de téléphone doit être composé uniquement de chiffres.";

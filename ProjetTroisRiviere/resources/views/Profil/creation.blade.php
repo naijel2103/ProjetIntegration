@@ -145,7 +145,7 @@
                                     <span class="error" id="rue-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" name="bureau" id="bureau" class="form-control" placeholder="Bureau (Facultatif)">
+                                    <input type="text" name="bureau" id="bureau" class="form-control" placeholder="Municipalité (Facultatif)">
                                     <img src="Images/XIcon.png" alt="" class="icon" id="bureau-icon" style="display: none; margin-left: 0px;">
                                     <span class="error" id="bureau-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
