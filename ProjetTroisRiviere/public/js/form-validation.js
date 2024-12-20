@@ -65,69 +65,56 @@ updateProgressBar(1);
 
 document.getElementById('neq').addEventListener('blur', function () {
     const neq = this.value.trim();
-    if (!neq) return; 
+    if (!neq) return;
 
-    // Sélecteurs des champs d'entrée
-    const nameInput = document.getElementById('nom');
-    const emailInput = document.getElementById('email');
-    const numCiviqueInput = document.getElementById('numero_civique');
-    const rueInput = document.getElementById('rue');
-    const villeInput = document.getElementById('ville');
-    const provinceInput = document.getElementById('province');
-    const codePostalInput = document.getElementById('codePostal');
-    const telInput = document.getElementById('num_telstep2');
-    const municipaliteInput = document.getElementById('bureau');
+    // Affiche la modale
+    document.getElementById('autofillModal').style.display = 'flex';
 
+    // Si l'utilisateur clique sur "Oui", remplir les champs
+    document.getElementById('autofillYes').addEventListener('click', function () {
+        fetch(`/api/data/${neq}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error(data.error);
+                    alert("Aucun utilisateur trouvé pour ce NEQ.");
+                    return;
+                }
 
-    fetch(`/api/data/${neq}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                console.error(data.error);
-                alert("Aucun utilisateur trouvé pour ce NEQ.");
-                return;
-            }
+                const neqData = data.result.records[0];
+                console.log(neqData);
 
-            const neqData = data.result.records[0];
-            console.log(neqData);
+                // Pré-remplissage des autres champs
+                document.getElementById('nom').value = neqData["Autre nom"] || '';
+                document.getElementById('email').value = neqData["Courriel"] || '';
+                document.getElementById('num_telstep2').value = neqData["Numero de telephone"] || '';
 
-            // Pré-remplissage des autres champs
-            nameInput.value = neqData["Autre nom"] || '';
-            emailInput.value = neqData["Courriel"] || '';
-            telInput.value = neqData["Numero de telephone"] || '';
-            municipaliteInput.value = neqData["Municipalite"] || '';
+                // Analyse et découpage de l'adresse
+                const adresse = neqData["Adresse"] || '';
+                const adresseParts = adresse.split(' ');
 
-            
+                if (adresseParts.length >= 6) {
+                    document.getElementById('numero_civique').value = adresseParts[0] || '';
+                    document.getElementById('rue').value = adresseParts.slice(1, -4).join(' ') || '';
+                    document.getElementById('ville').value = adresseParts[adresseParts.length - 4] || '';
+                    document.getElementById('province').value = adresseParts[adresseParts.length - 3] || '';
+                    document.getElementById('codePostal').value = adresseParts.slice(-2).join('') || '';
+                }
 
+                // Cacher la modale après autofill
+                document.getElementById('autofillModal').style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des données:', error);
+            });
+    });
 
-            // Analyse et découpage de l'adresse
-            const adresse = neqData["Adresse"] || '';
-            const adresseParts = adresse.split(' ');
-
-            if (adresseParts.length >= 6) {
-                const numero_civique = adresseParts[0];
-                const rue = adresseParts.slice(1, -4).join(' ');
-                const ville = adresseParts[adresseParts.length - 4];
-                const province = adresseParts[adresseParts.length - 3];
-                const codePostal = adresseParts.slice(-2).join('');
-
-                // Remplissage des champs avec les parties de l'adresse
-                numCiviqueInput.value = numero_civique || '';
-                rueInput.value = rue || '';
-                villeInput.value = ville || '';
-                provinceInput.value = province || '';
-                codePostalInput.value = codePostal || '';
-
-            } else {
-                console.warn("Impossible d'analyser l'adresse: ", adresse);
-                alert("Le format de l'adresse est invalide.");
-            }
-        })
-        .catch(error => {
-            console.error('Erreur lors de la récupération des données:', error);
-        });
-        
+    // Si l'utilisateur clique sur "Non", cacher la modale
+    document.getElementById('autofillNo').addEventListener('click', function () {
+        document.getElementById('autofillModal').style.display = 'none';
+    });
 });
+
 
 
 

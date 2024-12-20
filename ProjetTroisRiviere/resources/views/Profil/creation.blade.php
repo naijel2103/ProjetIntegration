@@ -23,6 +23,17 @@
 </div>
 
 
+<!-- Modale de confirmation pour autofill -->
+<div id="autofillModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h4>Remplissage des informations</h4>
+        <p>Voulez-vous remplir automatiquement les informations de votre compte en fonction du NEQ?</p>
+        <button id="autofillYes" class="btn btn-success">Oui</button>
+        <br>
+        <button id="autofillNo" class="btn btn-danger">Non</button>
+    </div>
+</div>
+
 
 <div class="page-wrap">
     <div class="container">
