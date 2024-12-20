@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    function updateProgressBar(step) {
-        const progressBar = document.getElementById('progress-bar');
-        const progress = (step / 6) * 100; 
-        progressBar.style.width = `${progress}%`;
-    }    
+function updateProgressBar(step) {
+    const progressBar = document.getElementById('progress-bar');
+    const progress = (step / 6) * 100; 
+    progressBar.style.width = `${progress}%`;
+}
 
 function addCheckmark(input, isValid, errorMessage, step) {
     const existingCheckmark = input.parentNode.querySelector('.check-icon');
@@ -66,8 +66,17 @@ updateProgressBar(1);
 document.getElementById('neq').addEventListener('blur', function () {
     const neq = this.value.trim();
     if (!neq) return; 
-    let neqData = {}
+
+    // Sélecteurs des champs d'entrée
     const nameInput = document.getElementById('nom');
+    const emailInput = document.getElementById('email');
+    const numCiviqueInput = document.getElementById('numero_civique');
+    const rueInput = document.getElementById('rue');
+    const villeInput = document.getElementById('ville');
+    const provinceInput = document.getElementById('province');
+    const codePostalInput = document.getElementById('codePostal');
+    const telInput = document.getElementById('num_telstep2');
+    const municipaliteInput = document.getElementById('bureau');
 
 
     fetch(`/api/data/${neq}`)
@@ -79,16 +88,50 @@ document.getElementById('neq').addEventListener('blur', function () {
                 return;
             }
 
-            neqData = data.result.records[0];
+            const neqData = data.result.records[0];
+            console.log(neqData);
 
-            console.log(neqData["Autre nom"]);
-
+            // Pré-remplissage des autres champs
             nameInput.value = neqData["Autre nom"] || '';
+            emailInput.value = neqData["Courriel"] || '';
+            telInput.value = neqData["Numero de telephone"] || '';
+            municipaliteInput.value = neqData["Municipalite"] || '';
+
+            
+
+
+            // Analyse et découpage de l'adresse
+            const adresse = neqData["Adresse"] || '';
+            const adresseParts = adresse.split(' ');
+
+            if (adresseParts.length >= 6) {
+                const numero_civique = adresseParts[0];
+                const rue = adresseParts.slice(1, -4).join(' ');
+                const ville = adresseParts[adresseParts.length - 4];
+                const province = adresseParts[adresseParts.length - 3];
+                const codePostal = adresseParts.slice(-2).join('');
+
+                // Remplissage des champs avec les parties de l'adresse
+                numCiviqueInput.value = numero_civique || '';
+                rueInput.value = rue || '';
+                villeInput.value = ville || '';
+                provinceInput.value = province || '';
+                codePostalInput.value = codePostal || '';
+
+            } else {
+                console.warn("Impossible d'analyser l'adresse: ", adresse);
+                alert("Le format de l'adresse est invalide.");
+            }
         })
         .catch(error => {
             console.error('Erreur lors de la récupération des données:', error);
         });
+        
 });
+
+
+
+
 
 
 
@@ -264,27 +307,54 @@ document.getElementById('btnNextStep4').addEventListener('click', async function
     });
 
     const validations = {
-        specificationsTextarea: value => {},
+        specificationsTextarea: value => { },
         rbqLicenseInput: async value => {
-            if (!value.trim()) return "Veuillez entrer votre licence.";
-            if (value.length !== 10 || !/^\d+$/.test(value)) return "La licence RBQ doit être composée de 10 chiffres.";
-            try {
-                const response = await fetch(`/check-rbq?numLiscence=${value}`);
-                const data = await response.json();
-        
-                if (data.exists) {
-                    return "Ce RBQ est déjà utilisé.";
+            if (value.trim()) {
+                try {
+                    if (value.length !== 10 || !/^\d+$/.test(value)) return "La licence RBQ doit être composée de 10 chiffres.";
+
+                    const response = await fetch(`/check-rbq?numLiscence=${value}`);
+                    const data = await response.json();
+
+                    if (data.exists) {
+                        return "Ce RBQ est déjà utilisé.";
+                    }
+                    return ''; // Retourne une chaîne vide si l'email est valide
+                } catch (error) {
+                    return "Erreur de vérification de l'email."; // Gérer l'erreur en cas de problème avec la requête
                 }
-        
-                return ''; // Retourne une chaîne vide si l'email est valide
-            } catch (error) {
-                return "Erreur de vérification de l'email."; // Gérer l'erreur en cas de problème avec la requête
             }
-            return null;
-        },        
-        licenseStatus: value => !value.trim() && "Veuillez choisir le statut de la licence.",
-        entrepreneurType: value => !value.trim() && "Veuillez choisir le type d'entrepreneur.",
-        categories: value => value.length === 0 && "Veuillez sélectionner au moins une catégorie."
+            return '';
+        },
+ 
+        
+        licenseStatus: async value => {
+            const RBQvalue = document.getElementById('rbqLicenseInput').value;
+            if(!RBQvalue.trim() || value) {
+                return '';
+            }
+            return "Veuillez choisir le statut de la licence."
+
+        },
+        entrepreneurType: async value => {
+            const RBQvalue = document.getElementById('rbqLicenseInput').value;
+            if(!RBQvalue.trim() || value) {
+                return '';
+            }
+            return "Veuillez choisir le type d'entrepreneur.";
+
+        },
+        categories: async value => {
+            const RBQvalue = document.getElementById('rbqLicenseInput').value;
+            console.log(selectedCategories.length)
+            
+            if(!RBQvalue.trim() || selectedCategories.length > 0) {
+                
+                return '';
+            }
+            return "Veuillez sélectionner au moins une catégorie.";
+
+        },
     };
 
     const validationsResult = {

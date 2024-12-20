@@ -60,7 +60,7 @@ class FournisseurController extends Controller
             return response()->json(['error' => 'RBQ manquant'], 400);
         }
     
-        $exists = Fournisseurs::where('numLiscence', $numLiscence)->exists(); // Vérifier si l'email existe
+        $exists = Liscences::where('numLiscence', $numLiscence)->exists(); // Vérifier si l'email existe
 
         return response()->json(['exists' => $exists]);
     }
