@@ -361,7 +361,11 @@ class FichesController extends Controller
     }
 
 
-    public function update(FournisseurRequest $requestFournisseurs, Fournisseurs $fournisseur)
+
+
+
+
+    public function update(Request $request, Fournisseurs $fournisseur)
     {
         Log::debug('Requête reçue : ', $request->all());
       
@@ -371,21 +375,14 @@ class FichesController extends Controller
 
         $LiscencesRequest = new LiscencesRequest($request->all()); // Make sure this contains the necessary data
 
-        Liscences::create([
-            'numLiscence'=> $request->input('rbqLicenseInput', "0113456789"),
-            'statut' => $request->input('licenseStatus', "Erreur"),
-            'type'=> $request->input('entrepreneurType', "Erreur")
-        ]);  
+
         Log::error('numLiscence');
 
 
-        // Création du fournisseur
-        $fournisseur = new Fournisseurs();
-        $fournisseur->neq = $request->input('neq', null);
-        $fournisseur->nomFournisseur = $request->input('nom', null);
-        $fournisseur->numLiscence = $request->input('rbqLicenseInput', "0123456789");
+        $fournisseur->neq = $request->neq;
+        $fournisseur->nomFournisseur = $request->nom;
+        $fournisseur->numLiscence = $request->rbqLicenseInput;
         $fournisseur->email = $request->input('email', 'null@gmail.com');
-        $fournisseur->mdp = bcrypt($request->input('mdp', null));
         $fournisseur->numCivique = $request->input('numero_civique', null);
         $fournisseur->rue = $request->input('rue', null);
         $fournisseur->bureau = $request->input('bureau', null);
@@ -395,115 +392,60 @@ class FichesController extends Controller
         $fournisseur->region = $request->input('region', null);
         $fournisseur->codeRegion = $request->input('codeRegion', null);
         $fournisseur->siteWeb = $request->input('siteInternet', null);
-        $fournisseur->detailService = $request->input('detailService', null);
-        $fournisseur->numTPS = $request->input('numTPS', null);
-        $fournisseur->numTVQ = $request->input('numTVQ', null);
-        $fournisseur->conditionPaiement = $request->input('conditionPaiement', null);
-        $fournisseur->codeCondition = $request->input('codeCondition', null);
-        $fournisseur->devise = $request->input('devise', null);
-        $fournisseur->modCom = $request->input('modCom', null);
-        $fournisseur->statut = $request->input('statut', 'En attente');
+
 
         // Save the fournisseur first
         $fournisseur->save();
 
-        // Get the ID of the newly created fournisseur
-        // Pass the $fournisseur object to createInfotel
-        $infoTelsRequest = new InfoTelsRequest($request->all()); // Make sure this contains the necessary data
-
-        InfoTels::create([
-            'typeTel' => "auto",
-            'numTel' => $request->input('num_telstep2', "1231231233"),
-            'postTel'=> "1",
-            'fournisseur' => $fournisseur->idFournisseur,  // Utilisez l'ID de l'objet
-            'contact' => "12",
-        ]);  
-
-        $OffresFournisseursRequest = new OffresFournisseursRequest($request->all()); // Make sure this contains the necessary data
-
-        // Créer une première SpecificationLiscence si categories[0] n'est pas vide
-        if (!empty($request->input('offres[0]'))) {
-            OffresFournisseurs::create([
-                'fournisseur' => $fournisseur->idFournisseur,
-                'offre' => $request->input('offres[0]', '00000000')
-            ]);
-        }
-
-        if (!empty($request->input('offres[1]'))) {
-            OffresFournisseurs::create([
-                'fournisseur' => $fournisseur->idFournisseur,
-                'offre' => $request->input('offres[1]', '00000000')
-            ]);
-        }
-
-        if (!empty($request->input('offres[2]'))) {
-            OffresFournisseurs::create([
-                'fournisseur' => $fournisseur->idFournisseur,
-                'offre' => $request->input('offres[2]', '00000000')
-            ]);
-        }
-
-        if (!empty($request->input('offres[3]'))) {
-            OffresFournisseurs::create([
-                'fournisseur' => $fournisseur->idFournisseur,
-                'offre' => $request->input('offres[3]', '00000000')
-            ]);
-        }
+        $offreFournisseurs = OffresFournisseurs::where('fournisseur', $fournisseur->idFournisseur)->get();
 
 
-        $SpecificationLiscencesRequest = new SpecificationLiscencesRequest($request->all()); // Make sure this contains the necessary data
+        $offres = collect();
 
-        // Créer une première SpecificationLiscence si categories[0] n'est pas vide
-        if (!empty($request->input('categories[0]'))) {
-            SpecificationLiscences::create([
-                'numLiscence' => $fournisseur->numLiscence,
-                'numCategorie' => $request->input('categories[0]')
-            ]);
-        }
+        foreach ($offreFournisseurs as $offreFournisseur) {
+            $offre = Offres::where('codeUNSPSC', $offreFournisseur->offre)->get();
+            $offres = $offres->merge($offre);
+            }
 
-        // Créer une deuxième SpecificationLiscence si categories[1] n'est pas vide
-        if (!empty($request->input('categories[1]'))) {
-            SpecificationLiscences::create([
-                'numLiscence' => $fournisseur->numLiscence,
-                'numCategorie' => $request->input('categories[1]')
-            ]);
-        }
 
-        if (!empty($request->input('categories[2]'))) {
-            SpecificationLiscences::create([
-                'numLiscence' => $fournisseur->numLiscence,
-                'numCategorie' => $request->input('categories[2]')
-            ]);
-        }
+        $liscences  = Liscences::where('numLiscence', $fournisseur->numLiscence)->first();
+        $speLiscences = SpecificationLiscences::where('numLiscence', $fournisseur->numLiscence)->get();
+        $catLiscences = CategorieLiscences::whereIn('numCategorie', $speLiscences->pluck('numCategorie')->toArray())->get();
 
-        if (!empty($request->input('categories[3]'))) {
-            SpecificationLiscences::create([
-                'numLiscence' => $fournisseur->numLiscence,
-                'numCategorie' => $request->input('categories[3]')
-            ]);
-        }
 
-        $ContactsRequest = new ContactsRequest($request->all()); // Make sure this contains the necessary data
+        $contacts = Contacts::where('fournisseur', $fournisseur->idFournisseur)->get();
+        $infotels = Infotels::where('fournisseur', $fournisseur->idFournisseur)->get();
+      
+        $contacts = Contacts::where('fournisseur', $fournisseur->idFournisseur)->first();
+        $infotels = Infotels::where('fournisseur', $fournisseur->idFournisseur)->first();
 
-        // Créer une première SpecificationLiscence si categories[0] n'est pas vide
-            Contacts::create([
-                'fournisseur' => $fournisseur->idFournisseur,
-                'prenom' => $request->input('prenom-step5'),
-                'nom' => $request->input('nom-step5'),
-                'fonction' => $request->input('fonction-step5'),
-                'email' => $request->input('email_contact-step5'),
-            ]);
+        $listeOffres = Offres::all();
+        $listeCategories = CategorieLiscences::all();
+
+        
+        $demandeInscription = Demandesinscriptions::where('idFournisseur', $fournisseur->idFournisseur)->first();
+
+
+        $infotels->typeTel = $request->input('num_tel_type', null);
+        $infotels->numTel = $request->input('num_telstep2', null);
+        $infotels->posteTel = $request->input('poste', null);
+        $offre->segmentNom = $request->input('detailsTextarea', null);
+        $liscences->numLiscence = $request->input('rbqLicenseInput', null);
+        $contacts->prenom = $request->input('prenom-step5', null);
+        $contacts->nom =$request->input('nom-step5', null);
+        $contacts->fonction = $request->input('fonction-step5', null);
+        $contacts->email = $request->input('email_contact-step5', null);
         
 
           // Réponse JSON
-        Log::info('Tentative de création du fournisseur');
+        Log::info('Tentative de modification du fournisseur');
       
         return response()->json(['success' => true]);
 
 
     } catch (\Exception $e) {
 
-        Log::error('Erreur lors de la création du fournisseur: ' . $e->getMessage());
+        Log::error('Erreur lors de la modification du fournisseur: ' . $e->getMessage());
         return response()->json(['success' => false, 'message' => 'Erreur serveur.'], 500);
     }
 }

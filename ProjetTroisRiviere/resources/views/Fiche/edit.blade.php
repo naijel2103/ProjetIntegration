@@ -28,6 +28,7 @@
             <div class="formbold-main-wrapper">
                 <form id="account-form" action="{{ route('fiche.update',[$fournisseur]) }}" method="POST">
                     @csrf
+                    @method('PATCH')
                     <div id="step1" class="form-step">
                         <div class="col-10 offset-1">
                             <br>

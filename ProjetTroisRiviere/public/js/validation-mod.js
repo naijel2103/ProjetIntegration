@@ -115,9 +115,7 @@ document.getElementById('btnNext').addEventListener('click', async function () {
                 const response = await fetch(`/check-neq?neq=${value}`);
                 const data = await response.json();
         
-                if (data.exists) {
-                    return "Ce NEQ est déjà utilisé.";
-                }
+              
         
                 return ''; // Retourne une chaîne vide si le NEQ est valide
             } catch (error) {
@@ -259,9 +257,7 @@ document.getElementById('btnNextStep4').addEventListener('click', async function
                 const response = await fetch(`/check-rbq?numLiscence=${value}`);
                 const data = await response.json();
         
-                if (data.exists) {
-                    return "Ce RBQ est déjà utilisé.";
-                }
+              
         
                 return ''; // Retourne une chaîne vide si l'email est valide
             } catch (error) {
