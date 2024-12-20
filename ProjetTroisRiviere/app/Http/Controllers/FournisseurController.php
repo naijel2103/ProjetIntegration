@@ -60,7 +60,7 @@ class FournisseurController extends Controller
             return response()->json(['error' => 'RBQ manquant'], 400);
         }
     
-        $exists = Fournisseurs::where('numLiscence', $numLiscence)->exists(); // Vérifier si l'email existe
+        $exists = Liscences::where('numLiscence', $numLiscence)->exists(); // Vérifier si l'email existe
 
         return response()->json(['exists' => $exists]);
     }
@@ -227,21 +227,23 @@ class FournisseurController extends Controller
   
     try {
 
-        $LiscencesRequest = new LiscencesRequest($request->all()); // Make sure this contains the necessary data
+        $LiscencesRequest = new LiscencesRequest($request->all()); // Assure-toi que cela contient les données nécessaires
 
-        Liscences::create([
-            'numLiscence'=> $request->input('rbqLicenseInput', "0113456789"),
-            'statut' => $request->input('licenseStatus', "Erreur"),
-            'type'=> $request->input('entrepreneurType', "Erreur")
-        ]);  
-        Log::error('numLiscence');
+        $numLiscence = $request->input('rbqLicenseInput');
+        if ($numLiscence !== null) {
+            Liscences::create([
+                'numLiscence' => $numLiscence,
+                'statut' => $request->input('licenseStatus', "Erreur"),
+                'type' => $request->input('entrepreneurType', "Erreur")
+            ]);
+        }
 
 
         // Création du fournisseur
         $fournisseur = new Fournisseurs();
         $fournisseur->neq = $request->input('neq', null);
         $fournisseur->nomFournisseur = $request->input('nom', null);
-        $fournisseur->numLiscence = $request->input('rbqLicenseInput', "0123456789");
+        $fournisseur->numLiscence = $request->input('rbqLicenseInput', null);
         $fournisseur->email = $request->input('email', 'null@gmail.com');
         $fournisseur->mdp = bcrypt($request->input('mdp', null));
         $fournisseur->numCivique = $request->input('numero_civique', null);
