@@ -144,17 +144,17 @@
                             <div class="form-group row mb-3 justify-content-end">
                                 <label for="num_tel_type" class="col-sm-4 col-form-label text-end">Téléphone:</label>
                                 <div class="col-sm-2">
-                                    <input type="text" name="num_tel_type" id="num_tel_type" class="form-control" placeholder="(Bureau, Maison etc.)" value="<?php echo $infotel->numtel; ?>" required>
+                                    <input type="text" name="num_tel_type" id="num_tel_type" class="form-control" placeholder="(Bureau, Maison etc.)" value="<?php echo $infotels->typeTel; ?>" required>
                                     <img src="Images/XIcon.png" alt="" class="icon" id="num_tel_type-icon" style="display: none; margin-left: 10px;">
                                     <span class="error" id="num_tel_type-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" name="num_telstep2" id="num_telstep2" class="form-control" placeholder="Numéro de téléphone" required>
+                                    <input type="text" name="num_telstep2" id="num_telstep2" class="form-control" placeholder="Numéro de téléphone" value="<?php echo $infotels->numTel; ?>" required>
                                     <img src="Images/XIcon.png" alt="" class="icon" id="num_telstep2-icon" style="display: none; margin-left: 10px;">
                                     <span class="error" id="num_telstep2-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" name="poste" id="poste" class="form-control" placeholder="Poste" value="<?php echo $infotel->postTel; ?>">
+                                    <input type="text" name="poste" id="poste" class="form-control" placeholder="Poste" value="<?php echo $infotels->postTel; ?>">
                                     <img src="Images/XIcon.png" alt="" class="icon" id="poste-icon" style="display: none; margin-left: 0px;">
                                     <span class="error" id="poste-error" style="color: red; display: none; font-size: 0.8rem;"></span>
                                 </div>
@@ -187,8 +187,12 @@
                                     <br>
                                     <div class="liste-filtre w-100" style="max-height: 150px; overflow-y: auto; margin-top: -25px;">
                                         @foreach ($listeOffres as $offre)
+                              
                                         <div class="uneOffre form-check">
-                                            <input type="checkbox" name="offres[]" value="{{ $offre->codeUNSPSC }}" id="offre-{{ $offre->codeUNSPSC }}" @if(in_array($offre->codeUNSPSC, $offreSelect)) checked @endif>
+                                        <input type="checkbox" name="offres[]" value="{{ $offre->codeUNSPSC }}" id="offre-{{ $offre->codeUNSPSC }}" 
+                                            @if(in_array($offre->codeUNSPSC, $offreSelect)) checked @endif 
+                                           >
+                                  
                                             <label for="offre-{{ $offre->codeUNSPSC }}" class="form-check-label">
                                                 {{ $offre->codeUNSPSC }} --- {{ $offre->nom }}
                                             </label>
@@ -231,7 +235,7 @@
                                         id="rbqLicenseInput" 
                                         class="form-control" 
                                         placeholder="Entrez votre numéro de licence RBQ"
-                                        value="<?php echo $liscence->numLiscence; ?>"
+                                        value="<?php echo $liscences->numLiscence; ?>"
                                     />
                                     <span 
                                         id="rbqLicenseInput-error" 
@@ -241,14 +245,14 @@
                                 </div>
                                 <div class="form-group w-50 text-center">
                                     <label for="licenseStatus">Statut de la licence</label>
-                                    @if($liscence->statut == "valide")
+                                    @if($liscences->statut == "valide")
                                     <select id="licenseStatus" class="form-control" >
                                         <option value="">-- Sélectionnez un statut --</option>
                                         <option value="valide" selected>Valide</option>
                                         <option value="non-valide">Non valide</option>
                                         <option value="valide-restriction">Valide avec restriction</option>
                                     </select>
-                                    @elseif($liscence->statut == "non-valide")
+                                    @elseif($liscences->statut == "non-valide")
                                     <select id="licenseStatus" class="form-control" >
                                         <option value="">-- Sélectionnez un statut --</option>
                                         <option value="valide">Valide</option>
@@ -273,7 +277,7 @@
 
                             <div class="form-group mb-4">
                                 <label for="entrepreneurType">Type d'entrepreneur</label>
-                                @if($liscence->type == "general")
+                                @if($liscences->type == "general")
                                 <select id="entrepreneurType" class="form-control">
                                     <option value="">-- Sélectionnez un type --</option>
                                     <option value="general" selected>Entrepreneur général</option>
@@ -334,7 +338,6 @@
                                         class="form-control" 
                                         rows="4" 
                                         placeholder="Entrez les spécifications..."
-                                        value="<?php echo $offre->segmentNom; ?>"
                                     ></textarea>
                                     <span 
                                         id="specificationsTextarea-error" 
@@ -345,9 +348,64 @@
                             </div>
                         </div>
 
-              
+                        <div class="text-center mt-2 mb-3">
+                            <button type="button" id="btnRetour3" class="btn btn-danger btn-lg">Retour</button>
+                            <button type="button" id="btnNextStep4" class="btn btn-primary btn-lg">Suivant</button>
+                        </div>
+                    </div>
 
-                        
+
+
+                    <div id="step5" class="form-step" style="display: none;">
+                        <div class="col-10 offset-1">
+                            <br>
+                            <h4 class="text-center mb-4">Personne ressource</h4>
+
+                            <div class="form-group row mb-3 justify-content-end">
+                                <label for="prenom" class="col-sm-4 col-form-label text-end">Prénom:</label>
+                                <div class="col-sm-6">
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" name="prenom" id="prenom-step5" class="form-control"value='<?php echo $contacts->prenom; ?>' required>
+                                        <img src="Images/XIcon.png" alt="" class="icon" id="prenom-step5-icon" style="display: none; margin-left: 10px;">
+                                    </div>
+                                    <span class="error" id="prenom-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-3 justify-content-end">
+                                <label for="nom" class="col-sm-4 col-form-label text-end">Nom:</label>
+                                <div class="col-sm-6">
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" name="nom" id="nom-step5" class="form-control"value='<?php echo $contacts->nom; ?>' required>
+                                        <img src="Images/XIcon.png" alt="" class="icon" id="nom-step5-icon" style="display: none; margin-left: 10px;">
+                                    </div>
+                                    <span class="error" id="nom-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-3 justify-content-end">
+                                <label for="fonction" class="col-sm-4 col-form-label text-end">Fonction:</label>
+                                <div class="col-sm-6">
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" name="fonction" id="fonction-step5" class="form-control" value='<?php echo $contacts->fonction; ?>' required>
+                                        <img src="Images/XIcon.png" alt="" class="icon" id="fonction-step5-icon" style="display: none; margin-left: 10px;">
+                                    </div>
+                                    <span class="error" id="fonction-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-3 justify-content-end">
+                                <label for="email_contact" class="col-sm-4 col-form-label text-end">Courriel:</label>
+                                <div class="col-sm-6">
+                                    <div class="d-flex align-items-center">
+                                        <input type="email" name="email_contact" id="email_contact-step5" class="form-control" value='<?php echo $contacts->email; ?>' required>
+                                        <img src="Images/XIcon.png" alt="" class="icon" id="email_contact-step5-icon" style="display: none; margin-left: 10px;">
+                                    </div>
+                                    <span class="error" id="email_contact-step5-error" style="color: red; display: none; font-size: 0.8rem;"></span>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="text-center mt-2 mb-3">
                             <button type="button" id="btnRetour5" class="btn btn-danger btn-lg">Retour</button>
                             <button type="button" id="submitStep5" class="btn btn-primary btn-lg">Soumettre</button>
@@ -364,6 +422,8 @@
     </div>
 </div>
 
-<script src="{{ asset('js/form-validation.js') }}"></script>
+
+
+<script src="{{ asset('js/validation-mod.js') }}"></script>
 <script src="{{ asset('js/rechercheOffre.js') }}"></script>
 @endsection
